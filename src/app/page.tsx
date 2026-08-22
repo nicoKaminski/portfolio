@@ -1,8 +1,18 @@
+import { ThemeToggle } from "@/frontend/features/theme";
+import styles from "./page.module.css";
+
 export default function Home() {
   return (
-    <main>
-      <h1>Nico Kaminski</h1>
-      <p>Desarrollador de software con enfoque en Front-End</p>
+    <main className={styles.main}>
+      <div>
+        <h1 className={styles.title}>Nico Kaminski</h1>
+        <p className={styles.subtitle}>
+          Desarrollador de software con enfoque en{" "}
+          <span className={styles.highlight}>Front-End</span>
+        </p>
+      </div>
+
+      <ThemeToggle />
     </main>
   );
 }
