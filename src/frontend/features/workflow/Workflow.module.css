@@ -1,0 +1,159 @@
+.workflowSection {
+  width: 100%;
+  padding: 3rem 1.5rem 6rem;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3.5rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  max-width: 65ch;
+}
+
+.title {
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.intro {
+  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
+  line-height: 1.7;
+  color: var(--color-text-secondary);
+}
+
+.trackWrapper {
+  width: 100%;
+  position: relative;
+}
+
+.timeline {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: 1.5rem;
+  position: relative;
+}
+
+/* Línea continua horizontal conectora en desktop */
+.timeline::before {
+  content: "";
+  position: absolute;
+  top: 19px;
+  left: calc(100% / 12);
+  right: calc(100% / 12);
+  height: 2px;
+  background-color: color-mix(in srgb, var(--color-border) 45%, transparent);
+  z-index: 1;
+}
+
+.stepItem {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  position: relative;
+}
+
+.indicatorWrapper {
+  display: flex;
+  align-items: center;
+  position: relative;
+  z-index: 2;
+}
+
+.indicator {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  border: 2px solid color-mix(in srgb, var(--color-accent) 70%, var(--color-border));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 0 4px var(--color-bg);
+  transition: var(--transition-theme);
+}
+
+.stepNumber {
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: var(--color-accent);
+  letter-spacing: -0.01em;
+}
+
+.stepContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.stepTitle {
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.stepDescription {
+  font-size: 0.925rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+@media (max-width: 1024px) {
+  .workflowSection {
+    padding: 2.5rem 1.25rem 4.5rem;
+  }
+
+  .container {
+    gap: 2.5rem;
+  }
+
+  .timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    position: relative;
+    padding-left: 3rem;
+  }
+
+  /* Línea continua vertical en tablets y mobile */
+  .timeline::before {
+    top: 20px;
+    bottom: 20px;
+    left: 19px;
+    right: auto;
+    width: 2px;
+    height: auto;
+  }
+
+  .stepItem {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .indicatorWrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+  }
+
+  .stepContent {
+    padding-top: 0.25rem;
+    max-width: 55ch;
+  }
+}
