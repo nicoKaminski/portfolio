@@ -1,18 +1,15 @@
-import { ThemeToggle } from "@/frontend/features/theme";
+import { Navbar } from "@/frontend/features/navigation";
+import { Hero } from "@/frontend/features/hero";
 import styles from "./page.module.css";
 
 export default function Home() {
   return (
-    <main className={styles.main}>
-      <div>
-        <h1 className={styles.title}>Nico Kaminski</h1>
-        <p className={styles.subtitle}>
-          Desarrollador de software con enfoque en{" "}
-          <span className={styles.highlight}>Front-End</span>
-        </p>
-      </div>
-
-      <ThemeToggle />
-    </main>
+    <div className={styles.layout}>
+      <Navbar />
+      <main className={styles.main}>
+        <Hero />
+        <div id="proyectos" className={styles.targetAnchor} aria-hidden="true" />
+      </main>
+    </div>
   );
 }

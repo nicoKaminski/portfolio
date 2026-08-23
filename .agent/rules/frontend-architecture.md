@@ -1,3 +1,7 @@
+---
+trigger: always_on
+---
+
 # Portfolio — Arquitectura frontend y composición Next.js
 
 ## Propósito
@@ -157,7 +161,7 @@ Los hooks no deben convertirse en “cajones” que mezclen múltiples responsab
 
 ## 8. Theme y tokens
 
-La paleta base aprobada para el proyecto es:
+Las paletas base aprobadas para el proyecto son:
 
 ### Tema claro · Glaciar
 
@@ -168,16 +172,35 @@ La paleta base aprobada para el proyecto es:
 #648A81
 ```
 
-### Tema oscuro · Montañas al Atardecer
+Roles semánticos aprobados:
+
+- fondo principal: `#E1ECEE`;
+- superficie principal: `#E1ECEE`;
+- texto principal: `#134670`;
+- texto secundario: derivado de `#134670`;
+- acento e interacción: `#10698C`;
+- bordes y detalles: `#648A81`.
+
+### Tema oscuro · Aurora
 
 ```text
-#0B1115
-#D59C73
-#948296
-#254A65
+#21E6A8
+#2B4C6A
+#1D314A
+#353B55
 ```
 
-Estos valores son la paleta aprobada, pero sus roles semánticos concretos deben definirse en la implementación aprobada.
+Roles semánticos aprobados:
+
+- fondo principal: `#1D314A`;
+- superficie principal: `#2B4C6A`;
+- texto principal: `#E1ECEE`, compartido con Glaciar;
+- texto secundario: derivado de `#E1ECEE`;
+- acento e interacción: `#21E6A8`;
+- bordes funcionales: derivado de `#E1ECEE`;
+- `#353B55` se reserva para superficies secundarias, profundidad visual o elementos gráficos cuando exista un uso real que lo justifique.
+
+El verde Aurora `#21E6A8` no debe utilizarse como color general de texto. Su función principal es destacar interacción, foco, enlaces, CTA y detalles visuales.
 
 Reglas:
 
@@ -185,6 +208,7 @@ Reglas:
 - no repetir hexadecimales en múltiples CSS Modules;
 - preferir una única fuente de verdad para tokens visuales;
 - no inventar colores derivados o roles nuevos sin una necesidad y definición aprobadas;
+- los derivados ya definidos por el sistema de theme se consideran parte de la paleta aprobada;
 - no crear un objeto TypeScript de tema solo para duplicar variables CSS.
 
 Cuando JavaScript necesite un color por una razón real —por ejemplo canvas, gráficos o el minijuego— puede evaluarse una fuente tipada específica, evitando mantener dos fuentes divergentes del mismo token.

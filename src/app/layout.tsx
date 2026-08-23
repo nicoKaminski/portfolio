@@ -5,7 +5,7 @@ import "./globals.css";
 export const metadata: Metadata = {
   title: "Nico Kaminski | Portfolio",
   description:
-    "Portfolio profesional de Nico Kaminski, desarrollador de software con enfoque en Front-End.",
+    "Portfolio profesional de Nico Kaminski, desarrollador de software full stack con enfoque en frontend.",
 };
 
 export default function RootLayout({
