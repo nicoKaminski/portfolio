@@ -9,7 +9,7 @@
   max-width: 1200px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1.35fr 0.65fr;
+  grid-template-columns: 0.65fr 1.35fr;
   align-items: start;
   gap: 3.5rem;
 }
@@ -79,7 +79,12 @@
     gap: 2.25rem;
   }
 
+  .mainContent {
+    order: 1;
+  }
+
   .gameInvitation {
+    order: 2;
     max-width: 100%;
   }
 }

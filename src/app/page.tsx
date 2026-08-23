@@ -2,6 +2,7 @@ import { Navbar } from "@/frontend/features/navigation";
 import { Hero } from "@/frontend/features/hero";
 import { About } from "@/frontend/features/about";
 import { Workflow } from "@/frontend/features/workflow";
+import { Projects } from "@/frontend/features/projects";
 import styles from "./page.module.css";
 
 export default function Home() {
@@ -12,7 +13,7 @@ export default function Home() {
         <Hero />
         <About />
         <Workflow />
-        <div id="proyectos" className={styles.targetAnchor} aria-hidden="true" />
+        <Projects />
       </main>
     </div>
   );

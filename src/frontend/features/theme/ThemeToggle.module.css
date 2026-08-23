@@ -1,24 +1,65 @@
-.toggleButton {
+.switchTrack {
+  position: relative;
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  padding: 0.5rem 1rem;
-  border-radius: 0.25rem;
-  border: 1px solid var(--color-border);
-  background-color: var(--color-bg);
-  color: var(--color-text);
-  font-family: inherit;
-  font-size: 0.875rem;
-  font-weight: 500;
+  width: 52px;
+  height: 28px;
+  min-width: 52px;
+  min-height: 28px;
+  padding: 2px;
+  border-radius: 9999px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
   cursor: pointer;
-  transition: var(--transition-theme);
+  transition:
+    background-color 0.25s ease,
+    border-color 0.25s ease;
+  user-select: none;
 }
 
-.toggleButton:hover {
+.switchTrack:hover {
   border-color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-surface) 85%, transparent);
 }
 
-.toggleButton:focus-visible {
+.switchTrack:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 2px;
+}
+
+.switchThumb {
+  position: absolute;
+  left: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background-color: var(--color-bg);
+  color: var(--color-accent);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  transform: translateX(0);
+  transition:
+    transform 0.25s cubic-bezier(0.4, 0, 0.2, 1),
+    background-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.checked .switchThumb {
+  transform: translateX(24px);
+  background-color: var(--color-accent);
+  color: var(--color-bg);
+}
+
+.icon {
+  display: block;
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .switchTrack,
+  .switchThumb {
+    transition: none !important;
+  }
 }

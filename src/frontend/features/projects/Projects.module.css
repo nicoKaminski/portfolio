@@ -1,0 +1,157 @@
+.projectsSection {
+  width: 100%;
+  padding: 3.5rem 1.5rem 6.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+}
+
+.title {
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+/* Protagonistas */
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 2rem;
+}
+
+.featuredCard {
+  background-color: color-mix(in srgb, var(--color-surface) 75%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+  border-radius: 16px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 4px 24px -6px color-mix(in srgb, var(--color-text) 8%, transparent);
+  transition: var(--transition-theme);
+}
+
+.mediaContainer {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: color-mix(in srgb, var(--color-text) 6%, var(--color-surface));
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+  position: relative;
+  overflow: hidden;
+}
+
+.mediaPlaceholder {
+  width: 100%;
+  height: 100%;
+  background-color: color-mix(in srgb, var(--color-text) 8%, var(--color-surface));
+}
+
+.featuredContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 2rem;
+  flex-grow: 1;
+}
+
+.tag {
+  display: inline-flex;
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+}
+
+.featuredTitle {
+  font-size: clamp(1.35rem, 2vw, 1.625rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+}
+
+.featuredDescription {
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+}
+
+/* Secundarios */
+.secondaryGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.secondaryCard {
+  background-color: color-mix(in srgb, var(--color-surface) 40%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  border-radius: 12px;
+  padding: 1.5rem 1.75rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  box-shadow: 0 2px 12px -4px color-mix(in srgb, var(--color-text) 4%, transparent);
+  transition: var(--transition-theme);
+}
+
+.secondaryContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+}
+
+.secondaryTitle {
+  font-size: 1.15rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+}
+
+.secondaryDescription {
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--color-text-secondary);
+}
+
+/* Responsive */
+@media (max-width: 840px) {
+  .projectsSection {
+    padding: 2.5rem 1.25rem 4.5rem;
+  }
+
+  .container {
+    gap: 2rem;
+  }
+
+  .featuredGrid,
+  .secondaryGrid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  .featuredContent {
+    padding: 1.5rem 1.25rem;
+  }
+
+  .secondaryCard {
+    padding: 1.35rem 1.25rem;
+  }
+}

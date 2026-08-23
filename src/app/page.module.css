@@ -10,11 +10,3 @@
   flex-direction: column;
   width: 100%;
 }
-
-.targetAnchor {
-  position: relative;
-  visibility: hidden;
-  height: 0;
-  margin: 0;
-  padding: 0;
-}
