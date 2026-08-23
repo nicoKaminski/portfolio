@@ -13,13 +13,13 @@ export function Navbar() {
           <nav aria-label="Navegación principal">
             <ul className={styles.navList}>
               <li>
-                <a href="#proyectos" className={styles.navLink}>
-                  Proyectos
+                <a href="#como-trabajo" className={styles.navLink}>
+                  Cómo trabajo
                 </a>
               </li>
               <li>
-                <a href="#como-trabajo" className={styles.navLink}>
-                  Cómo trabajo
+                <a href="#proyectos" className={styles.navLink}>
+                  Proyectos
                 </a>
               </li>
               <li>

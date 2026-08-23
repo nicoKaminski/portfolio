@@ -1,0 +1,138 @@
+.contactSection {
+  width: 100%;
+  padding: 3rem 1.5rem 6rem;
+  display: flex;
+  justify-content: center;
+}
+
+.container {
+  max-width: 1200px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+  align-items: start;
+  gap: 4rem;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  padding-top: 1.75rem;
+}
+
+.title {
+  font-size: clamp(1.625rem, 3vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-text);
+}
+
+.intro {
+  font-size: 1.125rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  max-width: 38ch;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  width: 100%;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.label {
+  font-size: 0.925rem;
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: -0.01em;
+}
+
+.input,
+.textarea {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 35%, transparent);
+  color: var(--color-text);
+  font-size: 1rem;
+  line-height: 1.5;
+  transition: var(--transition-theme);
+}
+
+.input {
+  min-height: 48px;
+}
+
+.textarea {
+  min-height: 140px;
+  resize: vertical;
+}
+
+.input:focus-visible,
+.textarea:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+  border-color: var(--color-accent);
+}
+
+.input:disabled,
+.textarea:disabled {
+  cursor: not-allowed;
+  opacity: 0.85;
+}
+
+.submitButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  min-height: 48px;
+  border-radius: 8px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  background-color: color-mix(in srgb, var(--color-border) 20%, transparent);
+  color: var(--color-text-secondary);
+  cursor: not-allowed;
+  opacity: 0.75;
+  width: fit-content;
+  transition: var(--transition-theme);
+}
+
+.submitButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+@media (max-width: 900px) {
+  .contactSection {
+    padding: 2rem 1.25rem 4.5rem;
+  }
+
+  .container {
+    grid-template-columns: 1fr;
+    align-items: start;
+    gap: 2.25rem;
+  }
+
+  .header {
+    padding-top: 0;
+  }
+
+  .intro {
+    max-width: 100%;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
+}

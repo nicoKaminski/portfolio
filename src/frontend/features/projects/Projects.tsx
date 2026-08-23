@@ -44,7 +44,7 @@ export function Projects() {
           </h2>
         </header>
 
-        <div className={styles.featuredGrid}>
+        <div className={styles.projectsGrid}>
           {featuredProjects.map((project) => (
             <article key={project.id} className={styles.featuredCard}>
               <div className={styles.mediaContainer} aria-hidden="true">
@@ -59,19 +59,19 @@ export function Projects() {
               </div>
             </article>
           ))}
-        </div>
 
-        <div className={styles.secondaryGrid}>
-          {secondaryProjects.map((project) => (
-            <article key={project.id} className={styles.secondaryCard}>
-              <div className={styles.secondaryContent}>
-                <h3 className={styles.secondaryTitle}>{project.title}</h3>
-                <p className={styles.secondaryDescription}>
-                  {project.description}
-                </p>
-              </div>
-            </article>
-          ))}
+          <div className={styles.secondaryColumn}>
+            {secondaryProjects.map((project) => (
+              <article key={project.id} className={styles.secondaryCard}>
+                <div className={styles.secondaryContent}>
+                  <h3 className={styles.secondaryTitle}>{project.title}</h3>
+                  <p className={styles.secondaryDescription}>
+                    {project.description}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
         </div>
       </div>
     </section>

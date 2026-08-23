@@ -25,11 +25,12 @@
   color: var(--color-text);
 }
 
-/* Protagonistas */
-.featuredGrid {
+/* Grilla principal de 3 columnas */
+.projectsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1.5rem;
+  align-items: stretch;
 }
 
 .featuredCard {
@@ -41,6 +42,7 @@
   flex-direction: column;
   box-shadow: 0 4px 24px -6px color-mix(in srgb, var(--color-text) 8%, transparent);
   transition: var(--transition-theme);
+  height: 100%;
 }
 
 .mediaContainer {
@@ -62,7 +64,7 @@
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  padding: 2rem;
+  padding: 1.75rem 1.5rem;
   flex-grow: 1;
 }
 
@@ -81,33 +83,35 @@
 }
 
 .featuredTitle {
-  font-size: clamp(1.35rem, 2vw, 1.625rem);
+  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
   font-weight: 700;
   letter-spacing: -0.015em;
   color: var(--color-text);
 }
 
 .featuredDescription {
-  font-size: 1.05rem;
-  line-height: 1.65;
+  font-size: 0.975rem;
+  line-height: 1.6;
   color: var(--color-text-secondary);
 }
 
 /* Secundarios */
-.secondaryGrid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
+.secondaryColumn {
+  display: flex;
+  flex-direction: column;
   gap: 1.5rem;
+  height: 100%;
 }
 
 .secondaryCard {
+  flex: 1;
   background-color: color-mix(in srgb, var(--color-surface) 40%, transparent);
   border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
   border-radius: 12px;
-  padding: 1.5rem 1.75rem;
+  padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: flex-start;
+  justify-content: center;
   box-shadow: 0 2px 12px -4px color-mix(in srgb, var(--color-text) 4%, transparent);
   transition: var(--transition-theme);
 }
@@ -126,13 +130,13 @@
 }
 
 .secondaryDescription {
-  font-size: 0.95rem;
+  font-size: 0.925rem;
   line-height: 1.55;
   color: var(--color-text-secondary);
 }
 
 /* Responsive */
-@media (max-width: 840px) {
+@media (max-width: 960px) {
   .projectsSection {
     padding: 2.5rem 1.25rem 4.5rem;
   }
@@ -141,10 +145,13 @@
     gap: 2rem;
   }
 
-  .featuredGrid,
-  .secondaryGrid {
+  .projectsGrid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
+  }
+
+  .secondaryColumn {
+    height: auto;
   }
 
   .featuredContent {
@@ -152,6 +159,7 @@
   }
 
   .secondaryCard {
+    flex: none;
     padding: 1.35rem 1.25rem;
   }
 }

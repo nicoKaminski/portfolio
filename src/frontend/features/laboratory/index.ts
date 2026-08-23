@@ -1,0 +1,1 @@
+export { Laboratory } from "./Laboratory";
