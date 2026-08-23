@@ -35,11 +35,23 @@
 }
 
 .link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
   font-size: 0.925rem;
   font-weight: 500;
-  color: var(--color-text-secondary);
+  color: color-mix(in srgb, var(--color-text) 55%, var(--color-border));
   text-decoration: none;
-  transition: color 0.2s ease;
+  padding: 0.35rem 0.45rem;
+  border-radius: 6px;
+  transition: var(--transition-interactive);
+}
+
+.icon {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 16px;
+  height: 16px;
 }
 
 .link:hover {

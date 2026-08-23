@@ -215,6 +215,27 @@ Cuando JavaScript necesite un color por una razón real —por ejemplo canvas, g
 
 La lógica del selector de tema puede vivir como feature o componente dedicado dentro de `frontend/` cuando se implemente.
 
+## 8-A. Estados interactivos
+
+Los estados interactivos deben responder a la semántica del elemento y mantener una lógica visual coherente en tema claro y oscuro.
+
+Familias actuales:
+
+- **Acción primaria:** mantiene un estado base sólido y su hover puede pasar a una superficie contextual sutil con borde y texto de acento, claramente perceptible en claro y oscuro. No utiliza movimiento, elevación, sombra ni opacity para el hover del CTA.
+- **Enlaces:** no deben convertirse automáticamente en botones ni depender de un cambio cromático casi imperceptible. Navbar puede utilizar color de acento + superficie contextual sutil; los links del Footer utilizan cambio cromático a color de acento sin fondo contextual y sin subrayado. No agregar movimiento a enlaces de texto solo para hacer visible el hover.
+- **Controles:** pueden comunicar hover mediante borde y superficie cuando esa respuesta represente mejor su función.
+
+Reglas generales:
+
+- todo elemento interactivo debe tener feedback perceptible cuando corresponda y foco visible para teclado;
+- el hover debe funcionar visualmente en ambos temas y mantener una diferencia perceptible, pudiendo tener valores de hover diferentes según el tema siempre que preserven la misma semántica;
+- no usar `opacity` como mecanismo principal de hover de una acción si puede reducir contraste o claridad;
+- usar tokens semánticos y `--transition-interactive` para estados reutilizados;
+- `prefers-reduced-motion` debe eliminar desplazamientos, no necesariamente los cambios de color o profundidad;
+- un control `disabled` no debe presentar hover, desplazamiento ni apariencia de acción disponible;
+- una card, superficie o elemento no interactivo no debe recibir hover que sugiera que puede accionarse;
+- las distintas familias no necesitan tener el mismo hover: la coherencia proviene de compartir criterios, tokens, duración y accesibilidad, no de hacer que todos los elementos reaccionen igual.
+
 ## 9. Dirección visual estable
 
 El sitio debe sentirse:

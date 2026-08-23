@@ -60,12 +60,14 @@
   text-decoration: none;
   cursor: pointer;
   min-height: 48px;
-  transition: opacity 0.2s ease, transform 0.2s ease;
+  box-shadow: none;
+  transition: var(--transition-interactive);
 }
 
 .ctaButton:hover {
-  opacity: 0.9;
-  transform: translateY(-1px);
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
 }
 
 .ctaButton:focus-visible {

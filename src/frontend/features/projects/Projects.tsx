@@ -51,7 +51,7 @@ export function Projects() {
                 <div className={styles.mediaPlaceholder} />
               </div>
               <div className={styles.featuredContent}>
-                <span className={styles.tag}>Proyecto principal</span>
+                <span className={styles.tag}>Proyecto Destacado</span>
                 <h3 className={styles.featuredTitle}>{project.title}</h3>
                 <p className={styles.featuredDescription}>
                   {project.description}

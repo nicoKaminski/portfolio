@@ -30,7 +30,7 @@
   letter-spacing: -0.01em;
   padding: 0.35rem 0;
   border-radius: 6px;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition: var(--transition-interactive);
   white-space: nowrap;
 }
 
@@ -72,12 +72,12 @@
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
   min-height: 40px;
-  transition: color 0.2s ease, background-color 0.2s ease;
+  transition: var(--transition-interactive);
 }
 
 .navLink:hover {
-  color: var(--color-text);
-  background-color: color-mix(in srgb, var(--color-border) 15%, transparent);
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
 }
 
 .navLink:focus-visible {
