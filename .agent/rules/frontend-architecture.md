@@ -158,6 +158,7 @@ Los hooks no deben convertirse en “cajones” que mezclen múltiples responsab
 - Evitar estilos inline salvo caso mínimo y justificado.
 - No usar Tailwind.
 - No agregar librerías CSS/UI sin autorización.
+- La apariencia de la scrollbar del Portfolio es global y se define en `src/app/globals.css`; no debe duplicarse en CSS Modules de features salvo que exista una necesidad funcional explícita y diferente.
 
 ## 8. Theme y tokens
 

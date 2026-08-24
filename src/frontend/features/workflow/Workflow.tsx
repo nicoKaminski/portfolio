@@ -47,12 +47,22 @@ export function Workflow() {
           <h2 id="workflow-title" className={styles.title}>
             Cómo trabajo
           </h2>
-          <p className={styles.intro}>
-            No parto directamente del código. Primero busco entender el
-            problema, definir una solución y discutir las decisiones
-            importantes. La IA forma parte del proceso como herramienta de
-            apoyo; después implemento, reviso y valido el resultado.
-          </p>
+          <div className={styles.intro}>
+            <p>
+              No empiezo por el código. Primero busco entender bien el problema,
+              discutir alternativas y elegir la solución que mejor se adapta al
+              contexto. A partir de ahí defino el alcance, el orden de
+              implementación y los criterios con los que voy a evaluar el
+              resultado.
+            </p>
+            <p>
+              La IA forma parte de ese proceso como herramienta de apoyo para
+              investigar, planificar, implementar y revisar, sin delegar el
+              criterio técnico o funcional. Avanzo por etapas, probando y
+              auditando cada una antes de seguir, para detectar desvíos temprano y
+              validar que la solución final funcione como fue pensada.
+            </p>
+          </div>
         </header>
 
         <div className={styles.trackWrapper}>

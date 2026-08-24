@@ -1,9 +1,14 @@
+"use client";
+
+import { useState, useRef } from "react";
+import { ProjectDetailDialog } from "./components/ProjectDetailDialog";
+import { GeClauDetail } from "./components/GeClauDetail";
 import styles from "./Projects.module.css";
 
 const featuredProjects = [
   {
     id: "geclau",
-    title: "GeClau",
+    title: "GeClAu",
     description:
       "Gestión académica pensada para ordenar la complejidad de aulas, horarios y clases.",
   },
@@ -31,6 +36,11 @@ const secondaryProjects = [
 ];
 
 export function Projects() {
+  const [activeProject, setActiveProject] = useState<string | null>(null);
+  const geclauTriggerRef = useRef<HTMLButtonElement>(null);
+
+  const isGeclauOpen = activeProject === "geclau";
+
   return (
     <section
       id="proyectos"
@@ -45,20 +55,44 @@ export function Projects() {
         </header>
 
         <div className={styles.projectsGrid}>
-          {featuredProjects.map((project) => (
-            <article key={project.id} className={styles.featuredCard}>
-              <div className={styles.mediaContainer} aria-hidden="true">
-                <div className={styles.mediaPlaceholder} />
-              </div>
-              <div className={styles.featuredContent}>
-                <span className={styles.tag}>Proyecto Destacado</span>
-                <h3 className={styles.featuredTitle}>{project.title}</h3>
-                <p className={styles.featuredDescription}>
-                  {project.description}
-                </p>
-              </div>
-            </article>
-          ))}
+          {featuredProjects.map((project) => {
+            const isGeclau = project.id === "geclau";
+
+            return (
+              <article
+                key={project.id}
+                className={`${styles.featuredCard} ${isGeclau ? styles.interactiveCard : ""}`}
+              >
+                {isGeclau && (
+                  <button
+                    ref={geclauTriggerRef}
+                    type="button"
+                    className={styles.cardActionOverlay}
+                    onClick={() => setActiveProject("geclau")}
+                    aria-label="Más info sobre GeClAu"
+                  />
+                )}
+
+                <div className={styles.mediaContainer} aria-hidden="true">
+                  <div className={styles.mediaPlaceholder} />
+                </div>
+                <div className={styles.featuredContent}>
+                  <span className={styles.tag}>Proyecto Destacado</span>
+                  <h3 className={styles.featuredTitle}>{project.title}</h3>
+                  <p className={styles.featuredDescription}>
+                    {project.description}
+                  </p>
+                  {isGeclau && (
+                    <div className={styles.ctaWrapper}>
+                      <span className={styles.moreInfoCta} aria-hidden="true">
+                        Más info
+                      </span>
+                    </div>
+                  )}
+                </div>
+              </article>
+            );
+          })}
 
           <div className={styles.secondaryColumn}>
             {secondaryProjects.map((project) => (
@@ -74,6 +108,17 @@ export function Projects() {
           </div>
         </div>
       </div>
+
+      <ProjectDetailDialog
+        isOpen={isGeclauOpen}
+        onClose={() => setActiveProject(null)}
+        title="GeClAu"
+        subtitle="Gestión académica de clases y asignación de aulas"
+        closeAriaLabel="Cerrar detalle de GeClAu"
+        triggerRef={geclauTriggerRef}
+      >
+        <GeClauDetail />
+      </ProjectDetailDialog>
     </section>
   );
 }

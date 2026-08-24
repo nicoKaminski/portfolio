@@ -31,7 +31,7 @@
   font-size: clamp(1.05rem, 1.6vw, 1.2rem);
   line-height: 1.7;
   color: var(--color-text-secondary);
-  max-width: 60ch;
+  max-width: 100%;
 }
 
 .gameInvitation {

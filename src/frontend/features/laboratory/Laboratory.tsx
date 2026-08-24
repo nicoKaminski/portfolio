@@ -22,7 +22,7 @@ export function Laboratory() {
             Laboratorio
           </h2>
           <p className={styles.intro}>
-            Proyectos de práctica, exploración y aprendizaje.
+            Proyectos de práctica y aprendizaje en la universidad.
           </p>
         </header>
 
