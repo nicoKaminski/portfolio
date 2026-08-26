@@ -43,13 +43,13 @@ export function ProjectDetailDialog({
     } else {
       if (dialog.open) {
         dialog.close();
+        triggerRef?.current?.focus();
       }
       document.documentElement.classList.remove("scroll-locked");
       document.body.classList.remove("scroll-locked");
       if (scrollContentRef.current) {
         scrollContentRef.current.scrollTop = 0;
       }
-      triggerRef?.current?.focus();
     }
 
     return () => {
