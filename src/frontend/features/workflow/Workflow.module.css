@@ -129,9 +129,9 @@
   .timeline {
     display: flex;
     flex-direction: column;
-    gap: 2rem;
+    gap: 2.25rem;
     position: relative;
-    padding-left: 3rem;
+    padding-left: 0;
   }
 
   /* Línea continua vertical en tablets y mobile */
@@ -148,16 +148,20 @@
     flex-direction: row;
     align-items: flex-start;
     gap: 1.25rem;
+    position: relative;
   }
 
   .indicatorWrapper {
-    position: absolute;
-    left: 0;
-    top: 0;
+    position: relative;
+    left: auto;
+    top: auto;
+    flex-shrink: 0;
   }
 
   .stepContent {
     padding-top: 0.25rem;
     max-width: 55ch;
+    flex: 1;
+    min-width: 0;
   }
 }
