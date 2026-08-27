@@ -40,12 +40,28 @@
 }
 
 .item {
-  background-color: color-mix(in srgb, var(--color-surface) 25%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-border) 20%, transparent);
-  border-radius: 8px;
+  background:
+    radial-gradient(
+      circle at 15% 25%,
+      color-mix(in srgb, var(--color-accent) 16%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 75%,
+      color-mix(in srgb, var(--color-border) 18%, transparent) 0%,
+      transparent 60%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-surface) 80%, var(--color-bg)) 0%,
+      color-mix(in srgb, var(--color-bg) 90%, var(--color-surface)) 100%
+    );
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  border-radius: 10px;
   padding: 1rem 1.25rem;
   display: flex;
   align-items: center;
+  box-shadow: 0 2px 12px -3px color-mix(in srgb, var(--color-text) 6%, transparent);
   transition: var(--transition-theme);
 }
 
