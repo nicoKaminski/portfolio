@@ -1,6 +1,10 @@
+import { sendContactMessage } from "@/backend/contact/actions";
+import { ContactForm } from "./ContactForm";
 import styles from "./Contact.module.css";
 
 export function Contact() {
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY;
+
   return (
     <section
       id="contacto"
@@ -18,50 +22,10 @@ export function Contact() {
           </p>
         </header>
 
-        <form className={styles.form} noValidate>
-          <div className={styles.formGroup}>
-            <label htmlFor="nombre" className={styles.label}>
-              Nombre
-            </label>
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              className={styles.input}
-              disabled
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="email" className={styles.label}>
-              Email
-            </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className={styles.input}
-              disabled
-            />
-          </div>
-
-          <div className={styles.formGroup}>
-            <label htmlFor="mensaje" className={styles.label}>
-              Mensaje
-            </label>
-            <textarea
-              id="mensaje"
-              name="mensaje"
-              rows={5}
-              className={styles.textarea}
-              disabled
-            />
-          </div>
-
-          <button type="button" className={styles.submitButton} disabled>
-            Enviar mensaje
-          </button>
-        </form>
+        <ContactForm
+          action={sendContactMessage}
+          siteKey={turnstileSiteKey}
+        />
       </div>
     </section>
   );
