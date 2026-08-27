@@ -6,6 +6,7 @@ import { ProjectDetailDialog } from "./components/ProjectDetailDialog";
 import { GeClauDetail } from "./components/GeClauDetail";
 import { HorasClarasDetail } from "./components/HorasClarasDetail";
 import { BitiCraftDetail } from "./components/BitiCraftDetail";
+import { TracamDetail } from "./components/TracamDetail";
 import styles from "./Projects.module.css";
 
 const featuredProjects = [
@@ -54,10 +55,12 @@ export function Projects() {
   const geclauTriggerRef = useRef<HTMLButtonElement>(null);
   const horasClarasTriggerRef = useRef<HTMLButtonElement>(null);
   const biticraftTriggerRef = useRef<HTMLButtonElement>(null);
+  const tracamTriggerRef = useRef<HTMLButtonElement>(null);
 
   const isGeclauOpen = activeProject === "geclau";
   const isHorasClarasOpen = activeProject === "horas-claras";
   const isBiticraftOpen = activeProject === "biticraft";
+  const isTracamOpen = activeProject === "tracam";
 
   return (
     <section
@@ -135,8 +138,13 @@ export function Projects() {
         <div className={styles.secondaryGrid}>
           {secondaryProjects.map((project) => {
             const isBiticraft = project.id === "biticraft";
-            const isInteractive = isBiticraft;
-            const triggerRef = isBiticraft ? biticraftTriggerRef : undefined;
+            const isTracam = project.id === "tracam";
+            const isInteractive = isBiticraft || isTracam;
+            const triggerRef = isBiticraft
+              ? biticraftTriggerRef
+              : isTracam
+                ? tracamTriggerRef
+                : undefined;
 
             return (
               <article
@@ -218,6 +226,17 @@ export function Projects() {
         triggerRef={biticraftTriggerRef}
       >
         <BitiCraftDetail />
+      </ProjectDetailDialog>
+
+      <ProjectDetailDialog
+        isOpen={isTracamOpen}
+        onClose={() => setActiveProject(null)}
+        title="TRACAM"
+        subtitle="Gestión operativa y trazabilidad de viajes de camiones"
+        closeAriaLabel="Cerrar detalle de TRACAM"
+        triggerRef={tracamTriggerRef}
+      >
+        <TracamDetail />
       </ProjectDetailDialog>
     </section>
   );
