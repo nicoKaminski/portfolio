@@ -216,6 +216,17 @@ Cuando JavaScript necesite un color por una razón real —por ejemplo canvas, g
 
 La lógica del selector de tema puede vivir como feature o componente dedicado dentro de `frontend/` cuando se implemente.
 
+### Profundidad visual
+
+- La identidad visual del Portfolio debe construirse principalmente mediante profundidad, capas, variaciones tonales de superficie y luz ambiental controlada.
+- Pueden utilizarse `color-mix()`, gradientes y luces radiales cuando deriven de los tokens vigentes y exista una necesidad visual real.
+- Los tonos teal/verde del sistema pueden utilizarse como luz ambiental, halo o detalle controlado; no como fondo dominante ni como color general de texto.
+- La intensidad debe responder a la jerarquía: los elementos protagonistas pueden tener mayor expresión visual y los secundarios deben utilizar tratamientos más contenidos.
+- Estos recursos no deben aplicarse automáticamente a todas las secciones ni repetirse mecánicamente.
+- Preferir profundidad y variación de superficie antes que proliferación de cards, marcos, sombras fuertes, cards anidadas o glassmorphism.
+- Mantener `Calma Tecnológica` como límite: luz, color y profundidad acompañan al contenido y no compiten con él.
+- Una solución visual aprobada para una feature no debe copiarse literalmente a otra cuando su jerarquía o función requieran un tratamiento diferente.
+
 ## 8-A. Estados interactivos
 
 Los estados interactivos deben responder a la semántica del elemento y mantener una lógica visual coherente en tema claro y oscuro.

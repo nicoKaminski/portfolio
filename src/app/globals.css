@@ -24,6 +24,7 @@
   --scrollbar-radius: 8px;
   --scrollbar-thumb: color-mix(in srgb, var(--color-border) 55%, transparent);
   --scrollbar-thumb-hover: var(--color-accent);
+  --color-logo-surface: #e1ecee;
 }
 
 /* Fallback / Tema Claro (Glaciar) */

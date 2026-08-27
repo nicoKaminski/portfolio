@@ -25,8 +25,15 @@
   color: var(--color-text);
 }
 
-/* Grilla principal de 3 columnas */
-.projectsGrid {
+/* Grillas */
+.featuredGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.75rem;
+  align-items: stretch;
+}
+
+.secondaryGrid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1.5rem;
@@ -78,41 +85,54 @@
   border-color: var(--color-accent);
 }
 
+/* Superficies de logo */
 .mediaContainer {
   width: 100%;
-  aspect-ratio: 16 / 9;
-  background-color: color-mix(in srgb, var(--color-text) 6%, var(--color-surface));
-  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+  height: clamp(170px, 16vw, 200px);
+  background:
+    radial-gradient(
+      circle at 20% 25%,
+      color-mix(in srgb, var(--color-accent) 18%, transparent) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 75%,
+      color-mix(in srgb, var(--color-border) 20%, transparent) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-surface) 85%, var(--color-bg)) 0%,
+      color-mix(in srgb, var(--color-bg) 92%, var(--color-surface)) 100%
+    );
   position: relative;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition-theme);
 }
 
-.mediaPlaceholder {
+.logoSurface {
+  position: relative;
   width: 100%;
   height: 100%;
-  background-color: color-mix(in srgb, var(--color-text) 8%, var(--color-surface));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.featuredLogo {
+  object-fit: contain !important;
+  padding: 1.5rem 2rem;
 }
 
 .featuredContent {
   display: flex;
   flex-direction: column;
   gap: 0.875rem;
-  padding: 1.75rem 1.5rem;
+  padding: 1.5rem;
   flex-grow: 1;
-}
-
-.tag {
-  display: inline-flex;
-  align-self: flex-start;
-  font-size: 0.75rem;
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  color: var(--color-accent);
-  background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-accent) 25%, transparent);
-  padding: 0.25rem 0.625rem;
-  border-radius: 9999px;
 }
 
 .featuredTitle {
@@ -120,17 +140,23 @@
   font-weight: 700;
   letter-spacing: -0.015em;
   color: var(--color-text);
+  margin: 0;
+}
+
+.featuredBody {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-grow: 1;
 }
 
 .featuredDescription {
   font-size: 0.975rem;
   line-height: 1.6;
   color: var(--color-text-secondary);
-}
-
-.ctaWrapper {
-  margin-top: auto;
-  padding-top: 0.5rem;
+  margin: 0;
+  flex: 1;
 }
 
 .moreInfoCta {
@@ -145,6 +171,7 @@
   padding: 0.4rem 0.85rem;
   border-radius: 6px;
   transition: var(--transition-interactive);
+  flex-shrink: 0;
 }
 
 .interactiveCard:hover .moreInfoCta,
@@ -155,30 +182,35 @@
 }
 
 /* Secundarios */
-.secondaryColumn {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  height: 100%;
-}
-
 .secondaryCard {
-  flex: 1;
-  background-color: color-mix(in srgb, var(--color-surface) 40%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
-  border-radius: 12px;
+  background:
+    radial-gradient(
+      circle at top right,
+      color-mix(in srgb, var(--color-logo-surface) 12%, transparent) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at top right,
+      color-mix(in srgb, var(--color-accent) 6%, transparent) 0%,
+      transparent 55%
+    ),
+    color-mix(in srgb, var(--color-surface) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+  border-radius: 14px;
   padding: 1.5rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  box-shadow: 0 2px 12px -4px color-mix(in srgb, var(--color-text) 4%, transparent);
+  gap: 1rem;
+  box-shadow: 0 2px 14px -4px color-mix(in srgb, var(--color-text) 5%, transparent);
   transition: var(--transition-theme);
+  height: 100%;
 }
 
-.secondaryContent {
+.secondaryHeader {
   display: flex;
-  flex-direction: column;
-  gap: 0.625rem;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
 }
 
 .secondaryTitle {
@@ -186,39 +218,95 @@
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--color-text);
+  margin: 0;
+}
+
+.secondaryLogoContainer {
+  position: relative;
+  width: 124px;
+  height: 58px;
+  min-width: 124px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: var(--transition-theme);
+}
+
+.secondaryLogo {
+  object-fit: contain !important;
+}
+
+.secondaryLogoLeinwand {
+  transform: scale(1.2);
 }
 
 .secondaryDescription {
   font-size: 0.925rem;
   line-height: 1.55;
   color: var(--color-text-secondary);
+  margin: 0;
 }
 
 /* Responsive */
+@media (max-width: 1024px) {
+  .secondaryGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
 @media (max-width: 960px) {
   .projectsSection {
     padding: 2.5rem 1.25rem 4.5rem;
   }
 
   .container {
-    gap: 2rem;
+    gap: 2.5rem;
   }
 
-  .projectsGrid {
+  .featuredGrid {
     grid-template-columns: 1fr;
     gap: 1.5rem;
   }
 
-  .secondaryColumn {
-    height: auto;
+  .mediaContainer {
+    height: 160px;
   }
 
   .featuredContent {
-    padding: 1.5rem 1.25rem;
+    padding: 1.35rem 1.25rem;
+  }
+}
+
+@media (max-width: 680px) {
+  .secondaryGrid {
+    grid-template-columns: 1fr;
+    gap: 1.25rem;
   }
 
   .secondaryCard {
-    flex: none;
     padding: 1.35rem 1.25rem;
+  }
+
+  .featuredBody {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .secondaryHeader {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .secondaryLogoContainer {
+    align-self: flex-start;
+    width: 100px;
+    height: 48px;
+    min-width: 100px;
   }
 }
