@@ -4,6 +4,8 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import { ProjectDetailDialog } from "./components/ProjectDetailDialog";
 import { GeClauDetail } from "./components/GeClauDetail";
+import { HorasClarasDetail } from "./components/HorasClarasDetail";
+import { BitiCraftDetail } from "./components/BitiCraftDetail";
 import styles from "./Projects.module.css";
 
 const featuredProjects = [
@@ -29,7 +31,7 @@ const secondaryProjects = [
     title: "BitiCraft",
     logo: "/projects/biticraft/logo.png",
     description:
-      "Una experiencia web para un emprendimiento de productos artesanales, combinando identidad visual, UX/UI y desarrollo.",
+      "Sitio web para un emprendimiento de papelería personalizada, con foco en UX/UI, presentación de productos y contacto.",
   },
   {
     id: "tracam",
@@ -50,8 +52,12 @@ const secondaryProjects = [
 export function Projects() {
   const [activeProject, setActiveProject] = useState<string | null>(null);
   const geclauTriggerRef = useRef<HTMLButtonElement>(null);
+  const horasClarasTriggerRef = useRef<HTMLButtonElement>(null);
+  const biticraftTriggerRef = useRef<HTMLButtonElement>(null);
 
   const isGeclauOpen = activeProject === "geclau";
+  const isHorasClarasOpen = activeProject === "horas-claras";
+  const isBiticraftOpen = activeProject === "biticraft";
 
   return (
     <section
@@ -70,19 +76,26 @@ export function Projects() {
         <div className={styles.featuredGrid}>
           {featuredProjects.map((project) => {
             const isGeclau = project.id === "geclau";
+            const isHorasClaras = project.id === "horas-claras";
+            const isInteractive = isGeclau || isHorasClaras;
+            const triggerRef = isGeclau
+              ? geclauTriggerRef
+              : isHorasClaras
+                ? horasClarasTriggerRef
+                : undefined;
 
             return (
               <article
                 key={project.id}
-                className={`${styles.featuredCard} ${isGeclau ? styles.interactiveCard : ""}`}
+                className={`${styles.featuredCard} ${isInteractive ? styles.interactiveCard : ""}`}
               >
-                {isGeclau && (
+                {isInteractive && (
                   <button
-                    ref={geclauTriggerRef}
+                    ref={triggerRef}
                     type="button"
                     className={styles.cardActionOverlay}
-                    onClick={() => setActiveProject("geclau")}
-                    aria-label="Más info sobre GeClAu"
+                    onClick={() => setActiveProject(project.id)}
+                    aria-label={`Más info sobre ${project.title}`}
                   />
                 )}
 
@@ -106,7 +119,7 @@ export function Projects() {
                     <p className={styles.featuredDescription}>
                       {project.description}
                     </p>
-                    {isGeclau && (
+                    {isInteractive && (
                       <span className={styles.moreInfoCta} aria-hidden="true">
                         Más info
                       </span>
@@ -120,28 +133,56 @@ export function Projects() {
 
         {/* Nivel 2 · Secundarios (3 columnas) */}
         <div className={styles.secondaryGrid}>
-          {secondaryProjects.map((project) => (
-            <article key={project.id} className={styles.secondaryCard}>
-              <div className={styles.secondaryHeader}>
-                <h3 className={styles.secondaryTitle}>{project.title}</h3>
-                <div
-                  className={styles.secondaryLogoContainer}
-                  aria-hidden="true"
-                >
-                  <Image
-                    src={project.logo}
-                    alt=""
-                    fill
-                    sizes="110px"
-                    className={`${styles.secondaryLogo} ${project.id === "leinwand" ? styles.secondaryLogoLeinwand : ""}`}
+          {secondaryProjects.map((project) => {
+            const isBiticraft = project.id === "biticraft";
+            const isInteractive = isBiticraft;
+            const triggerRef = isBiticraft ? biticraftTriggerRef : undefined;
+
+            return (
+              <article
+                key={project.id}
+                className={`${styles.secondaryCard} ${isInteractive ? styles.secondaryInteractiveCard : ""}`}
+              >
+                {isInteractive && (
+                  <button
+                    ref={triggerRef}
+                    type="button"
+                    className={styles.secondaryActionOverlay}
+                    onClick={() => setActiveProject(project.id)}
+                    aria-label={`Más info sobre ${project.title}`}
                   />
+                )}
+                <div className={styles.secondaryHeader}>
+                  <h3 className={styles.secondaryTitle}>{project.title}</h3>
+                  <div
+                    className={styles.secondaryLogoContainer}
+                    aria-hidden="true"
+                  >
+                    <Image
+                      src={project.logo}
+                      alt=""
+                      fill
+                      sizes="110px"
+                      className={`${styles.secondaryLogo} ${project.id === "leinwand" ? styles.secondaryLogoLeinwand : ""}`}
+                    />
+                  </div>
                 </div>
-              </div>
-              <p className={styles.secondaryDescription}>
-                {project.description}
-              </p>
-            </article>
-          ))}
+                <div className={styles.secondaryBody}>
+                  <p className={styles.secondaryDescription}>
+                    {project.description}
+                  </p>
+                  {isInteractive && (
+                    <span
+                      className={styles.secondaryMoreInfoCta}
+                      aria-hidden="true"
+                    >
+                      Más info
+                    </span>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
       </div>
 
@@ -154,6 +195,29 @@ export function Projects() {
         triggerRef={geclauTriggerRef}
       >
         <GeClauDetail />
+      </ProjectDetailDialog>
+
+      <ProjectDetailDialog
+        isOpen={isHorasClarasOpen}
+        onClose={() => setActiveProject(null)}
+        title="Horas Claras"
+        subtitle="Registro de horas y seguimiento de carga en Jira"
+        closeAriaLabel="Cerrar detalle de Horas Claras"
+        triggerRef={horasClarasTriggerRef}
+      >
+        <HorasClarasDetail />
+      </ProjectDetailDialog>
+
+      <ProjectDetailDialog
+        isOpen={isBiticraftOpen}
+        onClose={() => setActiveProject(null)}
+        title="BitiCraft"
+        subtitle="Sitio web para un emprendimiento de papelería personalizada"
+        status="Publicado · En evolución"
+        closeAriaLabel="Cerrar detalle de BitiCraft"
+        triggerRef={biticraftTriggerRef}
+      >
+        <BitiCraftDetail />
       </ProjectDetailDialog>
     </section>
   );

@@ -1,0 +1,421 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+/* 1. Introducción y Acciones */
+.introSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.intro {
+  font-size: clamp(1.05rem, 1.5vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.actionsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.25rem;
+}
+
+.primaryCtas {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-bg);
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 44px;
+  transition: var(--transition-interactive);
+}
+
+.ctaPrimary:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.ctaPrimary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.ctaSecondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 44px;
+  transition: var(--transition-interactive);
+}
+
+.ctaSecondary:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+.ctaSecondary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* 2. Galería visual (Carrusel con peek y navegación lateral) */
+.gallerySection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.carouselContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  width: 100%;
+}
+
+.carouselStage {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.carouselViewport {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding: 0;
+}
+
+.carouselTrack {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 184.615 / 100; /* Proporción exacta para el ancho 78% de la slide (1.44 / 0.78 = 1.84615) */
+}
+
+.slide {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 78%; /* Proporción balanceada: protagonista clara con buen peek lateral */
+  height: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+  box-shadow: 0 4px 18px -4px
+    color-mix(in srgb, var(--color-text) 8%, transparent);
+  transition:
+    transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+    opacity 0.3s ease,
+    filter 0.3s ease,
+    box-shadow 0.3s ease;
+  user-select: none;
+  background-color: var(--color-surface);
+}
+
+.slideActive {
+  transform: translateX(-50%) scale(1);
+  opacity: 1;
+  z-index: 2;
+  pointer-events: auto;
+  border-color: color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow: 0 8px 24px -6px
+    color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+.slidePrev {
+  transform: translateX(calc(-50% - 94%)) scale(0.94);
+  opacity: 0.4;
+  filter: blur(0.5px);
+  z-index: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.slideNext {
+  transform: translateX(calc(-50% + 94%)) scale(0.94);
+  opacity: 0.4;
+  filter: blur(0.5px);
+  z-index: 1;
+  cursor: pointer;
+  pointer-events: auto;
+}
+
+.slidePrev:hover,
+.slideNext:hover {
+  opacity: 0.65;
+}
+
+.slideHidden {
+  transform: translateX(-50%) scale(0.85);
+  opacity: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.carouselImage {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+/* Flechas laterales compactas y cuadradas con bordes redondeados */
+.navButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  min-width: 36px;
+  min-height: 36px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--color-surface) 85%, transparent);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+  color: var(--color-text);
+  cursor: pointer;
+  z-index: 10;
+  transition: var(--transition-interactive);
+  box-shadow: 0 2px 10px -2px
+    color-mix(in srgb, var(--color-text) 12%, transparent);
+}
+
+.prevButton {
+  left: 0.5rem;
+}
+
+.nextButton {
+  right: 0.5rem;
+}
+
+.navButton:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: color-mix(
+    in srgb,
+    var(--color-accent) 10%,
+    var(--color-surface)
+  );
+}
+
+.navButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.navIcon {
+  font-size: 1.05rem;
+  line-height: 1;
+  user-select: none;
+}
+
+/* Indicadores centrados */
+.indicatorsContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0;
+  margin-top: 1.3rem;
+}
+
+.indicatorDot {
+  width: 8px;
+  height: 8px;
+  padding: 0;
+  border-radius: 50%;
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  background-color: color-mix(in srgb, var(--color-text) 20%, transparent);
+  cursor: pointer;
+  transition:
+    var(--transition-interactive),
+    width 0.2s ease;
+}
+
+.indicatorDot:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 60%, transparent);
+  border-color: var(--color-accent);
+}
+
+.indicatorDot:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.activeDot {
+  width: 22px;
+  border-radius: 4px;
+  background-color: var(--color-accent);
+  border-color: var(--color-accent);
+}
+
+/* 3. Secciones editoriales */
+.editorialSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.sectionTitle {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.paragraph {
+  font-size: 0.975rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+/* 5. Estado actual (Cierre contenido) */
+.statusSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.35rem 1.5rem;
+  border-radius: 12px;
+  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  transition: var(--transition-theme);
+}
+
+/* 7. Tecnologías */
+.techSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.5rem;
+}
+
+.techTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.techTag {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  transition: var(--transition-theme);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    gap: 2.25rem;
+  }
+
+  .primaryCtas {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+
+  .ctaPrimary,
+  .ctaSecondary {
+    width: 100%;
+  }
+
+  .slide {
+    width: 100%;
+  }
+
+  .carouselTrack {
+    aspect-ratio: 144 / 100;
+  }
+
+  .slidePrev {
+    transform: translateX(calc(-50% - 105%)) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .slideNext {
+    transform: translateX(calc(-50% + 105%)) scale(0.95);
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .prevButton {
+    left: 0.25rem;
+  }
+
+  .nextButton {
+    right: 0.25rem;
+  }
+
+  .statusSection {
+    padding: 1.15rem 1.15rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .slide {
+    transition: none !important;
+  }
+
+  .indicatorDot {
+    transition: none !important;
+  }
+}
