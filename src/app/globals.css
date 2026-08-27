@@ -36,6 +36,8 @@
   --color-text-secondary: rgba(19, 70, 112, 0.8);
   --color-accent: #10698c;
   --color-border: #648a81;
+  --color-error: #b91c1c;
+  --color-error-surface: rgba(185, 28, 28, 0.08);
 }
 
 /* Media query fallback si aún no se inicializó data-theme */
@@ -47,6 +49,8 @@
     --color-text-secondary: rgba(225, 236, 238, 0.72);
     --color-accent: #21e6a8;
     --color-border: rgba(225, 236, 238, 0.5);
+    --color-error: #ff7b72;
+    --color-error-surface: rgba(255, 123, 114, 0.12);
   }
 }
 
@@ -58,6 +62,8 @@
   --color-text-secondary: rgba(225, 236, 238, 0.72);
   --color-accent: #21e6a8;
   --color-border: rgba(225, 236, 238, 0.5);
+  --color-error: #ff7b72;
+  --color-error-surface: rgba(255, 123, 114, 0.12);
 }
 
 html {

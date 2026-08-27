@@ -16,10 +16,16 @@ export function Contact() {
           <h2 id="contact-title" className={styles.title}>
             Contacto
           </h2>
-          <p className={styles.intro}>
-            Si querés hablar sobre un proyecto, una idea o simplemente
-            intercambiar opiniones sobre desarrollo de software, escribime.
-          </p>
+          <div className={styles.introGroup}>
+            <p className={styles.intro}>
+              Si querés hablar sobre un proyecto, una idea o simplemente
+              intercambiar opiniones sobre desarrollo de software, escribime.
+            </p>
+            <p className={styles.intro}>
+              No hace falta que sea algo formal. Contame qué tenés en mente y
+              te respondo lo antes que pueda.
+            </p>
+          </div>
         </header>
 
         <ContactForm

@@ -28,6 +28,12 @@
   color: var(--color-text);
 }
 
+.introGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
 .intro {
   font-size: 1.125rem;
   line-height: 1.6;
@@ -99,7 +105,14 @@
 
 .input[aria-invalid="true"],
 .textarea[aria-invalid="true"] {
-  border-color: var(--color-accent);
+  border-color: var(--color-error);
+}
+
+.input[aria-invalid="true"]:focus-visible,
+.textarea[aria-invalid="true"]:focus-visible {
+  outline: 2px solid var(--color-error);
+  outline-offset: 2px;
+  border-color: var(--color-error);
 }
 
 .input:disabled,
@@ -110,15 +123,15 @@
 
 .fieldError {
   font-size: 0.875rem;
-  color: var(--color-accent);
+  color: var(--color-error);
   line-height: 1.4;
 }
 
 .generalError {
   padding: 0.875rem 1rem;
   border-radius: 8px;
-  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
-  border: 1px solid var(--color-accent);
+  background-color: var(--color-error-surface);
+  border: 1px solid var(--color-error);
   color: var(--color-text);
   font-size: 0.95rem;
   line-height: 1.5;
@@ -199,6 +212,14 @@
   display: none;
 }
 
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1.5rem;
+  width: 100%;
+}
+
 .turnstile {
   min-height: 65px;
   display: flex;
@@ -242,6 +263,72 @@
   color: var(--color-text-secondary);
 }
 
+.submitButtonPending,
+.submitButtonPending:disabled {
+  opacity: 1;
+  cursor: wait;
+  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+.pendingText {
+  display: inline-flex;
+  align-items: center;
+}
+
+.loadingDots {
+  display: inline-flex;
+}
+
+.dot {
+  display: inline-block;
+  opacity: 0.2;
+  animation: dotPulse 1.4s infinite ease-in-out both;
+}
+
+.dot:nth-child(1) {
+  animation-delay: 0s;
+}
+
+.dot:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.dot:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes dotPulse {
+  0%,
+  80%,
+  100% {
+    opacity: 0.2;
+  }
+  40% {
+    opacity: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dot {
+    animation: none;
+    opacity: 1;
+  }
+}
+
 @media (max-width: 900px) {
   .contactSection {
     padding: 2rem 1.25rem 4.5rem;
@@ -259,6 +346,16 @@
 
   .intro {
     max-width: 100%;
+  }
+
+  .actions {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1.25rem;
+  }
+
+  .turnstile {
+    justify-content: flex-start;
   }
 
   .submitButton {
