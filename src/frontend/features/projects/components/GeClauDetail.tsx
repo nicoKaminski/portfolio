@@ -145,9 +145,14 @@ export function GeClauDetail() {
       {/* Mi participación */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Mi participación</h3>
-        <div className={styles.participationGrid}>
-          {participationItems.map((item) => (
-            <div key={item.title} className={styles.participationItem}>
+        <div className={styles.participationSurface}>
+          {participationItems.map((item, index) => (
+            <div
+              key={item.title}
+              className={`${styles.participationItem} ${
+                index === participationItems.length - 1 ? styles.participationItemFull : ""
+              }`}
+            >
               <h4 className={styles.itemTitle}>{item.title}</h4>
               <p className={styles.itemDescription}>{item.description}</p>
             </div>
@@ -159,17 +164,22 @@ export function GeClauDetail() {
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Decisiones y desafíos</h3>
         <div className={styles.decisionsList}>
-          {decisionItems.map((item) => (
+          {decisionItems.map((item, index) => (
             <div key={item.title} className={styles.decisionItem}>
-              <h4 className={styles.itemTitle}>{item.title}</h4>
-              <p className={styles.itemDescription}>{item.description}</p>
+              <span className={styles.decisionNumber} aria-hidden="true">
+                {String(index + 1).padStart(2, "0")}
+              </span>
+              <div className={styles.decisionContent}>
+                <h4 className={styles.itemTitle}>{item.title}</h4>
+                <p className={styles.itemDescription}>{item.description}</p>
+              </div>
             </div>
           ))}
         </div>
       </section>
 
       {/* Resultado */}
-      <section className={styles.section}>
+      <section className={styles.resultSection}>
         <h3 className={styles.sectionTitle}>Resultado</h3>
         <p className={styles.paragraph}>
           GeClAu pasó de ser un proyecto académico a una herramienta

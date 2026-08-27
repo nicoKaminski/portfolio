@@ -165,21 +165,31 @@
   text-wrap: pretty;
 }
 
-/* Participation Grid */
-.participationGrid {
+/* Mi participación — Estructura abierta y editorial */
+.participationSurface {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1.25rem;
+  column-gap: 2.5rem;
+  row-gap: 2rem;
 }
 
 .participationItem {
   display: flex;
   flex-direction: column;
   gap: 0.45rem;
-  padding: 1.15rem 1.25rem;
-  border-radius: 10px;
-  background-color: color-mix(in srgb, var(--color-surface) 50%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+}
+
+.participationItem:not(.participationItemFull)::after {
+  content: "";
+  display: block;
+  width: 38%;
+  height: 1px;
+  background-color: color-mix(in srgb, var(--color-border) 25%, transparent);
+  margin-top: 0.75rem;
+}
+
+.participationItemFull {
+  grid-column: 1 / -1;
 }
 
 .itemTitle {
@@ -196,21 +206,64 @@
   text-wrap: pretty;
 }
 
-/* Decisions List */
+/* Decisiones y desafíos — Secuencia editorial */
 .decisionsList {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 
 .decisionItem {
   display: flex;
+  align-items: flex-start;
+  gap: 1.25rem;
+  padding: 1.25rem 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 25%, transparent);
+}
+
+.decisionItem:first-child {
+  padding-top: 0.25rem;
+}
+
+.decisionItem:last-child {
+  border-bottom: none;
+  padding-bottom: 0.25rem;
+}
+
+.decisionNumber {
+  font-size: 1.15rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--color-accent);
+  opacity: 0.85;
+  line-height: 1.4;
+  user-select: none;
+  flex-shrink: 0;
+  min-width: 2ch;
+}
+
+.decisionContent {
+  display: flex;
   flex-direction: column;
   gap: 0.45rem;
-  padding: 1.15rem 1.25rem;
-  border-radius: 10px;
-  background-color: color-mix(in srgb, var(--color-surface) 50%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+}
+
+/* Resultado — Superficie de conclusión */
+.resultSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.5rem 1.65rem;
+  border-radius: 14px;
+  background:
+    radial-gradient(
+      circle at top right,
+      color-mix(in srgb, var(--color-accent) 10%, transparent) 0%,
+      transparent 65%
+    ),
+    color-mix(in srgb, var(--color-surface) 65%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  box-shadow: 0 4px 18px -5px color-mix(in srgb, var(--color-text) 6%, transparent);
+  transition: var(--transition-theme);
 }
 
 /* Technologies */
@@ -240,9 +293,9 @@
     gap: 2.25rem;
   }
 
-  .participationGrid {
+  .participationSurface {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    row-gap: 1.5rem;
   }
 
   .primaryCtas {
@@ -256,8 +309,12 @@
     width: 100%;
   }
 
-  .participationItem,
   .decisionItem {
-    padding: 1rem;
+    gap: 1rem;
+    padding: 1.15rem 0;
+  }
+
+  .resultSection {
+    padding: 1.25rem 1.25rem;
   }
 }
