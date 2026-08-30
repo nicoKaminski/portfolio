@@ -1,0 +1,178 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+/* 1. Introducción y Acciones */
+.introSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.intro {
+  font-size: clamp(1.05rem, 1.5vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.actionsBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.25rem;
+}
+
+.primaryCtas {
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  flex-wrap: wrap;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-bg);
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 44px;
+  transition: var(--transition-interactive);
+}
+
+.ctaPrimary:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.ctaPrimary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* 2. Presentación visual compacta y editorial */
+.visualSection {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.mainCaptureWrapper {
+  position: relative;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  box-shadow: 0 4px 20px -4px color-mix(in srgb, var(--color-text) 8%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  transition: var(--transition-theme);
+}
+
+.mainCaptureImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* 3, 4, 5. Secciones editoriales */
+.editorialSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+}
+
+.sectionTitle {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.paragraph {
+  font-size: 0.975rem;
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+/* 6. Un proyecto para un cliente real (Cierre contenido) */
+.statusSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1.35rem 1.5rem;
+  border-radius: 12px;
+  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  transition: var(--transition-theme);
+}
+
+/* 7. Tecnologías y herramientas */
+.techSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding-top: 0.5rem;
+}
+
+.techTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.techList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.techTag {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  transition: var(--transition-theme);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    gap: 2.25rem;
+  }
+
+  .primaryCtas {
+    width: 100%;
+  }
+
+  .ctaPrimary {
+    width: 100%;
+  }
+
+  .statusSection {
+    padding: 1.15rem 1.15rem;
+  }
+}

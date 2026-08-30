@@ -7,6 +7,7 @@ import { GeClauDetail } from "./components/GeClauDetail";
 import { HorasClarasDetail } from "./components/HorasClarasDetail";
 import { BitiCraftDetail } from "./components/BitiCraftDetail";
 import { TracamDetail } from "./components/TracamDetail";
+import { LeinwandDetail } from "./components/LeinwandDetail";
 import styles from "./Projects.module.css";
 
 const featuredProjects = [
@@ -46,7 +47,7 @@ const secondaryProjects = [
     title: "Leinwand Overland",
     logo: "/projects/leinwand/logo.png",
     description:
-      "Sitio web desarrollado con WordPress para una empresa, actualmente publicado y en uso.",
+      "E-commerce desarrollado con WordPress y WooCommerce para una empresa de equipamiento overland.",
   },
 ];
 
@@ -56,11 +57,13 @@ export function Projects() {
   const horasClarasTriggerRef = useRef<HTMLButtonElement>(null);
   const biticraftTriggerRef = useRef<HTMLButtonElement>(null);
   const tracamTriggerRef = useRef<HTMLButtonElement>(null);
+  const leinwandTriggerRef = useRef<HTMLButtonElement>(null);
 
   const isGeclauOpen = activeProject === "geclau";
   const isHorasClarasOpen = activeProject === "horas-claras";
   const isBiticraftOpen = activeProject === "biticraft";
   const isTracamOpen = activeProject === "tracam";
+  const isLeinwandOpen = activeProject === "leinwand";
 
   return (
     <section
@@ -139,12 +142,15 @@ export function Projects() {
           {secondaryProjects.map((project) => {
             const isBiticraft = project.id === "biticraft";
             const isTracam = project.id === "tracam";
-            const isInteractive = isBiticraft || isTracam;
+            const isLeinwand = project.id === "leinwand";
+            const isInteractive = isBiticraft || isTracam || isLeinwand;
             const triggerRef = isBiticraft
               ? biticraftTriggerRef
               : isTracam
                 ? tracamTriggerRef
-                : undefined;
+                : isLeinwand
+                  ? leinwandTriggerRef
+                  : undefined;
 
             return (
               <article
@@ -237,6 +243,18 @@ export function Projects() {
         triggerRef={tracamTriggerRef}
       >
         <TracamDetail />
+      </ProjectDetailDialog>
+
+      <ProjectDetailDialog
+        isOpen={isLeinwandOpen}
+        onClose={() => setActiveProject(null)}
+        title="Leinwand Overland"
+        subtitle="E-commerce de equipamiento para aventura y overland"
+        status="Publicado · En uso"
+        closeAriaLabel="Cerrar detalle de Leinwand Overland"
+        triggerRef={leinwandTriggerRef}
+      >
+        <LeinwandDetail />
       </ProjectDetailDialog>
     </section>
   );
