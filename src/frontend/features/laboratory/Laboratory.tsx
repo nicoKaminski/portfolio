@@ -8,10 +8,17 @@ import { MemoPotterDetail } from "./components/MemoPotterDetail";
 import { QueComoDetail } from "./components/QueComoDetail";
 import { SigesUniDetail } from "./components/SigesUniDetail";
 import { SysadUniDetail } from "./components/SysadUniDetail";
+import { NutriVidaDetail } from "./components/NutriVidaDetail";
 import styles from "./Laboratory.module.css";
 
 interface LaboratoryProject {
-  id?: "memo-potter" | "memo-wars" | "que-como" | "siges-uni" | "sysad-uni";
+  id?:
+    | "memo-potter"
+    | "memo-wars"
+    | "que-como"
+    | "siges-uni"
+    | "sysad-uni"
+    | "nutrivida";
   name: string;
   previewSrc: string;
 }
@@ -43,6 +50,7 @@ const laboratoryProjects: LaboratoryProject[] = [
     previewSrc: "/projects/laboratory/sysaduni/preview.png",
   },
   {
+    id: "nutrivida",
     name: "NutriVida Suite",
     previewSrc: "/projects/laboratory/nutrivida/preview.png",
   },
@@ -54,6 +62,7 @@ type ActiveLabProject =
   | "que-como"
   | "siges-uni"
   | "sysad-uni"
+  | "nutrivida"
   | null;
 
 export function Laboratory() {
@@ -63,12 +72,14 @@ export function Laboratory() {
   const queComoTriggerRef = useRef<HTMLButtonElement>(null);
   const sigesUniTriggerRef = useRef<HTMLButtonElement>(null);
   const sysadUniTriggerRef = useRef<HTMLButtonElement>(null);
+  const nutriVidaTriggerRef = useRef<HTMLButtonElement>(null);
 
   const isMemoPotter = activeProject === "memo-potter";
   const isMemoWars = activeProject === "memo-wars";
   const isQueComo = activeProject === "que-como";
   const isSigesUni = activeProject === "siges-uni";
   const isSysadUni = activeProject === "sysad-uni";
+  const isNutriVida = activeProject === "nutrivida";
   const isDialogOpen = activeProject !== null;
 
   const currentTriggerRef = isMemoPotter
@@ -81,7 +92,9 @@ export function Laboratory() {
           ? sigesUniTriggerRef
           : isSysadUni
             ? sysadUniTriggerRef
-            : undefined;
+            : isNutriVida
+              ? nutriVidaTriggerRef
+              : undefined;
 
   const dialogTitle = isMemoPotter
     ? "MemoPotter"
@@ -93,7 +106,9 @@ export function Laboratory() {
           ? "SIGES UNI"
           : isSysadUni
             ? "SYSAD UNI"
-            : "";
+            : isNutriVida
+              ? "NutriVida Suite"
+              : "";
 
   const dialogSubtitle = isMemoPotter
     ? "Proyecto final · Web II"
@@ -105,7 +120,9 @@ export function Laboratory() {
           ? "Proyecto final · Desarrollo de Aplicaciones Web"
           : isSysadUni
             ? "Práctica previa al proyecto final · Java"
-            : undefined;
+            : isNutriVida
+              ? "Proyecto final · Java"
+              : undefined;
 
   const dialogCloseAriaLabel = isMemoPotter
     ? "Cerrar detalle de MemoPotter"
@@ -117,7 +134,9 @@ export function Laboratory() {
           ? "Cerrar detalle de SIGES UNI"
           : isSysadUni
             ? "Cerrar detalle de SYSAD UNI"
-            : undefined;
+            : isNutriVida
+              ? "Cerrar detalle de NutriVida Suite"
+              : undefined;
 
   return (
     <section
@@ -142,7 +161,8 @@ export function Laboratory() {
               project.id === "memo-wars" ||
               project.id === "que-como" ||
               project.id === "siges-uni" ||
-              project.id === "sysad-uni";
+              project.id === "sysad-uni" ||
+              project.id === "nutrivida";
 
             if (isInteractive) {
               const triggerRef =
@@ -154,7 +174,9 @@ export function Laboratory() {
                       ? queComoTriggerRef
                       : project.id === "siges-uni"
                         ? sigesUniTriggerRef
-                        : sysadUniTriggerRef;
+                        : project.id === "sysad-uni"
+                          ? sysadUniTriggerRef
+                          : nutriVidaTriggerRef;
 
               return (
                 <button
@@ -229,6 +251,7 @@ export function Laboratory() {
         {isQueComo && <QueComoDetail />}
         {isSigesUni && <SigesUniDetail />}
         {isSysadUni && <SysadUniDetail />}
+        {isNutriVida && <NutriVidaDetail />}
       </ProjectDetailDialog>
     </section>
   );

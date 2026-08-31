@@ -121,6 +121,20 @@
   width: 100%;
 }
 
+.galleryFigure {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+.galleryCaption {
+  font-size: 0.825rem;
+  line-height: 1.4;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+}
+
 .videoSection {
   width: 90%;
   margin-inline: auto;
