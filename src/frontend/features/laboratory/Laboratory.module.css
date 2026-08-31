@@ -39,6 +39,7 @@
 }
 
 .item {
+  position: relative;
   background:
     radial-gradient(
       circle at 15% 25%,
@@ -61,7 +62,24 @@
   display: flex;
   align-items: center;
   box-shadow: 0 2px 12px -3px color-mix(in srgb, var(--color-text) 6%, transparent);
-  transition: var(--transition-theme);
+  transition:
+    border-color var(--transition-interactive),
+    box-shadow var(--transition-interactive),
+    var(--transition-theme);
+  cursor: default;
+  outline: none;
+  width: 100%;
+  text-align: left;
+  font-family: inherit;
+}
+
+.interactiveItem {
+  cursor: pointer;
+}
+
+.item:focus-visible {
+  border-color: var(--color-accent);
+  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 30%, transparent);
 }
 
 .projectName {
@@ -70,6 +88,10 @@
   letter-spacing: -0.005em;
   color: var(--color-text);
   line-height: 1.4;
+}
+
+.preview {
+  display: none;
 }
 
 @media (min-width: 841px) {
@@ -117,6 +139,64 @@
     grid-column: 2;
     grid-row: 3;
   }
+
+  /* Floating preview styles */
+  .preview {
+    display: flex;
+    flex-direction: column;
+    position: absolute;
+    bottom: calc(100% + 0.75rem);
+    left: 50%;
+    transform: translateX(-50%) translateY(6px) scale(0.96);
+    width: 250px;
+    background: var(--color-surface);
+    border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+    border-radius: 10px;
+    padding: 0.625rem;
+    gap: 0.5rem;
+    box-shadow: 0 10px 24px -6px color-mix(in srgb, var(--color-text) 16%, transparent);
+    pointer-events: none;
+    opacity: 0;
+    visibility: hidden;
+    z-index: 20;
+    transition:
+      opacity 0.2s ease,
+      transform 0.2s ease,
+      visibility 0.2s ease;
+  }
+
+  .item:hover .preview,
+  .item:focus-visible .preview {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0) scale(1);
+  }
+
+  .previewImageWrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    overflow: hidden;
+    border-radius: 6px;
+    background: color-mix(in srgb, var(--color-bg) 60%, transparent);
+  }
+
+  .previewImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .previewTitle {
+    font-size: 0.825rem;
+    font-weight: 500;
+    color: var(--color-text);
+    line-height: 1.3;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 @media (max-width: 840px) {
@@ -124,3 +204,4 @@
     padding: 1rem 1.25rem 4.5rem;
   }
 }
+
