@@ -5,10 +5,11 @@ import { useState, useRef } from "react";
 import { ProjectDetailDialog } from "../projects/components/ProjectDetailDialog";
 import { MemoWarsDetail } from "./components/MemoWarsDetail";
 import { MemoPotterDetail } from "./components/MemoPotterDetail";
+import { QueComoDetail } from "./components/QueComoDetail";
 import styles from "./Laboratory.module.css";
 
 interface LaboratoryProject {
-  id?: "memo-potter" | "memo-wars";
+  id?: "memo-potter" | "memo-wars" | "que-como";
   name: string;
   previewSrc: string;
 }
@@ -25,6 +26,7 @@ const laboratoryProjects: LaboratoryProject[] = [
     previewSrc: "/projects/laboratory/memo-potter/preview.png",
   },
   {
+    id: "que-como",
     name: "Qué Como · UX/UI",
     previewSrc: "/projects/laboratory/que-como/39.png",
   },
@@ -42,40 +44,50 @@ const laboratoryProjects: LaboratoryProject[] = [
   },
 ];
 
-type ActiveLabProject = "memo-potter" | "memo-wars" | null;
+type ActiveLabProject = "memo-potter" | "memo-wars" | "que-como" | null;
 
 export function Laboratory() {
   const [activeProject, setActiveProject] = useState<ActiveLabProject>(null);
   const memoPotterTriggerRef = useRef<HTMLButtonElement>(null);
   const memoWarsTriggerRef = useRef<HTMLButtonElement>(null);
+  const queComoTriggerRef = useRef<HTMLButtonElement>(null);
 
   const isMemoPotter = activeProject === "memo-potter";
   const isMemoWars = activeProject === "memo-wars";
+  const isQueComo = activeProject === "que-como";
   const isDialogOpen = activeProject !== null;
 
   const currentTriggerRef = isMemoPotter
     ? memoPotterTriggerRef
     : isMemoWars
       ? memoWarsTriggerRef
-      : undefined;
+      : isQueComo
+        ? queComoTriggerRef
+        : undefined;
 
   const dialogTitle = isMemoPotter
     ? "MemoPotter"
     : isMemoWars
       ? "MemoWars"
-      : "";
+      : isQueComo
+        ? "Qué Como · UX/UI"
+        : "";
 
   const dialogSubtitle = isMemoPotter
     ? "Proyecto final · Web II"
     : isMemoWars
       ? "Práctica previa · Web II"
-      : undefined;
+      : isQueComo
+        ? "Proyecto final · UX/UI"
+        : undefined;
 
   const dialogCloseAriaLabel = isMemoPotter
     ? "Cerrar detalle de MemoPotter"
     : isMemoWars
       ? "Cerrar detalle de MemoWars"
-      : undefined;
+      : isQueComo
+        ? "Cerrar detalle de Qué Como · UX/UI"
+        : undefined;
 
   return (
     <section
@@ -96,13 +108,17 @@ export function Laboratory() {
         <div className={styles.grid}>
           {laboratoryProjects.map((project) => {
             const isInteractive =
-              project.id === "memo-potter" || project.id === "memo-wars";
+              project.id === "memo-potter" ||
+              project.id === "memo-wars" ||
+              project.id === "que-como";
 
             if (isInteractive) {
               const triggerRef =
                 project.id === "memo-potter"
                   ? memoPotterTriggerRef
-                  : memoWarsTriggerRef;
+                  : project.id === "memo-wars"
+                    ? memoWarsTriggerRef
+                    : queComoTriggerRef;
 
               return (
                 <button
@@ -174,6 +190,7 @@ export function Laboratory() {
             onNavigateToMemoWars={() => setActiveProject("memo-wars")}
           />
         )}
+        {isQueComo && <QueComoDetail />}
       </ProjectDetailDialog>
     </section>
   );

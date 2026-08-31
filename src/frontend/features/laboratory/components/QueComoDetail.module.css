@@ -1,0 +1,297 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2.75rem;
+  max-width: 840px;
+  margin: 0 auto;
+}
+
+/* 1. Introducción y CTA inicial */
+.introSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.introParagraph {
+  font-size: clamp(1rem, 1.4vw, 1.075rem);
+  line-height: 1.65;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.actionsBlock {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.ctaPrimary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.65rem 1.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--color-bg);
+  background-color: var(--color-accent);
+  border: 1px solid var(--color-accent);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 40px;
+  transition: var(--transition-interactive);
+}
+
+.ctaPrimary:hover {
+  background-color: color-mix(in srgb, var(--color-accent) 12%, transparent);
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+}
+
+.ctaPrimary:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+/* 2. Sección El proceso (secuencia editorial vertical) */
+.processSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.sectionTitle {
+  font-size: clamp(1.15rem, 1.8vw, 1.35rem);
+  font-weight: 700;
+  letter-spacing: -0.015em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.processSequence {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.processRow {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 1.5rem;
+  align-items: start;
+}
+
+.processRow:not(:last-child) {
+  padding-bottom: 2rem;
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 20%, transparent);
+}
+
+.rowImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, var(--color-bg));
+  box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--color-text) 6%, transparent);
+}
+
+.rowImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.rowContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.rowTitle {
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.rowParagraph {
+  font-size: 0.925rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+/* 3. Visor del proyecto completo */
+.viewerSection {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.viewerHeader {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.viewerText {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--color-text-secondary);
+  text-wrap: pretty;
+  margin: 0;
+}
+
+.viewerContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  outline: none;
+}
+
+.viewerStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 80%, var(--color-bg));
+  box-shadow: 0 4px 18px -4px color-mix(in srgb, var(--color-text) 8%, transparent);
+}
+
+.viewerImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.viewerControls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  user-select: none;
+}
+
+.navButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  padding: 0;
+  border-radius: 8px;
+  background-color: color-mix(in srgb, var(--color-surface) 80%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+  color: var(--color-text);
+  cursor: pointer;
+  transition: var(--transition-interactive);
+}
+
+.navButton:hover:not(:disabled) {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 10%, var(--color-surface));
+}
+
+.navButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.navButton:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+  border-color: color-mix(in srgb, var(--color-border) 25%, transparent);
+}
+
+.navIcon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+.pageCounter {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--color-text);
+  min-width: 4.5rem;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 4. Herramientas */
+.toolsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding-top: 0.25rem;
+}
+
+.toolsTitle {
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--color-text);
+  margin: 0;
+}
+
+.toolsList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.toolTag {
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--color-text-secondary);
+  background-color: color-mix(in srgb, var(--color-surface) 70%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 30%, transparent);
+  padding: 0.3rem 0.65rem;
+  border-radius: 6px;
+  transition: var(--transition-theme);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .container {
+    gap: 2.25rem;
+  }
+
+  .actionsBlock {
+    width: 100%;
+  }
+
+  .ctaPrimary {
+    width: 100%;
+  }
+
+  .processSequence {
+    gap: 1.75rem;
+  }
+
+  .processRow {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+
+  .processRow:not(:last-child) {
+    padding-bottom: 1.75rem;
+  }
+}
