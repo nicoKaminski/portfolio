@@ -6,10 +6,11 @@ import { ProjectDetailDialog } from "../projects/components/ProjectDetailDialog"
 import { MemoWarsDetail } from "./components/MemoWarsDetail";
 import { MemoPotterDetail } from "./components/MemoPotterDetail";
 import { QueComoDetail } from "./components/QueComoDetail";
+import { SigesUniDetail } from "./components/SigesUniDetail";
 import styles from "./Laboratory.module.css";
 
 interface LaboratoryProject {
-  id?: "memo-potter" | "memo-wars" | "que-como";
+  id?: "memo-potter" | "memo-wars" | "que-como" | "siges-uni";
   name: string;
   previewSrc: string;
 }
@@ -31,11 +32,12 @@ const laboratoryProjects: LaboratoryProject[] = [
     previewSrc: "/projects/laboratory/que-como/39.png",
   },
   {
-    name: "Sistema Universitario TypeScript",
+    id: "siges-uni",
+    name: "SIGES UNI · TypeScript",
     previewSrc: "/projects/laboratory/sigesuni/preview.png",
   },
   {
-    name: "Sistema Universitario Java",
+    name: "SYSAD UNI · Java",
     previewSrc: "/projects/laboratory/sysaduni/preview.png",
   },
   {
@@ -44,17 +46,24 @@ const laboratoryProjects: LaboratoryProject[] = [
   },
 ];
 
-type ActiveLabProject = "memo-potter" | "memo-wars" | "que-como" | null;
+type ActiveLabProject =
+  | "memo-potter"
+  | "memo-wars"
+  | "que-como"
+  | "siges-uni"
+  | null;
 
 export function Laboratory() {
   const [activeProject, setActiveProject] = useState<ActiveLabProject>(null);
   const memoPotterTriggerRef = useRef<HTMLButtonElement>(null);
   const memoWarsTriggerRef = useRef<HTMLButtonElement>(null);
   const queComoTriggerRef = useRef<HTMLButtonElement>(null);
+  const sigesUniTriggerRef = useRef<HTMLButtonElement>(null);
 
   const isMemoPotter = activeProject === "memo-potter";
   const isMemoWars = activeProject === "memo-wars";
   const isQueComo = activeProject === "que-como";
+  const isSigesUni = activeProject === "siges-uni";
   const isDialogOpen = activeProject !== null;
 
   const currentTriggerRef = isMemoPotter
@@ -63,7 +72,9 @@ export function Laboratory() {
       ? memoWarsTriggerRef
       : isQueComo
         ? queComoTriggerRef
-        : undefined;
+        : isSigesUni
+          ? sigesUniTriggerRef
+          : undefined;
 
   const dialogTitle = isMemoPotter
     ? "MemoPotter"
@@ -71,7 +82,9 @@ export function Laboratory() {
       ? "MemoWars"
       : isQueComo
         ? "Qué Como · UX/UI"
-        : "";
+        : isSigesUni
+          ? "SIGES UNI"
+          : "";
 
   const dialogSubtitle = isMemoPotter
     ? "Proyecto final · Web II"
@@ -79,7 +92,9 @@ export function Laboratory() {
       ? "Práctica previa · Web II"
       : isQueComo
         ? "Proyecto final · UX/UI"
-        : undefined;
+        : isSigesUni
+          ? "Proyecto final · Desarrollo de Aplicaciones Web"
+          : undefined;
 
   const dialogCloseAriaLabel = isMemoPotter
     ? "Cerrar detalle de MemoPotter"
@@ -87,7 +102,9 @@ export function Laboratory() {
       ? "Cerrar detalle de MemoWars"
       : isQueComo
         ? "Cerrar detalle de Qué Como · UX/UI"
-        : undefined;
+        : isSigesUni
+          ? "Cerrar detalle de SIGES UNI"
+          : undefined;
 
   return (
     <section
@@ -110,7 +127,8 @@ export function Laboratory() {
             const isInteractive =
               project.id === "memo-potter" ||
               project.id === "memo-wars" ||
-              project.id === "que-como";
+              project.id === "que-como" ||
+              project.id === "siges-uni";
 
             if (isInteractive) {
               const triggerRef =
@@ -118,7 +136,9 @@ export function Laboratory() {
                   ? memoPotterTriggerRef
                   : project.id === "memo-wars"
                     ? memoWarsTriggerRef
-                    : queComoTriggerRef;
+                    : project.id === "que-como"
+                      ? queComoTriggerRef
+                      : sigesUniTriggerRef;
 
               return (
                 <button
@@ -191,6 +211,7 @@ export function Laboratory() {
           />
         )}
         {isQueComo && <QueComoDetail />}
+        {isSigesUni && <SigesUniDetail />}
       </ProjectDetailDialog>
     </section>
   );
