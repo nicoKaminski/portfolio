@@ -72,11 +72,10 @@ export function NutriVidaDetail() {
       <section className={styles.editorialSection}>
         <h3 className={styles.sectionTitle}>Una aplicación más completa</h3>
         <p className={styles.paragraph}>
-          La aplicación permite gestionar el circuito nutricional completo:
-          pacientes, dietas, comidas y visitas de control. Incluye la carga y
-          modificación de pacientes, acceso a su historial médico y dieta
-          asignada, administración de dietas con sus comidas relacionadas y
-          búsqueda rápida por ficha médica.
+          La aplicación permite gestionar pacientes, dietas, comidas y visitas
+          de control. Incluye la carga y modificación de pacientes, acceso a su
+          historial de visitas y dieta asignada, administración de dietas con
+          sus comidas relacionadas y búsqueda por ficha médica.
         </p>
         <p className={styles.paragraph}>
           A diferencia de prácticas anteriores como SYSAD UNI, representó un
@@ -102,8 +101,8 @@ export function NutriVidaDetail() {
             />
           </div>
           <figcaption className={styles.galleryCaption}>
-            Carga y modificación de paciente con accesos a historial médico y
-            plan de dieta.
+            Carga y modificación de paciente con accesos al historial de
+            visitas y a su dieta.
           </figcaption>
         </figure>
 
