@@ -7,10 +7,11 @@ import { MemoWarsDetail } from "./components/MemoWarsDetail";
 import { MemoPotterDetail } from "./components/MemoPotterDetail";
 import { QueComoDetail } from "./components/QueComoDetail";
 import { SigesUniDetail } from "./components/SigesUniDetail";
+import { SysadUniDetail } from "./components/SysadUniDetail";
 import styles from "./Laboratory.module.css";
 
 interface LaboratoryProject {
-  id?: "memo-potter" | "memo-wars" | "que-como" | "siges-uni";
+  id?: "memo-potter" | "memo-wars" | "que-como" | "siges-uni" | "sysad-uni";
   name: string;
   previewSrc: string;
 }
@@ -37,6 +38,7 @@ const laboratoryProjects: LaboratoryProject[] = [
     previewSrc: "/projects/laboratory/sigesuni/preview.png",
   },
   {
+    id: "sysad-uni",
     name: "SYSAD UNI · Java",
     previewSrc: "/projects/laboratory/sysaduni/preview.png",
   },
@@ -51,6 +53,7 @@ type ActiveLabProject =
   | "memo-wars"
   | "que-como"
   | "siges-uni"
+  | "sysad-uni"
   | null;
 
 export function Laboratory() {
@@ -59,11 +62,13 @@ export function Laboratory() {
   const memoWarsTriggerRef = useRef<HTMLButtonElement>(null);
   const queComoTriggerRef = useRef<HTMLButtonElement>(null);
   const sigesUniTriggerRef = useRef<HTMLButtonElement>(null);
+  const sysadUniTriggerRef = useRef<HTMLButtonElement>(null);
 
   const isMemoPotter = activeProject === "memo-potter";
   const isMemoWars = activeProject === "memo-wars";
   const isQueComo = activeProject === "que-como";
   const isSigesUni = activeProject === "siges-uni";
+  const isSysadUni = activeProject === "sysad-uni";
   const isDialogOpen = activeProject !== null;
 
   const currentTriggerRef = isMemoPotter
@@ -74,7 +79,9 @@ export function Laboratory() {
         ? queComoTriggerRef
         : isSigesUni
           ? sigesUniTriggerRef
-          : undefined;
+          : isSysadUni
+            ? sysadUniTriggerRef
+            : undefined;
 
   const dialogTitle = isMemoPotter
     ? "MemoPotter"
@@ -84,7 +91,9 @@ export function Laboratory() {
         ? "Qué Como · UX/UI"
         : isSigesUni
           ? "SIGES UNI"
-          : "";
+          : isSysadUni
+            ? "SYSAD UNI"
+            : "";
 
   const dialogSubtitle = isMemoPotter
     ? "Proyecto final · Web II"
@@ -94,7 +103,9 @@ export function Laboratory() {
         ? "Proyecto final · UX/UI"
         : isSigesUni
           ? "Proyecto final · Desarrollo de Aplicaciones Web"
-          : undefined;
+          : isSysadUni
+            ? "Práctica previa al proyecto final · Java"
+            : undefined;
 
   const dialogCloseAriaLabel = isMemoPotter
     ? "Cerrar detalle de MemoPotter"
@@ -104,7 +115,9 @@ export function Laboratory() {
         ? "Cerrar detalle de Qué Como · UX/UI"
         : isSigesUni
           ? "Cerrar detalle de SIGES UNI"
-          : undefined;
+          : isSysadUni
+            ? "Cerrar detalle de SYSAD UNI"
+            : undefined;
 
   return (
     <section
@@ -128,7 +141,8 @@ export function Laboratory() {
               project.id === "memo-potter" ||
               project.id === "memo-wars" ||
               project.id === "que-como" ||
-              project.id === "siges-uni";
+              project.id === "siges-uni" ||
+              project.id === "sysad-uni";
 
             if (isInteractive) {
               const triggerRef =
@@ -138,7 +152,9 @@ export function Laboratory() {
                     ? memoWarsTriggerRef
                     : project.id === "que-como"
                       ? queComoTriggerRef
-                      : sigesUniTriggerRef;
+                      : project.id === "siges-uni"
+                        ? sigesUniTriggerRef
+                        : sysadUniTriggerRef;
 
               return (
                 <button
@@ -212,6 +228,7 @@ export function Laboratory() {
         )}
         {isQueComo && <QueComoDetail />}
         {isSigesUni && <SigesUniDetail />}
+        {isSysadUni && <SysadUniDetail />}
       </ProjectDetailDialog>
     </section>
   );
