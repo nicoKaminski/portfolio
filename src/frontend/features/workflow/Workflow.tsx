@@ -1,37 +1,166 @@
 import styles from "./Workflow.module.css";
 
+function PencilIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={styles.stepIcon}
+    >
+      <path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" />
+      <path d="m15 5 4 4" />
+    </svg>
+  );
+}
+
+function ChatBubbleIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={styles.stepIcon}
+    >
+      <path d="M7.9 20A9 9 0 1 0 4 16.1L2 22Z" />
+      <path d="M8 12h.01" />
+      <path d="M12 12h.01" />
+      <path d="M16 12h.01" />
+    </svg>
+  );
+}
+
+function SparklesIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={styles.stepIcon}
+    >
+      <path d="m12 3-1.9 5.8a2 2 0 0 1-1.3 1.3L3 12l5.8 1.9a2 2 0 0 1 1.3 1.3L12 21l1.9-5.8a2 2 0 0 1 1.3-1.3L21 12l-5.8-1.9a2 2 0 0 1-1.3-1.3Z" />
+      <path d="M19 3v4" />
+      <path d="M21 5h-4" />
+    </svg>
+  );
+}
+
+function CodeIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={styles.stepIcon}
+    >
+      <polyline points="16 18 22 12 16 6" />
+      <polyline points="8 6 2 12 8 18" />
+      <line x1="14" y1="4" x2="10" y2="20" />
+    </svg>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={styles.stepIcon}
+    >
+      <circle cx="11" cy="11" r="8" />
+      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+    </svg>
+  );
+}
+
+function CheckIcon() {
+  return (
+    <svg
+      width="18"
+      height="18"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2.2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      aria-hidden="true"
+      className={styles.stepIcon}
+    >
+      <polyline points="20 6 9 17 4 12" />
+    </svg>
+  );
+}
+
 const steps = [
   {
-    number: "01",
-    title: "Diseño",
+    id: "diseno",
+    title: "1. Diseño",
     description: "Entender el problema y darle forma a una primera solución.",
+    icon: PencilIcon,
   },
   {
-    number: "02",
-    title: "Debate",
+    id: "debate",
+    title: "2. Debate",
     description: "Revisar decisiones, alternativas y posibles riesgos.",
+    icon: ChatBubbleIcon,
   },
   {
-    number: "03",
-    title: "IA asistida",
+    id: "ia-asistida",
+    title: "3. IA asistida",
     description:
       "Usar IA como apoyo para investigar, planificar y acelerar tareas.",
+    icon: SparklesIcon,
   },
   {
-    number: "04",
-    title: "Implementación",
+    id: "implementacion",
+    title: "4. Implementación",
     description: "Convertir la solución acordada en código mantenible.",
+    icon: CodeIcon,
   },
   {
-    number: "05",
-    title: "Revisión",
+    id: "revision",
+    title: "5. Revisión",
     description: "Auditar lo construido y corregir inconsistencias.",
+    icon: SearchIcon,
   },
   {
-    number: "06",
-    title: "Validación",
+    id: "validacion",
+    title: "6. Validación",
     description:
       "Comprobar que funciona como esperamos, técnica y visualmente.",
+    icon: CheckIcon,
   },
 ];
 
@@ -67,19 +196,22 @@ export function Workflow() {
 
         <div className={styles.trackWrapper}>
           <ol className={styles.timeline}>
-            {steps.map((step) => (
-              <li key={step.number} className={styles.stepItem}>
-                <div className={styles.indicatorWrapper}>
-                  <div className={styles.indicator} aria-hidden="true">
-                    <span className={styles.stepNumber}>{step.number}</span>
+            {steps.map((step) => {
+              const Icon = step.icon;
+              return (
+                <li key={step.id} className={styles.stepItem}>
+                  <div className={styles.indicatorWrapper}>
+                    <div className={styles.indicator} aria-hidden="true">
+                      <Icon />
+                    </div>
                   </div>
-                </div>
-                <div className={styles.stepContent}>
-                  <h3 className={styles.stepTitle}>{step.title}</h3>
-                  <p className={styles.stepDescription}>{step.description}</p>
-                </div>
-              </li>
-            ))}
+                  <div className={styles.stepContent}>
+                    <h3 className={styles.stepTitle}>{step.title}</h3>
+                    <p className={styles.stepDescription}>{step.description}</p>
+                  </div>
+                </li>
+              );
+            })}
           </ol>
         </div>
       </div>

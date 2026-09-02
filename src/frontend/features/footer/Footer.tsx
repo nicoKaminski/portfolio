@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ComponentType } from "react";
 import styles from "./Footer.module.css";
 
@@ -82,7 +83,16 @@ export function Footer() {
   return (
     <footer className={styles.footer}>
       <div className={styles.container}>
-        <span className={styles.brand}>Nico Kaminski</span>
+        <div className={styles.brand}>
+          <span>Nico Kaminski</span>
+          <Image
+            src="/branding/nk-logo.svg"
+            alt=""
+            width={34}
+            height={22}
+            className={styles.brandLogo}
+          />
+        </div>
 
         <nav aria-label="Enlaces profesionales y contacto">
           <ul className={styles.linksList}>

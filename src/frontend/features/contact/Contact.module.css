@@ -3,6 +3,30 @@
   padding: 3rem 1.5rem 6rem;
   display: flex;
   justify-content: center;
+  position: relative;
+  background: transparent;
+}
+
+.contactSection::before {
+  content: "";
+  position: absolute;
+  top: -5rem;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 75% 50% at 50% 95%,
+      color-mix(in srgb, var(--color-decorative) 7%, transparent) 0%,
+      transparent 75%
+    ),
+    radial-gradient(
+      circle 520px at 18% 25%,
+      color-mix(in srgb, var(--color-surface) 6%, transparent) 0%,
+      transparent 70%
+    );
 }
 
 .container {
@@ -12,6 +36,8 @@
   grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: start;
   gap: 4rem;
+  position: relative;
+  z-index: 1;
 }
 
 .header {

@@ -1,90 +1,287 @@
 .aboutSection {
   width: 100%;
-  padding: 3rem 1.5rem 6rem;
+  padding: 0.75rem 1.5rem 3.5rem;
   display: flex;
   justify-content: center;
+  position: relative;
+  background: transparent;
+}
+
+.aboutSection::before {
+  content: "";
+  position: absolute;
+  top: -2rem;
+  bottom: -4rem;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+  background: radial-gradient(
+    ellipse 65% 55% at 25% 80%,
+    color-mix(in srgb, var(--color-decorative) 3%, transparent) 0%,
+    transparent 72%
+  );
 }
 
 .container {
   max-width: 1200px;
   width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  position: relative;
+  z-index: 1;
+}
+
+/* Banner horizontal con lenguaje visual de cards de proyectos */
+.gameBanner {
+  position: relative;
+  overflow: hidden;
   display: grid;
-  grid-template-columns: 0.65fr 1.35fr;
-  align-items: start;
-  gap: 3.5rem;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 2rem;
+  padding: 1.5rem 2.25rem;
+  border-radius: 16px;
+  max-width: 820px;
+  width: 100%;
+  background:
+    radial-gradient(
+      circle at 15% 50%,
+      color-mix(in srgb, var(--color-accent) 12%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 90% 20%,
+      color-mix(in srgb, var(--color-border) 16%, transparent) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      140deg,
+      color-mix(in srgb, var(--color-surface) 82%, var(--color-bg)) 0%,
+      color-mix(in srgb, var(--color-bg) 88%, var(--color-surface)) 100%
+    );
+  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
+  box-shadow:
+    0 8px 28px -10px color-mix(in srgb, var(--color-text) 10%, transparent),
+    inset 0 1px 1px color-mix(in srgb, var(--color-accent) 18%, transparent);
+  transition: var(--transition-theme);
 }
 
-.mainContent {
+/* Detalle pixel art sutil en esquina */
+.pixelGrid {
+  position: absolute;
+  top: 12px;
+  right: 16px;
+  display: flex;
+  gap: 4px;
+  opacity: 0.35;
+  pointer-events: none;
+}
+
+.pixelDot {
+  width: 4px;
+  height: 4px;
+  background-color: var(--color-accent);
+  box-shadow: 2px 2px 0 0 color-mix(in srgb, var(--color-border) 60%, transparent);
+}
+
+/* Zona 1: Logo libre sobre el fondo */
+.visualZone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.gameLogo {
+  width: 96px;
+  height: 96px;
+  object-fit: contain;
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  filter: drop-shadow(0 6px 12px color-mix(in srgb, var(--color-text) 18%, transparent));
+  transition: transform 0.2s ease;
+}
+
+/* Zona 2: Contenido Textual */
+.contentZone {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 0.35rem;
+  min-width: 0;
 }
 
-.title {
-  font-size: clamp(1.625rem, 3vw, 2.25rem);
+.eyebrow {
+  font-size: 0.775rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.07em;
+  color: var(--color-accent);
+}
+
+.gameTitle {
+  font-size: clamp(1.15rem, 2vw, 1.3rem);
   font-weight: 700;
-  letter-spacing: -0.02em;
+  line-height: 1.25;
   color: var(--color-text);
+  letter-spacing: -0.015em;
+  margin: 0;
 }
 
-.description {
-  font-size: clamp(1.05rem, 1.6vw, 1.2rem);
-  line-height: 1.7;
-  color: var(--color-text-secondary);
-  max-width: 100%;
-}
-
-.gameInvitation {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 1.25rem;
-  padding: 1.75rem;
-  border-radius: 12px;
-  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
-  border: 1px dashed color-mix(in srgb, var(--color-border) 60%, transparent);
-}
-
-.gamePrompt {
-  font-size: 0.95rem;
+.gameDescription {
+  font-size: 0.925rem;
   line-height: 1.5;
   color: var(--color-text-secondary);
-  font-weight: 500;
+  margin: 0;
+}
+
+/* Zona 3: CTA */
+.ctaZone {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-shrink: 0;
 }
 
 .gameButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 0.625rem 1.25rem;
+  gap: 0.5rem;
+  padding: 0.65rem 1.25rem;
   font-size: 0.925rem;
   font-weight: 600;
-  border-radius: 6px;
+  border-radius: 8px;
   border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
-  background-color: color-mix(in srgb, var(--color-border) 15%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 65%, transparent);
   color: var(--color-text-secondary);
-  opacity: 0.7;
   cursor: not-allowed;
-  min-height: 40px;
-  transition: opacity 0.2s ease;
+  min-height: 42px;
+  opacity: 0.75;
+  box-shadow: none;
+  transition: var(--transition-interactive);
+  user-select: none;
 }
 
-@media (max-width: 900px) {
+.ctaIcon {
+  flex-shrink: 0;
+  opacity: 0.85;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
   .aboutSection {
-    padding: 2rem 1.25rem 4rem;
+    padding: 0.5rem 1.25rem 2.5rem;
   }
 
-  .container {
-    grid-template-columns: 1fr;
-    gap: 2.25rem;
+  .gameBanner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    grid-template-rows: auto auto auto;
+    column-gap: 1rem;
+    row-gap: 0.35rem;
+    align-items: center;
+    padding: 1.25rem 1.35rem;
   }
 
-  .mainContent {
-    order: 1;
+  .visualZone {
+    grid-column: 1;
+    grid-row: 1 / span 2;
+    align-self: center;
+    justify-content: center;
   }
 
-  .gameInvitation {
-    order: 2;
-    max-width: 100%;
+  .gameLogo {
+    width: 68px;
+    height: 68px;
+  }
+
+  .contentZone {
+    display: contents;
+  }
+
+  .eyebrow {
+    grid-column: 2 / 4;
+    grid-row: 1;
+    align-self: end;
+    font-size: 0.725rem;
+  }
+
+  .gameTitle {
+    grid-column: 2 / 4;
+    grid-row: 2;
+    align-self: start;
+    font-size: 1.125rem;
+    line-height: 1.25;
+  }
+
+  .gameDescription {
+    grid-column: 1 / 3;
+    grid-row: 3;
+    align-self: center;
+    font-size: 0.875rem;
+    line-height: 1.4;
+    margin-top: 0.55rem;
+  }
+
+  .ctaZone {
+    grid-column: 3;
+    grid-row: 3;
+    align-self: center;
+    justify-content: flex-end;
+    width: auto;
+    margin-top: 0.55rem;
+  }
+
+  .gameButton {
+    padding: 0.5rem 1.1rem;
+    font-size: 0.875rem;
+    min-height: 38px;
+    width: auto;
+    white-space: nowrap;
   }
 }
+
+@media (max-width: 360px) {
+  .aboutSection {
+    padding: 0.5rem 1rem 2rem;
+  }
+
+  .gameBanner {
+    column-gap: 0.75rem;
+    row-gap: 0.3rem;
+    padding: 1rem;
+  }
+
+  .gameLogo {
+    width: 64px;
+    height: 64px;
+  }
+
+  .eyebrow {
+    font-size: 0.7rem;
+  }
+
+  .gameTitle {
+    font-size: 1.05rem;
+  }
+
+  .gameDescription {
+    font-size: 0.825rem;
+    margin-top: 0.45rem;
+  }
+
+  .ctaZone {
+    margin-top: 0.45rem;
+  }
+
+  .gameButton {
+    padding: 0.45rem 0.95rem;
+    font-size: 0.825rem;
+    min-height: 36px;
+  }
+}
+
+
+
+

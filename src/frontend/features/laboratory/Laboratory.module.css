@@ -3,6 +3,30 @@
   padding: 1.5rem 1.5rem 6rem;
   display: flex;
   justify-content: center;
+  position: relative;
+  background: transparent;
+}
+
+.laboratorySection::before {
+  content: "";
+  position: absolute;
+  top: -5rem;
+  bottom: -5rem;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 65% 50% at 12% 45%,
+      color-mix(in srgb, var(--color-decorative) 5%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle 500px at 88% 75%,
+      color-mix(in srgb, var(--color-accent-secondary) 3%, transparent) 0%,
+      transparent 65%
+    );
 }
 
 .container {
@@ -11,6 +35,8 @@
   display: flex;
   flex-direction: column;
   gap: 1.75rem;
+  position: relative;
+  z-index: 1;
 }
 
 .header {

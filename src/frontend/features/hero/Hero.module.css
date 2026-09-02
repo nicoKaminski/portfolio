@@ -1,6 +1,6 @@
 .heroSection {
   width: 100%;
-  padding: 4rem 1.5rem 6rem;
+  padding: 4.5rem 1.5rem 5rem;
   display: flex;
   justify-content: center;
 }
@@ -9,7 +9,7 @@
   max-width: 1200px;
   width: 100%;
   display: grid;
-  grid-template-columns: 1.25fr 0.75fr;
+  grid-template-columns: 1.1fr 0.9fr;
   align-items: center;
   gap: 3.5rem;
 }
@@ -18,11 +18,11 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 1.75rem;
+  gap: 1.5rem;
 }
 
 .title {
-  font-size: clamp(2.125rem, 4.5vw, 3.25rem);
+  font-size: clamp(2.125rem, 4.2vw, 3.25rem);
   font-weight: 700;
   line-height: 1.15;
   letter-spacing: -0.025em;
@@ -34,22 +34,25 @@
 }
 
 .description {
-  font-size: clamp(1.05rem, 1.8vw, 1.2rem);
+  font-size: clamp(1.05rem, 1.7vw, 1.15rem);
   line-height: 1.6;
   color: var(--color-text-secondary);
-  max-width: 58ch;
+  max-width: 54ch;
 }
 
 .actions {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
-  margin-top: 0.5rem;
+  gap: 1rem;
+  margin-top: 0.25rem;
 }
 
-.ctaButton {
+.primaryButton {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  gap: 0.55rem;
   padding: 0.875rem 1.75rem;
   font-size: 1rem;
   font-weight: 600;
@@ -64,27 +67,169 @@
   transition: var(--transition-interactive);
 }
 
-.ctaButton:hover {
+.primaryButton:hover {
   background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
   border-color: var(--color-accent);
   color: var(--color-accent);
 }
 
-.ctaButton:focus-visible {
+.primaryButton:hover .arrowIcon {
+  transform: translateX(3px);
+}
+
+.primaryButton:focus-visible {
   outline: 2px solid var(--color-accent);
   outline-offset: 4px;
 }
 
+.arrowIcon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.secondaryButton {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.55rem;
+  padding: 0.875rem 1.75rem;
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background-color: transparent;
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  min-height: 48px;
+  transition: var(--transition-interactive);
+}
+
+.secondaryButton:hover {
+  border-color: var(--color-accent);
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+}
+
+.secondaryButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+}
+
+.chatIcon {
+  flex-shrink: 0;
+}
+
+.social {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.6rem;
+  margin-top: 0.5rem;
+}
+
+.socialPrompt {
+  font-size: 0.9rem;
+  color: var(--color-text-secondary);
+  font-weight: 400;
+}
+
+.socialLinks {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+}
+
+.socialLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-size: 0.925rem;
+  font-weight: 500;
+  color: var(--color-text);
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  padding: 0.25rem 0;
+  transition: var(--transition-interactive);
+}
+
+.socialLink:hover {
+  color: var(--color-accent);
+}
+
+.socialLink:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+.socialIcon {
+  flex-shrink: 0;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.socialLink:hover .socialIcon {
+  color: var(--color-accent);
+}
+
 .visualColumn {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
   width: 100%;
 }
 
+.visualWrapper {
+  position: relative;
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: auto;
+  margin-right: 0;
+  transform: translateY(-1.25rem);
+}
+
+.statementBadge {
+  position: absolute;
+  bottom: -0.75rem;
+  left: -2rem;
+  z-index: 2;
+  width: 82%;
+  max-width: 340px;
+  padding: 1.15rem 1.25rem 1.15rem 1.2rem;
+  border-radius: 20px 28px 22px 26px;
+  background-color: color-mix(in srgb, var(--color-surface) 88%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+  box-shadow:
+    0 16px 36px -8px color-mix(in srgb, var(--color-text) 16%, transparent),
+    inset 0 1px 1.5px color-mix(in srgb, var(--color-accent) 25%, transparent);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  display: flex;
+  align-items: flex-start;
+  gap: 0.7rem;
+}
+
+.quoteIcon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+  margin-top: 0.15rem;
+  opacity: 0.95;
+}
+
+.statementText {
+  font-size: 0.885rem;
+  line-height: 1.5;
+  color: var(--color-text);
+  font-weight: 500;
+}
+
 @media (max-width: 900px) {
   .heroSection {
-    padding: 2.5rem 1.25rem 4rem;
+    padding: 2.5rem 1.25rem 3.5rem;
   }
 
   .container {
@@ -94,5 +239,185 @@
 
   .visualColumn {
     order: 2;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .visualWrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 360px;
+    margin: 0 auto;
+    transform: none;
+  }
+
+  .statementBadge {
+    position: relative;
+    bottom: auto;
+    left: auto;
+    margin-top: -2.5rem;
+    width: 90%;
+    max-width: 340px;
+    border-radius: 18px 24px 20px 22px;
+  }
+}
+
+@media (max-width: 768px) {
+  .heroSection {
+    padding: 2rem 1.25rem 2.75rem;
+  }
+
+  .container {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-areas:
+      "title"
+      "desc"
+      "visual"
+      "actions"
+      "social";
+    row-gap: 1.25rem;
+  }
+
+  .content {
+    display: contents;
+  }
+
+  .title {
+    grid-area: title;
+  }
+
+  .description {
+    grid-area: desc;
+  }
+
+  .visualColumn {
+    grid-area: visual;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0.25rem 0 0.25rem;
+  }
+
+  .visualWrapper {
+    position: relative;
+    width: 100%;
+    max-width: min(340px, 100%);
+    margin: 0 auto;
+    padding-bottom: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    transform: none;
+  }
+
+  .statementBadge {
+    position: absolute;
+    bottom: 0.85rem;
+    left: 12px;
+    width: 195px;
+    max-width: calc(100% - 24px);
+    padding: 0.65rem 0.75rem;
+    border-radius: 14px 18px 16px 16px;
+    background-color: color-mix(in srgb, var(--color-surface) 92%, transparent);
+    border: 1px solid color-mix(in srgb, var(--color-border) 50%, transparent);
+    box-shadow:
+      0 8px 24px -4px color-mix(in srgb, var(--color-text) 16%, transparent),
+      inset 0 1px 1px color-mix(in srgb, var(--color-accent) 20%, transparent);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    display: block;
+    margin-top: 0;
+    transform: none;
+    z-index: 2;
+  }
+
+  .quoteIcon {
+    float: left;
+    width: 12px;
+    height: 12px;
+    color: var(--color-accent);
+    margin-top: 2px;
+    margin-right: 0.4rem;
+    margin-bottom: 0;
+    opacity: 0.95;
+  }
+
+  .statementText {
+    font-size: 0.75rem;
+    line-height: 1.45;
+    color: var(--color-text);
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .actions {
+    grid-area: actions;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    width: 100%;
+    gap: 0.65rem;
+    margin-top: 0.25rem;
+  }
+
+  .primaryButton,
+  .secondaryButton {
+    width: 100%;
+    padding: 0.75rem 0.5rem;
+    font-size: clamp(0.825rem, 3.2vw, 0.925rem);
+    font-weight: 600;
+    min-height: 46px;
+    gap: 0.4rem;
+    white-space: nowrap;
+    justify-content: center;
+  }
+
+  .social {
+    grid-area: social;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.45rem;
+    margin-top: 0.25rem;
+    width: 100%;
+  }
+
+  .socialPrompt {
+    font-size: 0.85rem;
+    line-height: 1.35;
+    color: var(--color-text-secondary);
+  }
+
+  .socialLinks {
+    display: flex;
+    align-items: center;
+    gap: 1.15rem;
+  }
+
+  .socialLink {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: 0.25rem 0;
+  }
+
+  .socialIcon {
+    width: 15px;
+    height: 15px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primaryButton:hover .arrowIcon {
+    transform: none;
+  }
+
+  .arrowIcon {
+    transition: none !important;
   }
 }

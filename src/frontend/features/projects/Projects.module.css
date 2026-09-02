@@ -3,6 +3,30 @@
   padding: 3.5rem 1.5rem 6.5rem;
   display: flex;
   justify-content: center;
+  position: relative;
+  background: transparent;
+}
+
+.projectsSection::before {
+  content: "";
+  position: absolute;
+  top: -4.5rem;
+  bottom: -4.5rem;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(
+      ellipse 60% 45% at 90% 25%,
+      color-mix(in srgb, var(--color-accent-secondary) 3.5%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 50% 35% at 12% 85%,
+      color-mix(in srgb, var(--color-decorative) 2.5%, transparent) 0%,
+      transparent 65%
+    );
 }
 
 .container {
@@ -11,6 +35,8 @@
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  position: relative;
+  z-index: 1;
 }
 
 .header {

@@ -18,10 +18,20 @@
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
   font-size: 0.95rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--color-text);
+}
+
+.brandLogo {
+  flex-shrink: 0;
+  width: auto;
+  height: 20px;
+  display: block;
 }
 
 .linksList {

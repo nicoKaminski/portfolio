@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Capa_2" data-name="Capa 2" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 272.45 178.47">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: url(#Degradado_sin_nombre_715-4);
+      }
+
+      .cls-2 {
+        fill: url(#Degradado_sin_nombre_715);
+      }
+
+      .cls-3 {
+        fill: url(#Degradado_sin_nombre_715-2);
+      }
+
+      .cls-4 {
+        fill: url(#Degradado_sin_nombre_715-3);
+      }
+    </style>
+    <linearGradient id="Degradado_sin_nombre_715" data-name="Degradado sin nombre 715" x1="-12.42" y1="165.77" x2="173.34" y2="-20" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#62308f"/>
+      <stop offset="0" stop-color="#1d314a"/>
+      <stop offset=".26" stop-color="#10698c"/>
+      <stop offset=".47" stop-color="#228daf"/>
+      <stop offset="1" stop-color="#02f1b6"/>
+    </linearGradient>
+    <linearGradient id="Degradado_sin_nombre_715-2" data-name="Degradado sin nombre 715" x1="18.35" y1="179.68" x2="201.75" y2="-3.72" xlink:href="#Degradado_sin_nombre_715"/>
+    <linearGradient id="Degradado_sin_nombre_715-3" data-name="Degradado sin nombre 715" x1="59.04" y1="178.49" x2="247.24" y2="2.01" xlink:href="#Degradado_sin_nombre_715"/>
+    <linearGradient id="Degradado_sin_nombre_715-4" data-name="Degradado sin nombre 715" x1="99.2" y1="270.67" x2="316.99" y2="47.17" xlink:href="#Degradado_sin_nombre_715"/>
+  </defs>
+  <g id="Capa_1-2" data-name="Capa 1">
+    <g>
+      <path class="cls-2" d="M.28,178.47h37.79v-100.85l99.83,90.89v-46.98L.28,0S-.35,177.83.28,178.47Z"/>
+      <polygon class="cls-3" points="137.9 112.34 137.9 45.7 100.11 45.7 100.11 76.85 137.9 112.34"/>
+      <polygon class="cls-4" points="217.05 0 266.33 0 145.3 127.91 145.3 77.11 217.05 0"/>
+      <polygon class="cls-1" points="272.45 178.47 220.88 178.47 160.88 121.79 186.92 95.49 272.45 178.47"/>
+    </g>
+  </g>
+</svg>
