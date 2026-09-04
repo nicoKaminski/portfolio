@@ -1,6 +1,7 @@
 .aboutSection {
   width: 100%;
-  padding: 0.75rem 1.5rem 3.5rem;
+  padding-block: var(--section-padding-y-compact);
+  padding-inline: var(--section-padding-x);
   display: flex;
   justify-content: center;
   position: relative;
@@ -10,17 +11,25 @@
 .aboutSection::before {
   content: "";
   position: absolute;
-  top: -2rem;
+  top: 0;
   bottom: -4rem;
   left: 0;
   right: 0;
   pointer-events: none;
   z-index: 0;
-  background: radial-gradient(
-    ellipse 65% 55% at 25% 80%,
-    color-mix(in srgb, var(--color-decorative) 3%, transparent) 0%,
-    transparent 72%
-  );
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, transparent 0%, black 18%, black 85%, transparent 100%);
+  background:
+    radial-gradient(
+      ellipse 70% 60% at 30% 70%,
+      color-mix(in srgb, var(--brand-mid-cyan) 6.5%, transparent) 0%,
+      transparent 72%
+    ),
+    radial-gradient(
+      circle 420px at 85% 30%,
+      color-mix(in srgb, var(--color-accent) 5%, transparent) 0%,
+      transparent 65%
+    );
 }
 
 .container {
@@ -64,7 +73,21 @@
   box-shadow:
     0 8px 28px -10px color-mix(in srgb, var(--color-text) 10%, transparent),
     inset 0 1px 1px color-mix(in srgb, var(--color-accent) 18%, transparent);
-  transition: var(--transition-theme);
+  transition:
+    border-color var(--transition-interactive),
+    box-shadow var(--transition-interactive),
+    var(--transition-theme);
+}
+
+.gameBanner:hover {
+  border-color: color-mix(in srgb, var(--color-accent) 45%, var(--color-border));
+  box-shadow:
+    0 12px 32px -10px color-mix(in srgb, var(--color-accent) 18%, transparent),
+    inset 0 1px 1px color-mix(in srgb, var(--color-accent) 24%, transparent);
+}
+
+.gameBanner:hover .gameLogo {
+  transform: scale(1.035);
 }
 
 /* Detalle pixel art sutil en esquina */
@@ -279,6 +302,12 @@
     padding: 0.45rem 0.95rem;
     font-size: 0.825rem;
     min-height: 36px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .gameBanner:hover .gameLogo {
+    transform: none;
   }
 }
 

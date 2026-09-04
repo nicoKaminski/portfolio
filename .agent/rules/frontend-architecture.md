@@ -1,7 +1,3 @@
----
-trigger: always_on
----
-
 # Portfolio — Arquitectura frontend y composición Next.js
 
 ## Propósito
@@ -162,7 +158,23 @@ Los hooks no deben convertirse en “cajones” que mezclen múltiples responsab
 
 ## 8. Theme y tokens
 
-Las paletas base aprobadas para el proyecto son:
+`src/app/globals.css` es la fuente de verdad técnica de los tokens implementados. La paleta de marca vigente es:
+
+```text
+#1D314A
+#10698C
+#228DAF
+#02F1B6
+```
+
+Roles de marca:
+
+- tono profundo: `#1D314A`;
+- azul base: `#10698C`;
+- cyan intermedio: `#228DAF`;
+- menta brillante: `#02F1B6`.
+
+Las paletas de tema aprobadas son:
 
 ### Tema claro · Glaciar
 
@@ -185,7 +197,8 @@ Roles semánticos aprobados:
 ### Tema oscuro · Aurora
 
 ```text
-#21E6A8
+#02F1B6
+#228DAF
 #2B4C6A
 #1D314A
 #353B55
@@ -197,24 +210,26 @@ Roles semánticos aprobados:
 - superficie principal: `#2B4C6A`;
 - texto principal: `#E1ECEE`, compartido con Glaciar;
 - texto secundario: derivado de `#E1ECEE`;
-- acento e interacción: `#21E6A8`;
+- acento e interacción: `#02F1B6`;
+- acento secundario y detalles: `#228DAF`;
 - bordes funcionales: derivado de `#E1ECEE`;
 - `#353B55` se reserva para superficies secundarias, profundidad visual o elementos gráficos cuando exista un uso real que lo justifique.
 
-El verde Aurora `#21E6A8` no debe utilizarse como color general de texto. Su función principal es destacar interacción, foco, enlaces, CTA y detalles visuales.
+La menta Aurora `#02F1B6` no debe utilizarse como color general de texto. Su función principal es destacar interacción, foco, enlaces, CTA y detalles visuales.
 
 Reglas:
 
 - centralizar colores repetidos mediante variables CSS/tokens semánticos;
 - no repetir hexadecimales en múltiples CSS Modules;
 - preferir una única fuente de verdad para tokens visuales;
-- no inventar colores derivados o roles nuevos sin una necesidad y definición aprobadas;
+- no inventar colores derivados o roles nuevos sin una necesidad concreta;
 - los derivados ya definidos por el sistema de theme se consideran parte de la paleta aprobada;
+- los colores funcionales de error, éxito o advertencia pueden definirse cuando sean necesarios, con contraste accesible y tokens centralizados, sin incorporarlos por ello a la paleta de marca;
 - no crear un objeto TypeScript de tema solo para duplicar variables CSS.
 
 Cuando JavaScript necesite un color por una razón real —por ejemplo canvas, gráficos o el minijuego— puede evaluarse una fuente tipada específica, evitando mantener dos fuentes divergentes del mismo token.
 
-La lógica del selector de tema puede vivir como feature o componente dedicado dentro de `frontend/` cuando se implemente.
+El selector de tema ya vive como feature dedicada en `src/frontend/features/theme/`. Inspeccionar su implementación real antes de modificar su contrato o ubicación.
 
 ### Profundidad visual
 
@@ -320,11 +335,11 @@ Mínimo esperado:
 
 ## 13. Cazador de Bugs
 
-El minijuego vive inicialmente dentro del mismo repositorio como feature aislada.
+La presencia de assets del minijuego no implica que su feature esté implementada. Antes de trabajar sobre él, comprobar el estado real del código.
 
-Debe mantener su lógica separada de las secciones del Portfolio y no contaminar la composición principal.
+Cuando se implemente, debe vivir dentro del mismo repositorio como feature aislada, mantener su lógica separada de las secciones del Portfolio y no contaminar la composición principal.
 
-La mecánica exacta se definirá en su tarea correspondiente. No crear ahora infraestructura del juego por anticipación.
+La mecánica exacta debe venir definida por su tarea correspondiente. No crear infraestructura del juego por anticipación.
 
 ## 14. Criterio final
 

@@ -82,6 +82,79 @@ const FOOTER_LINKS: FooterLinkItem[] = [
 export function Footer() {
   return (
     <footer className={styles.footer}>
+      {/* Separador sutil tipo ola entre contacto y footer */}
+      <div className={styles.waveDivider} aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 70"
+          preserveAspectRatio="none"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.waveSvg}
+        >
+          <defs>
+            <linearGradient id="footerWaveLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="var(--footer-wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.02" />
+              <stop offset="25%" stopColor="var(--footer-wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.4" />
+              <stop offset="60%" stopColor="var(--footer-wave-stop-center, var(--brand-bright-mint))" stopOpacity="0.65" />
+              <stop offset="85%" stopColor="var(--footer-wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.5" />
+              <stop offset="100%" stopColor="var(--footer-wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.02" />
+            </linearGradient>
+            <linearGradient id="footerWaveFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="var(--footer-wave-stop-center, var(--brand-bright-mint))" stopOpacity="0.02" />
+              <stop offset="100%" stopColor="var(--footer-wave-stop-center, var(--brand-bright-mint))" stopOpacity="0" />
+            </linearGradient>
+            {/* Filtro nativo SVG para halo suave y tenue */}
+            <filter id="footerWaveAuraGlow" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="3.5" result="blur" />
+            </filter>
+            <filter id="footerWaveSoftGlow" x="-15%" y="-120%" width="130%" height="340%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="1.5" result="soft" />
+            </filter>
+          </defs>
+
+          {/* Relleno superior que acompaña la ola con el color de fondo de Contacto */}
+          <path
+            d="M0 0 L0 38 Q360 56 720 32 T1440 38 L1440 0 Z"
+            fill="var(--color-bg)"
+            className={styles.waveBgMask}
+          />
+
+          {/* Sombra / degradado de transición sutil bajo la ola */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38 L1440 70 L0 70 Z"
+            fill="url(#footerWaveFillGrad)"
+          />
+
+          {/* Halo ambiental difuminado más contenido */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38"
+            stroke="url(#footerWaveLineGrad)"
+            strokeWidth="5"
+            filter="url(#footerWaveAuraGlow)"
+            opacity="0.35"
+          />
+
+          {/* Glow medio suave y atenuado */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38"
+            stroke="url(#footerWaveLineGrad)"
+            strokeWidth="2.25"
+            filter="url(#footerWaveSoftGlow)"
+            opacity="0.55"
+          />
+
+          {/* Cresta nítida más fina */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38"
+            stroke="url(#footerWaveLineGrad)"
+            strokeWidth="0.85"
+            opacity="0.9"
+            shapeRendering="geometricPrecision"
+            className={styles.waveCrest}
+          />
+        </svg>
+      </div>
+
       <div className={styles.container}>
         <div className={styles.brand}>
           <span>Nico Kaminski</span>

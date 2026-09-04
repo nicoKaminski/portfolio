@@ -4,7 +4,7 @@
 
 Define el procedimiento general para analizar, implementar, corregir y documentar cambios en `portfolio`.
 
-Complementa `AGENTS.md`. La instrucción actual del developer tiene prioridad sobre esta regla, salvo que contradiga una restricción de seguridad.
+Complementa `AGENTS.md` y respeta sin excepciones la jerarquía definida allí. Esta regla no puede elevarse por encima de una instrucción de mayor prioridad.
 
 ## 1. Una responsabilidad principal por tarea
 
@@ -35,17 +35,15 @@ No inventar nombres, rutas, scripts, tipos ni dependencias.
 
 ## 3. Leer solo lo aplicable
 
-Orden mínimo:
+Al llegar a esta regla, el punto de entrada y el índice ya fueron leídos. No reiniciar esa secuencia.
 
-1. instrucción actual del developer;
-2. `AGENTS.md`;
-3. `.agent/README.md`;
-4. esta regla;
-5. regla técnica adicional aplicable;
-6. archivos concretos de la tarea;
-7. consumidores, tests, estilos y configuración relacionados.
+Continuar únicamente con:
 
-No leer o modificar todo el repositorio cuando el alcance es local.
+1. otra regla técnica que el índice haya marcado como aplicable;
+2. archivos concretos de la tarea;
+3. consumidores, tests, estilos y configuración relacionados.
+
+No leer o modificar todo el repositorio cuando el alcance es local ni volver a procesar documentos ya revisados salvo que hayan cambiado.
 
 ## 4. Inspeccionar antes de modificar
 
@@ -78,11 +76,11 @@ No confundir “cambio mínimo” con:
 
 ## 6. Dependencias
 
-No agregar, eliminar ni actualizar dependencias sin aprobación explícita.
+No ejecutar comandos de instalación, eliminación o actualización de dependencias.
 
-No ejecutar comandos de instalación.
+Si una dependencia parece necesaria, obtener aprobación explícita del propietario o mantenedor para la decisión técnica y pedirle que ejecute la instalación y actualice el lockfile. La aprobación no habilita al agente a ejecutar el comando.
 
-Si una dependencia parece necesaria, detener esa parte y reportar:
+Al reportar la propuesta, incluir:
 
 - necesidad concreta;
 - alternativa sin dependencia;
@@ -109,29 +107,22 @@ git remote -v
 
 ### Validaciones npm
 
-Antes de ejecutar una validación:
+`package.json` es la única fuente de verdad sobre los scripts disponibles. Antes de ejecutar una validación:
 
 1. revisar `package.json`;
 2. confirmar que el script existe;
 3. ejecutar solo lo relevante para la tarea;
 4. reportar el resultado real.
 
-Con el estado inicial del repo:
-
-```text
-npm run lint
-npm run build
-```
-
 `npm run dev` se reserva para tareas que necesiten validación visual o funcional en runtime. Si se inicia, detener el proceso al finalizar.
 
 No usar `npm run start` como validación genérica.
 
-No inventar `typecheck`, `test` u otros scripts inexistentes.
+No inventar scripts que no estén declarados.
 
 ## 8. Comandos prohibidos
 
-El developer controla Git, dependencias, ramas y publicación.
+El propietario o mantenedor controla Git, dependencias, ramas y publicación. Las prohibiciones operativas de esta sección siguen aplicando aunque exista aprobación de producto.
 
 No ejecutar:
 
@@ -174,9 +165,8 @@ Queda terminantemente prohibido ejecutar mediante shell comandos destructivos pa
 Si una tarea o implementación requiere eliminar un archivo concreto:
 - el agente debe realizar dicha eliminación exclusivamente mediante las herramientas de edición/aplicación de cambios disponibles en el entorno (IDE);
 - **nunca** debe recurrir a la shell para ejecutar la eliminación;
-- cualquier excepción requiere autorización previa y explícita de Nico para el comando exacto a ejecutar.
 
-Tampoco ejecutar cambios de permisos, despliegues o acciones irreversibles sin instrucción explícita y específica del developer.
+Tampoco ejecutar cambios de permisos, despliegues o acciones irreversibles sin una instrucción explícita de nivel superior que autorice exactamente esa acción.
 
 ## 9. Documentación
 
@@ -210,21 +200,24 @@ No entregar un cambio que exponga datos privados o secretos aunque compile corre
 
 ## 12. Entrega
 
-Reportar:
+### Tareas con cambios
+
+Reportar de forma compacta:
 
 ```text
 Objetivo
-Archivos creados
-Archivos modificados
-Archivos eliminados
-Cambios realizados
-Qué no se tocó
+Archivos creados, modificados y eliminados
+Cambios realizados por responsabilidad
 Validaciones ejecutadas y resultados
-Validaciones pendientes
-Impacto de seguridad/privacidad
+Validaciones relevantes pendientes
+Impacto de seguridad/privacidad, si aplica
 Riesgos o dudas
 Fuera de alcance detectado
 Mensaje de commit recomendado
 ```
+
+### Análisis o consultas sin cambios
+
+Reportar objetivo, resultado o hallazgos, evidencia revisada, limitaciones relevantes y confirmar que no se modificaron archivos. Omitir campos vacíos y no recomendar un commit salvo que se hayan propuesto cambios documentales o técnicos concretos.
 
 El mensaje de commit es una recomendación. El agente nunca ejecuta el commit.

@@ -93,8 +93,13 @@ export function Hero() {
     <section id="inicio" className={styles.heroSection} aria-label="Introducción">
       <div className={styles.container}>
         <div className={styles.content}>
+          <span className={styles.greeting}>Hola, soy Nico Kaminski</span>
           <h1 className={styles.title}>
-            Desarrollador de software <span className={styles.nowrap}>full stack</span> con enfoque en frontend
+            <span className={styles.titleLine}>Desarrollador de</span>{" "}
+            <span className={styles.titleLine}>
+              software <span className={styles.highlight}>full stack</span>
+            </span>{" "}
+            <span className={styles.titleLine}>con enfoque en frontend</span>
           </h1>
           <p className={styles.description}>
             Desarrollo interfaces y aplicaciones web poniendo especial atención en
@@ -102,13 +107,13 @@ export function Hero() {
             con backend, datos e integración cuando el producto lo necesita.
           </p>
           <div className={styles.actions}>
-            <a href="#proyectos" className={styles.primaryButton}>
-              <span>Ver proyectos</span>
-              <ArrowRightIcon className={styles.arrowIcon} />
-            </a>
-            <a href="#contacto" className={styles.secondaryButton}>
+            <a href="#contacto" className={styles.primaryButton}>
               <span>Conversemos</span>
               <ChatIcon className={styles.chatIcon} />
+            </a>
+            <a href="#proyectos" className={styles.secondaryButton}>
+              <span>Ver proyectos</span>
+              <ArrowRightIcon className={styles.arrowIcon} />
             </a>
           </div>
           <div className={styles.social}>
@@ -149,6 +154,71 @@ export function Hero() {
             </aside>
           </div>
         </div>
+      </div>
+
+      {/* Separador sutil tipo ola hacia la siguiente sección */}
+      <div className={styles.waveDivider} aria-hidden="true">
+        <svg
+          viewBox="0 0 1440 70"
+          preserveAspectRatio="none"
+          fill="none"
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.waveSvg}
+        >
+          <defs>
+            <linearGradient id="waveLineGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+              <stop offset="0%" stopColor="var(--wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.05" />
+              <stop offset="25%" stopColor="var(--wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.6" />
+              <stop offset="60%" stopColor="var(--wave-stop-center, var(--brand-bright-mint))" stopOpacity="0.95" />
+              <stop offset="85%" stopColor="var(--wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.7" />
+              <stop offset="100%" stopColor="var(--wave-stop-side, var(--brand-mid-cyan))" stopOpacity="0.05" />
+            </linearGradient>
+            <linearGradient id="waveFillGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stopColor="var(--wave-stop-center, var(--brand-bright-mint))" stopOpacity="0.04" />
+              <stop offset="100%" stopColor="var(--wave-stop-center, var(--brand-bright-mint))" stopOpacity="0" />
+            </linearGradient>
+            {/* Filtro nativo SVG para halo continuo */}
+            <filter id="waveAuraGlow" x="-20%" y="-200%" width="140%" height="500%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur" />
+            </filter>
+            <filter id="waveSoftGlow" x="-15%" y="-120%" width="130%" height="340%">
+              <feGaussianBlur in="SourceGraphic" stdDeviation="2" result="soft" />
+            </filter>
+          </defs>
+
+          {/* Sombra / degradado de transición bajo la ola */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38 L1440 70 L0 70 Z"
+            fill="url(#waveFillGrad)"
+          />
+
+          {/* Halo ambiental amplio difuminado vectorialmente */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38"
+            stroke="url(#waveLineGrad)"
+            strokeWidth="8"
+            filter="url(#waveAuraGlow)"
+            opacity="0.65"
+          />
+
+          {/* Glow medio suave */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38"
+            stroke="url(#waveLineGrad)"
+            strokeWidth="3.5"
+            filter="url(#waveSoftGlow)"
+            opacity="0.85"
+          />
+
+          {/* Cresta nítida ultrafina con antialiasing nativo */}
+          <path
+            d="M0 38 Q360 56 720 32 T1440 38"
+            stroke="url(#waveLineGrad)"
+            strokeWidth="1.25"
+            shapeRendering="geometricPrecision"
+            className={styles.waveCrest}
+          />
+        </svg>
       </div>
     </section>
   );

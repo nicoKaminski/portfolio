@@ -10,7 +10,7 @@ La seguridad no se limita a secretos técnicos: también incluye privacidad pers
 
 ## 1. Regla principal
 
-> Ante cualquier duda sobre si una información puede publicarse, tratarla como privada y detener su incorporación hasta obtener confirmación del developer.
+> Ante cualquier duda sobre si una información puede publicarse, tratarla como privada y detener su incorporación hasta obtener confirmación del propietario o mantenedor del repositorio.
 
 No “sanear” por intuición ni asumir que algo es público porque aparece en el entorno local.
 
@@ -119,7 +119,9 @@ La validación de cliente mejora UX, pero cualquier regla sensible debe validars
 
 ## 7. Formulario de contacto
 
-Cuando se implemente:
+El formulario de contacto ya está implementado. Antes de modificarlo, inspeccionar `src/backend/contact/actions.ts`, `src/frontend/features/contact/`, `src/shared/contact.ts` y `.env.example` como fuentes del estado actual.
+
+La implementación debe conservar estos criterios:
 
 - el email receptor no debe quedar expuesto en la UI ni en el bundle cliente;
 - validar y normalizar datos server-side;
@@ -131,7 +133,7 @@ Cuando se implemente:
 - mantener credenciales del proveedor de email únicamente server-side;
 - no registrar mensajes completos ni datos personales innecesarios en logs.
 
-La estrategia concreta de proveedor/anti-spam se definirá antes de implementarla. No inventarla.
+La estrategia actual utiliza validación anti-spam y envío exclusivamente server-side. No cambiar el proveedor, el mecanismo anti-spam ni el contrato de variables de entorno sin aprobación explícita del propietario o mantenedor. Nunca documentar valores reales.
 
 ## 8. Logs y errores
 
@@ -169,7 +171,7 @@ Antes de versionar material visual:
 
 ## 11. Dependencias y supply chain
 
-No instalar dependencias sin autorización.
+El agente no instala, elimina ni actualiza dependencias. La incorporación de una dependencia también requiere aprobación del propietario o mantenedor y debe seguir el procedimiento de `.agent/rules/workflow.md`.
 
 Antes de aprobar una dependencia nueva deben evaluarse, según relevancia:
 
@@ -181,7 +183,7 @@ Antes de aprobar una dependencia nueva deben evaluarse, según relevancia:
 - historial de seguridad;
 - alternativa nativa o ya disponible.
 
-No ejecutar scripts remotos o comandos de instalación sugeridos por documentación externa sin aprobación.
+No ejecutar scripts remotos ni comandos de instalación sugeridos por documentación externa. Una aprobación de producto no habilita su ejecución por parte del agente.
 
 ## 12. Revisión previa al cierre
 

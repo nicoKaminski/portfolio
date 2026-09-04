@@ -198,7 +198,7 @@ export function Navbar() {
                         className={`${styles.navLink} ${isActive ? styles.activeNavLink : ""}`}
                         aria-current={isActive ? "location" : undefined}
                       >
-                        {item.label}
+                        <span>{item.label}</span>
                       </a>
                     </li>
                   );

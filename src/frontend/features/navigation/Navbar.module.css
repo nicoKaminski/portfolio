@@ -48,10 +48,29 @@
 .brandName {
   display: inline-block;
   line-height: 1;
+  transition: var(--transition-interactive);
 }
 
-.brand:hover {
-  color: var(--color-accent);
+.brand:hover .brandName {
+  background: linear-gradient(
+    135deg,
+    var(--brand-mid-cyan) 0%,
+    var(--brand-bright-mint) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .brand:hover .brandName {
+  background: linear-gradient(
+    135deg,
+    var(--brand-base-blue) 0%,
+    var(--brand-mid-cyan) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .brand:hover .brandLogo {
@@ -97,8 +116,29 @@
 }
 
 .navLink:hover {
-  color: var(--color-accent);
-  background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
+}
+
+.navLink:hover span {
+  background: linear-gradient(
+    135deg,
+    var(--brand-mid-cyan) 0%,
+    var(--brand-bright-mint) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .navLink:hover span {
+  background: linear-gradient(
+    135deg,
+    var(--brand-base-blue) 0%,
+    var(--brand-mid-cyan) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .navLink:focus-visible {
@@ -106,9 +146,10 @@
   outline-offset: 2px;
 }
 
-/* Indicador visual activo (subrayado fino centrado de 26px) */
+/* Indicador visual activo (línea fina en degradado) */
 .activeNavLink {
-  color: var(--color-accent);
+  color: var(--color-text);
+  font-weight: 600;
 }
 
 .activeNavLink::after {
@@ -117,11 +158,25 @@
   bottom: 4px;
   left: 50%;
   transform: translateX(-50%);
-  width: 26px;
+  width: 24px;
   height: 2px;
   border-radius: 2px;
-  background-color: var(--color-accent);
-  transition: width 0.2s ease, background-color 0.2s ease;
+  background: linear-gradient(
+    90deg,
+    var(--brand-mid-cyan) 0%,
+    var(--brand-bright-mint) 100%
+  );
+  box-shadow: 0 1px 6px color-mix(in srgb, var(--brand-bright-mint) 45%, transparent);
+  transition: width 0.2s ease;
+}
+
+[data-theme="light"] .activeNavLink::after {
+  background: linear-gradient(
+    90deg,
+    var(--brand-base-blue) 0%,
+    var(--brand-mid-cyan) 100%
+  );
+  box-shadow: 0 1px 6px color-mix(in srgb, var(--brand-base-blue) 35%, transparent);
 }
 
 /* Botón Descargar CV (Desktop) */
@@ -144,9 +199,55 @@
 }
 
 .cvButton:hover {
-  border-color: var(--color-accent);
-  color: var(--color-accent);
-  background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-mid-cyan) 12%, transparent) 0%,
+    color-mix(in srgb, var(--brand-bright-mint) 10%, transparent) 100%
+  );
+  box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
+}
+
+.cvButton:hover span {
+  background: linear-gradient(
+    135deg,
+    var(--brand-mid-cyan) 0%,
+    var(--brand-bright-mint) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cvButton:hover .cvIcon {
+  color: var(--brand-bright-mint);
+  transform: translateY(-1px);
+}
+
+[data-theme="light"] .cvButton:hover {
+  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-base-blue) 8%, transparent) 0%,
+    color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 100%
+  );
+  box-shadow: 0 4px 14px -4px color-mix(in srgb, var(--brand-base-blue) 20%, transparent);
+}
+
+[data-theme="light"] .cvButton:hover span {
+  background: linear-gradient(
+    135deg,
+    var(--brand-base-blue) 0%,
+    var(--brand-mid-cyan) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .cvButton:hover .cvIcon {
+  color: var(--brand-base-blue);
+  transform: translateY(-1px);
 }
 
 .cvButton:focus-visible {
@@ -156,6 +257,8 @@
 
 .cvIcon {
   flex-shrink: 0;
+  color: var(--color-accent);
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 /* Elementos exclusivos de mobile: ocultos en desktop */
@@ -283,8 +386,8 @@
   }
 
   .mobileNavLink:hover {
-    color: var(--color-accent);
-    background-color: color-mix(in srgb, var(--color-accent) 10%, transparent);
+    color: var(--color-text);
+    background-color: color-mix(in srgb, var(--color-surface) 65%, transparent);
   }
 
   .mobileNavLink:focus-visible {
@@ -293,10 +396,14 @@
   }
 
   .activeMobileNavLink {
-    color: var(--color-accent);
+    color: var(--color-text);
     font-weight: 600;
-    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
-    border-left: 3px solid var(--color-accent);
+    background-color: color-mix(in srgb, var(--color-surface) 75%, transparent);
+    border-left: 3px solid var(--brand-bright-mint);
+  }
+
+  [data-theme="light"] .activeMobileNavLink {
+    border-left: 3px solid var(--brand-base-blue);
   }
 
   .mobileCvItem {
@@ -324,9 +431,51 @@
   }
 
   .mobileCvButton:hover {
-    color: var(--color-accent);
-    border-color: var(--color-accent);
-    background-color: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-mid-cyan) 12%, transparent) 0%,
+      color-mix(in srgb, var(--brand-bright-mint) 10%, transparent) 100%
+    );
+  }
+
+  .mobileCvButton:hover span {
+    background: linear-gradient(
+      135deg,
+      var(--brand-mid-cyan) 0%,
+      var(--brand-bright-mint) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .mobileCvButton:hover .cvIcon {
+    color: var(--brand-bright-mint);
+  }
+
+  [data-theme="light"] .mobileCvButton:hover {
+    border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
+    background: linear-gradient(
+      135deg,
+      color-mix(in srgb, var(--brand-base-blue) 8%, transparent) 0%,
+      color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 100%
+    );
+  }
+
+  [data-theme="light"] .mobileCvButton:hover span {
+    background: linear-gradient(
+      135deg,
+      var(--brand-base-blue) 0%,
+      var(--brand-mid-cyan) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  [data-theme="light"] .mobileCvButton:hover .cvIcon {
+    color: var(--brand-base-blue);
   }
 
   .mobileCvButton:focus-visible {

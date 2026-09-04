@@ -20,6 +20,7 @@ interface LaboratoryProject {
     | "sysad-uni"
     | "nutrivida";
   name: string;
+  description: string;
   previewSrc: string;
 }
 
@@ -27,31 +28,37 @@ const laboratoryProjects: LaboratoryProject[] = [
   {
     id: "memo-wars",
     name: "MemoWars",
+    description: "Juego de memoria inspirado en Star Wars.",
     previewSrc: "/projects/laboratory/memo-war/preview.jpg",
   },
   {
     id: "memo-potter",
     name: "MemoPotter",
+    description: "Memotest de Harry Potter con API y ranking.",
     previewSrc: "/projects/laboratory/memo-potter/preview.png",
   },
   {
     id: "que-como",
     name: "Qué Como · UX/UI",
+    description: "Investigación y prototipado de app culinaria.",
     previewSrc: "/projects/laboratory/que-como/39.png",
   },
   {
     id: "siges-uni",
     name: "SIGES UNI · TypeScript",
+    description: "Gestión universitaria académica con backend.",
     previewSrc: "/projects/laboratory/sigesuni/preview.png",
   },
   {
     id: "sysad-uni",
     name: "SYSAD UNI · Java",
+    description: "Sistema de escritorio para gestión de alumnos.",
     previewSrc: "/projects/laboratory/sysaduni/preview.png",
   },
   {
     id: "nutrivida",
     name: "NutriVida Suite",
+    description: "Software de escritorio para seguimiento nutricional.",
     previewSrc: "/projects/laboratory/nutrivida/preview.png",
   },
 ];
@@ -183,23 +190,32 @@ export function Laboratory() {
                   key={project.name}
                   ref={triggerRef}
                   type="button"
-                  className={`${styles.item} ${styles.interactiveItem}`}
+                  className={styles.card}
                   onClick={() => setActiveProject(project.id as ActiveLabProject)}
                   aria-haspopup="dialog"
                 >
-                  <span className={styles.projectName}>{project.name}</span>
-
-                  <div className={styles.preview} aria-hidden="true">
-                    <div className={styles.previewImageWrapper}>
-                      <Image
-                        src={project.previewSrc}
-                        alt=""
-                        width={400}
-                        height={225}
-                        className={styles.previewImage}
-                      />
+                  <div className={styles.cardImageWrapper}>
+                    <Image
+                      src={project.previewSrc}
+                      alt=""
+                      width={400}
+                      height={225}
+                      className={styles.cardImage}
+                    />
+                  </div>
+                  <div className={styles.cardContent}>
+                    <div className={styles.cardHeader}>
+                      <span className={styles.projectName}>{project.name}</span>
                     </div>
-                    <span className={styles.previewTitle}>{project.name}</span>
+                    <p className={styles.projectDescription}>
+                      {project.description}
+                    </p>
+                    <div className={styles.cardFooter}>
+                      <span className={styles.cardCta} aria-hidden="true">
+                        <span className={styles.cardCtaText}>Ver más</span>
+                        <span className={styles.cardCtaArrow}>&rarr;</span>
+                      </span>
+                    </div>
                   </div>
                 </button>
               );
@@ -208,21 +224,24 @@ export function Laboratory() {
             return (
               <article
                 key={project.name}
-                className={styles.item}
+                className={styles.card}
               >
-                <span className={styles.projectName}>{project.name}</span>
-
-                <div className={styles.preview} aria-hidden="true">
-                  <div className={styles.previewImageWrapper}>
-                    <Image
-                      src={project.previewSrc}
-                      alt=""
-                      width={400}
-                      height={225}
-                      className={styles.previewImage}
-                    />
+                <div className={styles.cardImageWrapper}>
+                  <Image
+                    src={project.previewSrc}
+                    alt=""
+                    width={400}
+                    height={225}
+                    className={styles.cardImage}
+                  />
+                </div>
+                <div className={styles.cardContent}>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.projectName}>{project.name}</span>
                   </div>
-                  <span className={styles.previewTitle}>{project.name}</span>
+                  <p className={styles.projectDescription}>
+                    {project.description}
+                  </p>
                 </div>
               </article>
             );

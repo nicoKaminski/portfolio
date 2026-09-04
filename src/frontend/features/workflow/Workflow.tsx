@@ -1,3 +1,6 @@
+"use client";
+
+import { useEffect, useRef, useState } from "react";
 import styles from "./Workflow.module.css";
 
 function PencilIcon() {
@@ -126,38 +129,44 @@ function CheckIcon() {
 const steps = [
   {
     id: "diseno",
-    title: "1. Diseño",
+    number: "1.",
+    name: "Diseño",
     description: "Entender el problema y darle forma a una primera solución.",
     icon: PencilIcon,
   },
   {
     id: "debate",
-    title: "2. Debate",
+    number: "2.",
+    name: "Debate",
     description: "Revisar decisiones, alternativas y posibles riesgos.",
     icon: ChatBubbleIcon,
   },
   {
     id: "ia-asistida",
-    title: "3. IA asistida",
+    number: "3.",
+    name: "IA asistida",
     description:
       "Usar IA como apoyo para investigar, planificar y acelerar tareas.",
     icon: SparklesIcon,
   },
   {
     id: "implementacion",
-    title: "4. Implementación",
+    number: "4.",
+    name: "Implementación",
     description: "Convertir la solución acordada en código mantenible.",
     icon: CodeIcon,
   },
   {
     id: "revision",
-    title: "5. Revisión",
+    number: "5.",
+    name: "Revisión",
     description: "Auditar lo construido y corregir inconsistencias.",
     icon: SearchIcon,
   },
   {
     id: "validacion",
-    title: "6. Validación",
+    number: "6.",
+    name: "Validación",
     description:
       "Comprobar que funciona como esperamos, técnica y visualmente.",
     icon: CheckIcon,
@@ -165,17 +174,56 @@ const steps = [
 ];
 
 export function Workflow() {
+  const [isVisible, setIsVisible] = useState(() => {
+    if (typeof window === "undefined") return false;
+    return (
+      !("IntersectionObserver" in window) ||
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches
+    );
+  });
+  const sectionRef = useRef<HTMLElement | null>(null);
+
+  useEffect(() => {
+    if (isVisible) return;
+
+    const target = sectionRef.current;
+    if (!target) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      {
+        threshold: 0.15,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    observer.observe(target);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isVisible]);
+
   return (
     <section
+      ref={sectionRef}
       id="como-trabajo"
-      className={styles.workflowSection}
+      className={`${styles.workflowSection} ${isVisible ? styles.revealed : ""}`}
       aria-labelledby="workflow-title"
     >
       <div className={styles.container}>
         <header className={styles.header}>
-          <h2 id="workflow-title" className={styles.title}>
-            Cómo trabajo
-          </h2>
+          <div className={styles.titleWrapper}>
+            <h2 id="workflow-title" className={styles.title}>
+              Cómo trabajo
+            </h2>
+            <span className={styles.titleAccent} aria-hidden="true" />
+          </div>
           <div className={styles.intro}>
             <p>
               No empiezo por el código. Primero busco entender bien el problema,
@@ -196,17 +244,26 @@ export function Workflow() {
 
         <div className={styles.trackWrapper}>
           <ol className={styles.timeline}>
-            {steps.map((step) => {
+            {steps.map((step, index) => {
               const Icon = step.icon;
               return (
-                <li key={step.id} className={styles.stepItem}>
+                <li
+                  key={step.id}
+                  className={styles.stepItem}
+                  style={{ "--step-index": index } as React.CSSProperties}
+                >
                   <div className={styles.indicatorWrapper}>
                     <div className={styles.indicator} aria-hidden="true">
-                      <Icon />
+                      <div className={styles.stepIconBox}>
+                        <Icon />
+                      </div>
                     </div>
                   </div>
-                  <div className={styles.stepContent}>
-                    <h3 className={styles.stepTitle}>{step.title}</h3>
+                  <div className={styles.stepCard}>
+                    <h3 className={styles.stepTitle}>
+                      <span className={styles.stepNumber}>{step.number}</span>
+                      <span className={styles.stepName}>{step.name}</span>
+                    </h3>
                     <p className={styles.stepDescription}>{step.description}</p>
                   </div>
                 </li>

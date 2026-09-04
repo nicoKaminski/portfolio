@@ -73,9 +73,12 @@ export function Projects() {
     >
       <div className={styles.container}>
         <header className={styles.header}>
-          <h2 id="projects-title" className={styles.title}>
-            Proyectos
-          </h2>
+          <div className={styles.titleWrapper}>
+            <h2 id="projects-title" className={styles.title}>
+              Proyectos
+            </h2>
+            <span className={styles.titleAccent} aria-hidden="true" />
+          </div>
         </header>
 
         {/* Nivel 1 · Protagonistas (2 columnas) */}
@@ -127,7 +130,8 @@ export function Projects() {
                     </p>
                     {isInteractive && (
                       <span className={styles.moreInfoCta} aria-hidden="true">
-                        Más info
+                        <span className={styles.moreInfoCtaText}>Más info</span>
+                        <span className={styles.moreInfoCtaArrow}>&rarr;</span>
                       </span>
                     )}
                   </div>
@@ -190,7 +194,12 @@ export function Projects() {
                       className={styles.secondaryMoreInfoCta}
                       aria-hidden="true"
                     >
-                      Más info
+                      <span className={styles.secondaryMoreInfoCtaText}>
+                        Más info
+                      </span>
+                      <span className={styles.secondaryMoreInfoCtaArrow}>
+                        &rarr;
+                      </span>
                     </span>
                   )}
                 </div>

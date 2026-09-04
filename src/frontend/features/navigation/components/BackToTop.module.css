@@ -36,9 +36,29 @@
 }
 
 .backToTop:hover {
-  color: var(--color-accent);
-  border-color: var(--color-accent);
-  background-color: color-mix(in srgb, var(--color-accent) 12%, var(--color-surface));
+  color: var(--brand-bright-mint);
+  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-mid-cyan) 18%, var(--color-surface)) 0%,
+    color-mix(in srgb, var(--brand-bright-mint) 15%, var(--color-surface)) 100%
+  );
+  box-shadow: 0 4px 18px -2px color-mix(in srgb, var(--brand-bright-mint) 35%, transparent);
+}
+
+.backToTop:active {
+  transform: translateY(0) scale(0.95);
+}
+
+[data-theme="light"] .backToTop:hover {
+  color: var(--brand-base-blue);
+  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-base-blue) 12%, var(--color-surface)) 0%,
+    color-mix(in srgb, var(--brand-mid-cyan) 12%, var(--color-surface)) 100%
+  );
+  box-shadow: 0 4px 18px -2px color-mix(in srgb, var(--brand-base-blue) 25%, transparent);
 }
 
 .backToTop:focus-visible {
@@ -49,7 +69,7 @@
 .icon {
   display: block;
   flex-shrink: 0;
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, color 0.2s ease;
 }
 
 .backToTop:hover .icon {

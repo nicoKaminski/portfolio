@@ -1,6 +1,7 @@
 .laboratorySection {
   width: 100%;
-  padding: 1.5rem 1.5rem 6rem;
+  padding-block: var(--section-padding-y);
+  padding-inline: var(--section-padding-x);
   display: flex;
   justify-content: center;
   position: relative;
@@ -10,22 +11,29 @@
 .laboratorySection::before {
   content: "";
   position: absolute;
-  top: -5rem;
-  bottom: -5rem;
+  top: 0;
+  bottom: 0;
   left: 0;
   right: 0;
   pointer-events: none;
   z-index: 0;
+  -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
   background:
     radial-gradient(
-      ellipse 65% 50% at 12% 45%,
-      color-mix(in srgb, var(--color-decorative) 5%, transparent) 0%,
-      transparent 70%
+      ellipse 85% 65% at 50% 50%,
+      color-mix(in srgb, var(--color-surface) 20%, transparent) 0%,
+      transparent 80%
     ),
     radial-gradient(
-      circle 500px at 88% 75%,
-      color-mix(in srgb, var(--color-accent-secondary) 3%, transparent) 0%,
-      transparent 65%
+      ellipse 65% 50% at 12% 45%,
+      color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 0%,
+      transparent 75%
+    ),
+    radial-gradient(
+      circle 540px at 88% 65%,
+      color-mix(in srgb, var(--brand-bright-mint) 6.5%, transparent) 0%,
+      transparent 72%
     );
 }
 
@@ -61,173 +69,341 @@
 .grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 0.75rem;
+  gap: 1.25rem;
 }
 
-.item {
+.card {
   position: relative;
   background:
     radial-gradient(
-      circle at 15% 25%,
-      color-mix(in srgb, var(--color-accent) 16%, transparent) 0%,
-      transparent 55%
+      circle at 15% 20%,
+      color-mix(in srgb, var(--color-accent) 10%, transparent) 0%,
+      transparent 50%
     ),
     radial-gradient(
-      circle at 85% 75%,
-      color-mix(in srgb, var(--color-border) 18%, transparent) 0%,
-      transparent 60%
+      circle at 85% 80%,
+      color-mix(in srgb, var(--color-border) 14%, transparent) 0%,
+      transparent 55%
     ),
     linear-gradient(
       145deg,
-      color-mix(in srgb, var(--color-surface) 80%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-bg) 90%, var(--color-surface)) 100%
+      color-mix(in srgb, var(--color-surface) 85%, var(--color-bg)) 0%,
+      color-mix(in srgb, var(--color-bg) 92%, var(--color-surface)) 100%
     );
-  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
-  border-radius: 10px;
-  padding: 0.875rem 1rem;
+  border: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+  border-radius: 12px;
+  overflow: hidden;
   display: flex;
-  align-items: center;
-  box-shadow: 0 2px 12px -3px color-mix(in srgb, var(--color-text) 6%, transparent);
+  flex-direction: column;
+  box-shadow: 0 2px 14px -4px color-mix(in srgb, var(--color-text) 6%, transparent);
   transition:
+    transform var(--transition-interactive),
     border-color var(--transition-interactive),
     box-shadow var(--transition-interactive),
     var(--transition-theme);
-  cursor: default;
+  cursor: pointer;
   outline: none;
   width: 100%;
   text-align: left;
   font-family: inherit;
+  padding: 0;
 }
 
-.interactiveItem {
-  cursor: pointer;
+.card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      color-mix(in srgb, var(--brand-bright-mint) 12%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      color-mix(in srgb, var(--color-border) 14%, transparent) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-surface) 88%, var(--color-bg)) 0%,
+      color-mix(in srgb, var(--color-bg) 90%, var(--color-surface)) 100%
+    );
+  box-shadow:
+    0 10px 26px -6px color-mix(in srgb, var(--brand-bright-mint) 22%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
 }
 
-.item:focus-visible {
-  border-color: var(--color-accent);
-  box-shadow: 0 0 0 2px color-mix(in srgb, var(--color-accent) 30%, transparent);
+.card:active {
+  transform: translateY(0);
+}
+
+[data-theme="light"] .card:hover {
+  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
+  background:
+    radial-gradient(
+      circle at 15% 20%,
+      color-mix(in srgb, var(--brand-base-blue) 10%, transparent) 0%,
+      transparent 55%
+    ),
+    radial-gradient(
+      circle at 85% 80%,
+      color-mix(in srgb, var(--color-border) 14%, transparent) 0%,
+      transparent 55%
+    ),
+    linear-gradient(
+      145deg,
+      color-mix(in srgb, var(--color-surface) 88%, var(--color-bg)) 0%,
+      color-mix(in srgb, var(--color-bg) 90%, var(--color-surface)) 100%
+    );
+  box-shadow:
+    0 8px 24px -6px color-mix(in srgb, var(--brand-base-blue) 22%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--brand-base-blue) 25%, transparent);
+}
+
+.card:focus-visible {
+  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--brand-bright-mint) 30%, transparent),
+    0 8px 24px -6px color-mix(in srgb, var(--brand-bright-mint) 22%, transparent);
+}
+
+[data-theme="light"] .card:focus-visible {
+  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
+  box-shadow:
+    0 0 0 2px color-mix(in srgb, var(--brand-base-blue) 30%, transparent),
+    0 8px 24px -6px color-mix(in srgb, var(--brand-base-blue) 22%, transparent);
+}
+
+.cardImageWrapper {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  background: color-mix(in srgb, var(--color-bg) 60%, transparent);
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 25%, transparent);
+}
+
+.cardImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.card:hover .cardImage {
+  transform: scale(1.025);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardImage {
+    transition: none;
+  }
+  .card:hover .cardImage {
+    transform: none;
+  }
+  .card:hover,
+  .card:active {
+    transform: none;
+  }
+}
+
+.cardContent {
+  padding: 0.625rem 0.75rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  flex-grow: 1;
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
 }
 
 .projectName {
-  font-size: 0.95rem;
-  font-weight: 500;
-  letter-spacing: -0.005em;
+  font-size: 0.8125rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   color: var(--color-text);
+  line-height: 1.35;
+  transition: color var(--transition-interactive);
+}
+
+.projectDescription {
+  font-size: 0.72rem;
   line-height: 1.4;
+  color: var(--color-text-secondary);
+  margin: 0;
 }
 
-.preview {
-  display: none;
+.card:hover .projectName,
+.card:focus-visible .projectName {
+  background: linear-gradient(
+    135deg,
+    var(--brand-mid-cyan) 0%,
+    var(--brand-bright-mint) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
-@media (min-width: 841px) {
+[data-theme="light"] .card:hover .projectName,
+[data-theme="light"] .card:focus-visible .projectName {
+  background: linear-gradient(
+    135deg,
+    var(--brand-base-blue) 0%,
+    var(--brand-mid-cyan) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.cardFooter {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-top: auto;
+  padding-top: 0.35rem;
+}
+
+.cardCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--color-text);
+  background: transparent;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  transition: var(--transition-interactive);
+}
+
+.cardCtaText {
+  color: var(--color-text);
+  transition: color var(--transition-interactive);
+}
+
+.cardCtaArrow {
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--color-text-secondary);
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.card:hover .cardCtaText,
+.card:focus-visible .cardCtaText {
+  background: linear-gradient(
+    135deg,
+    var(--brand-mid-cyan) 0%,
+    var(--brand-bright-mint) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.card:hover .cardCtaArrow,
+.card:focus-visible .cardCtaArrow {
+  color: var(--brand-bright-mint);
+  transform: translateX(2.5px);
+}
+
+[data-theme="light"] .card:hover .cardCtaText,
+[data-theme="light"] .card:focus-visible .cardCtaText {
+  background: linear-gradient(
+    135deg,
+    var(--brand-base-blue) 0%,
+    var(--brand-mid-cyan) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"] .card:hover .cardCtaArrow,
+[data-theme="light"] .card:focus-visible .cardCtaArrow {
+  color: var(--brand-base-blue);
+  transform: translateX(2.5px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cardCtaArrow {
+    transition: none !important;
+    transform: none !important;
+  }
+}
+
+/* Tablet: 3 columnas */
+@media (min-width: 600px) and (max-width: 959px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.875rem;
+  }
+}
+
+/* Desktop: 6 columnas en una sola fila */
+@media (min-width: 960px) {
   .laboratorySection {
     padding: 1.5rem 1.5rem 6rem;
   }
 
   .grid {
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, auto);
-    gap: 1rem;
-  }
-
-  .item {
-    padding: 1rem 1.25rem;
-  }
-
-  /* Desktop: Columna izquierda (items 1, 2, 3) y Columna derecha (items 4, 5, 6) */
-  .item:nth-child(1) {
-    grid-column: 1;
-    grid-row: 1;
-  }
-
-  .item:nth-child(2) {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .item:nth-child(3) {
-    grid-column: 1;
-    grid-row: 3;
-  }
-
-  .item:nth-child(4) {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .item:nth-child(5) {
-    grid-column: 2;
-    grid-row: 2;
-  }
-
-  .item:nth-child(6) {
-    grid-column: 2;
-    grid-row: 3;
-  }
-
-  /* Floating preview styles */
-  .preview {
-    display: flex;
-    flex-direction: column;
-    position: absolute;
-    bottom: calc(100% + 0.75rem);
-    left: 50%;
-    transform: translateX(-50%) translateY(6px) scale(0.96);
-    width: 250px;
-    background: var(--color-surface);
-    border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
-    border-radius: 10px;
-    padding: 0.625rem;
-    gap: 0.5rem;
-    box-shadow: 0 10px 24px -6px color-mix(in srgb, var(--color-text) 16%, transparent);
-    pointer-events: none;
-    opacity: 0;
-    visibility: hidden;
-    z-index: 20;
-    transition:
-      opacity 0.2s ease,
-      transform 0.2s ease,
-      visibility 0.2s ease;
-  }
-
-  .item:hover .preview,
-  .item:focus-visible .preview {
-    opacity: 1;
-    visibility: visible;
-    transform: translateX(-50%) translateY(0) scale(1);
-  }
-
-  .previewImageWrapper {
-    position: relative;
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    overflow: hidden;
-    border-radius: 6px;
-    background: color-mix(in srgb, var(--color-bg) 60%, transparent);
-  }
-
-  .previewImage {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-  }
-
-  .previewTitle {
-    font-size: 0.825rem;
-    font-weight: 500;
-    color: var(--color-text);
-    line-height: 1.3;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 0.875rem;
   }
 }
 
 @media (max-width: 840px) {
   .laboratorySection {
     padding: 1rem 1.25rem 4.5rem;
+  }
+}
+
+/* Mobile: 1 sola columna con cards compactas (estilo fila horizontal) */
+@media (max-width: 599px) {
+  .grid {
+    gap: 0.75rem;
+  }
+
+  .card {
+    flex-direction: row;
+    align-items: center;
+    border-radius: 10px;
+  }
+
+  .cardImageWrapper {
+    width: 108px;
+    min-width: 108px;
+    height: 72px;
+    aspect-ratio: auto;
+    border-bottom: none;
+    border-right: 1px solid color-mix(in srgb, var(--color-border) 25%, transparent);
+    align-self: stretch;
+  }
+
+  .cardContent {
+    padding: 0.625rem 0.75rem;
+    gap: 0.25rem;
+  }
+
+  .projectName {
+    font-size: 0.8125rem;
+  }
+
+  .projectDescription {
+    font-size: 0.7rem;
+    line-height: 1.35;
+  }
+
+  .cardFooter {
+    display: none;
   }
 }
 

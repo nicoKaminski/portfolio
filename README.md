@@ -31,6 +31,8 @@ Las versiones exactas y scripts disponibles se encuentran en `package.json`.
 
 ## Desarrollo local
 
+Los comandos de esta sección están destinados a personas que trabajan localmente. Los agentes deben respetar las restricciones operativas de `AGENTS.md` y no ejecutar comandos de instalación.
+
 Instalar las dependencias del lockfile:
 
 ```bash
@@ -53,10 +55,11 @@ http://localhost:3000
 
 ```bash
 npm run lint
+npm run typecheck
 npm run build
 ```
 
-No se documentan comandos de test o typecheck independientes mientras no existan como scripts en `package.json`.
+`package.json` es la fuente de verdad sobre los scripts disponibles. No se documentan comandos de test mientras no exista un script correspondiente.
 
 ## Seguridad y privacidad
 
@@ -64,7 +67,7 @@ Este repositorio es público.
 
 No deben versionarse secretos, credenciales, datos privados de clientes o empleadores, información de repositorios privados ni datos reales de aplicaciones privadas.
 
-Las futuras variables de entorno sensibles deberán mantenerse fuera del repositorio y documentarse únicamente mediante nombres de variables y valores seguros en `.env.example` cuando corresponda.
+Las variables de entorno utilizadas por el formulario de contacto se documentan únicamente por nombre y con valores vacíos seguros en `.env.example`. Sus valores reales deben mantenerse fuera del repositorio.
 
 ## Documentación para agentes
 

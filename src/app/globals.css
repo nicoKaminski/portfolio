@@ -32,11 +32,13 @@
   --brand-mid-cyan: #228daf;          /* cyan intermedio */
   --brand-bright-mint: #02f1b6;       /* menta brillante */
 
-  /* Alias semánticos en español */
-  --brand-tono-profundo: var(--brand-deep);
-  --brand-azul-base: var(--brand-base-blue);
-  --brand-cyan-intermedio: var(--brand-mid-cyan);
-  --brand-menta-brillante: var(--brand-bright-mint);
+  /* Ritmo vertical y espaciado de secciones (estandarizado) */
+  --section-padding-y: clamp(3.5rem, 6.5vw, 5.5rem);
+  --section-padding-y-compact: clamp(2.5rem, 4.5vw, 3.75rem);
+  --section-padding-x: clamp(1.25rem, 3.5vw, 2rem);
+
+  /* Transición de superficie entre secciones */
+  --section-divider-color: color-mix(in srgb, var(--color-border) 16%, transparent);
 }
 
 /* Fallback / Tema Claro (Glaciar) */

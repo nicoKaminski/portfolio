@@ -34,16 +34,18 @@ No usar Tailwind ni agregar librerías visuales o dependencias nuevas sin autori
 
 ## Lectura obligatoria
 
-Antes de modificar código:
+`AGENTS.md` es el único punto de entrada. Cada documento debe leerse una sola vez por tarea; una referencia desde una regla no reinicia esta secuencia.
 
-1. Leer la instrucción actual y más reciente del developer.
-2. Leer `AGENTS.md`.
-3. Leer `.agent/README.md`.
-4. Leer únicamente las reglas de `.agent/rules/` que apliquen a la tarea.
-5. Revisar `package.json` cuando la tarea dependa de scripts, dependencias o stack.
-6. Inspeccionar los archivos reales relacionados con la tarea y sus consumidores directos.
+Para cualquier tarea:
 
-No es necesario recorrer todo el repositorio para una tarea puntual.
+1. Aplicar las instrucciones vigentes de mayor prioridad provistas por el entorno de ejecución.
+2. Leer este archivo una vez.
+3. Consultar `.agent/README.md` una vez para seleccionar únicamente las reglas aplicables.
+4. Leer cada regla seleccionada una vez, sin volver al punto de entrada.
+5. Inspeccionar los archivos reales relacionados con la tarea y sus consumidores directos.
+6. Revisar `package.json` cuando la tarea dependa de scripts, dependencias o stack.
+
+No es necesario recorrer todo el repositorio para una tarea puntual ni volver a abrir documentos ya leídos salvo que hayan cambiado durante la tarea.
 
 ## Fuente de verdad
 
@@ -57,14 +59,17 @@ No asumir que una ruta, archivo, componente, hook, servicio, tipo, script, varia
 
 Prioridad:
 
-1. instrucción explícita y vigente del developer;
+1. instrucciones vigentes de sistema o developer provistas por el entorno de ejecución;
 2. reglas de este archivo;
 3. reglas aplicables de `.agent/rules/`;
-4. documentación técnica vigente del repositorio;
-5. patrones reales del código;
-6. criterio del agente.
+4. pedido explícito y vigente de la persona usuaria, interpretado dentro de los límites anteriores;
+5. documentación técnica vigente del repositorio;
+6. patrones reales del código;
+7. criterio del agente.
 
 Si dos fuentes se contradicen y la diferencia puede cambiar la implementación, informar la contradicción antes de decidir.
+
+En esta documentación, **propietario** o **mantenedor** se refiere a Nico o a la persona responsable del repositorio. El término **developer** se reserva para el nivel de instrucciones del entorno y no debe utilizarse para solicitar aprobaciones de producto o publicación.
 
 ## Arquitectura base
 
@@ -134,7 +139,7 @@ Nunca versionar secretos, credenciales, información privada de clientes/emplead
 
 ## Dependencias
 
-No instalar, eliminar ni actualizar dependencias sin autorización explícita.
+El agente no ejecuta comandos de instalación, eliminación o actualización de dependencias. Si una dependencia nueva parece necesaria, debe obtener aprobación explícita del propietario o mantenedor y pedirle que realice la instalación y actualice el lockfile; esa aprobación de producto no habilita al agente a ejecutar el comando prohibido.
 
 Antes de proponer una dependencia nueva, informar:
 
@@ -145,18 +150,11 @@ Antes de proponer una dependencia nueva, informar:
 
 ## Comandos
 
-El agente puede ejecutar automáticamente validaciones no destructivas que existan realmente en `package.json`.
-
-Con el estado actual del repo, las validaciones disponibles son:
-
-```text
-npm run lint
-npm run build
-```
+El agente puede ejecutar automáticamente validaciones no destructivas que existan realmente en `package.json`. `package.json` es la única fuente de verdad sobre los scripts disponibles; no mantener aquí una lista que pueda quedar desactualizada.
 
 `npm run dev` puede utilizarse únicamente cuando la tarea requiera validación de comportamiento o visual en runtime. No debe dejar procesos abiertos al finalizar.
 
-No inventar scripts. Si en el futuro aparecen `test`, `typecheck` u otras validaciones en `package.json`, podrán ejecutarse cuando sean pertinentes.
+No inventar scripts. Antes de ejecutar una validación, confirmar su existencia y relevancia para la tarea.
 
 ### Prohibido siempre
 
@@ -192,7 +190,7 @@ npm update
 npm ci
 ```
 
-Asimismo, queda prohibido ejecutar mediante shell comandos destructivos de filesystem (`Remove-Item`, `rm`, `del`, `erase`, `rmdir` o equivalentes). Toda eliminación necesaria de archivos debe realizarse mediante herramientas de edición/aplicación de cambios del IDE y no mediante comandos de terminal, salvo autorización previa y específica del developer.
+Asimismo, queda prohibido ejecutar mediante shell comandos destructivos de filesystem (`Remove-Item`, `rm`, `del`, `erase`, `rmdir` o equivalentes). Toda eliminación necesaria de archivos debe realizarse mediante herramientas de edición/aplicación de cambios del IDE y no mediante comandos de terminal. Una aprobación de producto del propietario o mantenedor no habilita estos comandos.
 
 ## Documentación
 
@@ -209,18 +207,18 @@ La documentación debe:
 
 ## Cierre obligatorio de tarea
 
-La entrega del agente debe informar como mínimo:
+Para una tarea con cambios, la entrega debe informar como mínimo:
 
 1. objetivo trabajado;
-2. archivos creados;
-3. archivos modificados;
-4. archivos eliminados;
-5. cambios realizados por responsabilidad;
-6. validaciones ejecutadas y resultados;
-7. validaciones no ejecutadas;
-8. impacto de seguridad o privacidad, si aplica;
-9. riesgos, dudas o limitaciones;
-10. cambios fuera de alcance detectados;
-11. mensaje de commit recomendado, sin ejecutar el commit.
+2. archivos creados, modificados y eliminados;
+3. cambios realizados por responsabilidad;
+4. validaciones ejecutadas y resultados;
+5. validaciones relevantes no ejecutadas;
+6. impacto de seguridad o privacidad, si aplica;
+7. riesgos, dudas o limitaciones;
+8. cambios fuera de alcance detectados;
+9. mensaje de commit recomendado, sin ejecutar el commit.
+
+Para un análisis, diagnóstico o consulta sin cambios, usar un cierre breve con objetivo, hallazgos o respuesta, evidencia revisada, limitaciones relevantes y confirmación de que el árbol no fue modificado. No incluir apartados vacíos por rutina.
 
 No declarar una tarea “lista”, “resuelta” o “sin errores” si falta evidencia necesaria o existe una validación pendiente relevante.

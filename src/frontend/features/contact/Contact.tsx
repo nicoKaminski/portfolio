@@ -13,9 +13,12 @@ export function Contact() {
     >
       <div className={styles.container}>
         <header className={styles.header}>
-          <h2 id="contact-title" className={styles.title}>
-            Contacto
-          </h2>
+          <div className={styles.titleWrapper}>
+            <h2 id="contact-title" className={styles.title}>
+              Contacto
+            </h2>
+            <span className={styles.titleAccent} aria-hidden="true" />
+          </div>
           <div className={styles.introGroup}>
             <p className={styles.intro}>
               Si querés hablar sobre un proyecto, una idea o simplemente
