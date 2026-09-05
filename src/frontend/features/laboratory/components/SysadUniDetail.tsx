@@ -33,26 +33,36 @@ export function SysadUniDetail() {
         className={styles.galleryGrid}
         aria-label="Capturas de SYSAD UNI"
       >
-        <div className={styles.imageWrapper}>
-          <Image
-            src="/projects/laboratory/sysaduni/captura-01.jpg"
-            alt="Vista de SYSAD UNI para crear y modificar una materia"
-            width={600}
-            height={400}
-            sizes="(max-width: 768px) 100vw, 400px"
-            className={styles.captureImage}
-          />
-        </div>
-        <div className={styles.imageWrapper}>
-          <Image
-            src="/projects/laboratory/sysaduni/captura-02.jpg"
-            alt="Listado de alumnos de SYSAD UNI con filtros de activos e inactivos"
-            width={600}
-            height={400}
-            sizes="(max-width: 768px) 100vw, 400px"
-            className={styles.captureImage}
-          />
-        </div>
+        <figure className={styles.galleryFigure}>
+          <div className={styles.imageWrapper}>
+            <Image
+              src="/projects/laboratory/sysaduni/captura-01.jpg"
+              alt="Vista de SYSAD UNI para crear y modificar una materia"
+              width={600}
+              height={400}
+              sizes="(max-width: 768px) 100vw, 400px"
+              className={styles.captureImage}
+            />
+          </div>
+          <figcaption className={styles.galleryCaption}>
+            Creación y modificación de materias.
+          </figcaption>
+        </figure>
+        <figure className={styles.galleryFigure}>
+          <div className={styles.imageWrapper}>
+            <Image
+              src="/projects/laboratory/sysaduni/captura-02.jpg"
+              alt="Listado de alumnos de SYSAD UNI con filtros de activos e inactivos"
+              width={600}
+              height={400}
+              sizes="(max-width: 768px) 100vw, 400px"
+              className={styles.captureImage}
+            />
+          </div>
+          <figcaption className={styles.galleryCaption}>
+            Listado de alumnos con filtros por estado.
+          </figcaption>
+        </figure>
       </section>
 
       {/* 3. Primeros pasos con Java */}

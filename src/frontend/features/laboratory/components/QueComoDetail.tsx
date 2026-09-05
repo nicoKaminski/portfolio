@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import labStyles from "./LaboratoryDetail.module.css";
 import styles from "./QueComoDetail.module.css";
 
 const TOTAL_PAGES = 39;
@@ -72,30 +73,30 @@ export function QueComoDetail() {
   };
 
   return (
-    <article className={styles.container}>
+    <article className={`${labStyles.container} ${styles.container}`}>
       {/* 1. Introducción + CTA Ver prototipo */}
-      <section className={styles.introSection}>
-        <p className={styles.introParagraph}>
+      <section className={labStyles.introSection}>
+        <p className={`${labStyles.intro} ${styles.introParagraph}`}>
           Qué Como fue un proyecto de UX/UI que hicimos en equipo a partir de una
           pregunta bastante cotidiana: ¿qué cocino con lo que tengo en casa?
         </p>
-        <p className={styles.introParagraph}>
+        <p className={`${labStyles.intro} ${styles.introParagraph}`}>
           La idea fue diseñar una app móvil que ayudara a decidir qué preparar
           según los ingredientes disponibles, especialmente cuando hay poco
           tiempo, pocas ideas o terminamos cayendo siempre en las mismas comidas.
         </p>
-        <p className={styles.introParagraph}>
+        <p className={`${labStyles.intro} ${styles.introParagraph}`}>
           El proyecto nos llevó por un proceso bastante completo: investigación,
           entrevistas, arquitectura de información, prototipado y pruebas con
           usuarios antes de llegar al diseño final.
         </p>
 
-        <div className={styles.actionsBlock}>
+        <div className={`${labStyles.actionsBlock} ${styles.actionsBlock}`}>
           <a
             href={FIGMA_PROTOTYPE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.ctaPrimary}
+            className={labStyles.ctaPrimary}
           >
             Ver prototipo
           </a>
@@ -107,7 +108,10 @@ export function QueComoDetail() {
         className={styles.processSection}
         aria-labelledby="que-como-proceso-title"
       >
-        <h3 id="que-como-proceso-title" className={styles.sectionTitle}>
+        <h3
+          id="que-como-proceso-title"
+          className={`${labStyles.sectionTitle} ${styles.sectionTitle}`}
+        >
           El proceso
         </h3>
 
@@ -143,7 +147,10 @@ export function QueComoDetail() {
         aria-labelledby="que-como-viewer-title"
       >
         <header className={styles.viewerHeader}>
-          <h3 id="que-como-viewer-title" className={styles.sectionTitle}>
+          <h3
+            id="que-como-viewer-title"
+            className={`${labStyles.sectionTitle} ${styles.sectionTitle}`}
+          >
             Recorré el proyecto completo
           </h3>
           <p className={styles.viewerText}>
@@ -209,11 +216,13 @@ export function QueComoDetail() {
       </section>
 
       {/* 4. Herramientas */}
-      <section className={styles.toolsSection}>
-        <h3 className={styles.toolsTitle}>Herramientas</h3>
-        <ul className={styles.toolsList}>
+      <section className={labStyles.techSection}>
+        <h3 className={`${labStyles.techTitle} ${styles.toolsTitle}`}>
+          Herramientas
+        </h3>
+        <ul className={labStyles.techList}>
           {tools.map((tool) => (
-            <li key={tool} className={styles.toolTag}>
+            <li key={tool} className={`${labStyles.techTag} ${styles.toolTag}`}>
               {tool}
             </li>
           ))}

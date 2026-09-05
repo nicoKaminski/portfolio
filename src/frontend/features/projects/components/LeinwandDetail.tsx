@@ -1,32 +1,33 @@
 import Image from "next/image";
+import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./LeinwandDetail.module.css";
 
 const technologies = ["WordPress", "WooCommerce", "CSS", "Photoshop"];
 
 export function LeinwandDetail() {
   return (
-    <article className={styles.container}>
+    <article className={baseStyles.container}>
       {/* 1. INTRODUCCIÓN */}
-      <section className={styles.introSection}>
-        <p className={styles.intro}>
+      <section className={baseStyles.introSection}>
+        <p className={baseStyles.intro}>
           Leinwand Overland nació como una nueva propuesta dentro de Leinwand,
           una marca ya vinculada al camping y las actividades al aire libre. Me
           pidieron desarrollar el sitio para esta nueva línea, enfocada
           especialmente en aventura, 4x4 y off-road.
         </p>
-        <p className={styles.intro}>
+        <p className={baseStyles.intro}>
           Me encargué de crear la web y la tienda online buscando mantener una
           relación clara con Leinwand, pero llevando la estética hacia el mundo
           overland y la identidad aventurera que querían transmitir.
         </p>
 
-        <div className={styles.actionsBlock}>
-          <div className={styles.primaryCtas}>
+        <div className={baseStyles.actionsBlock}>
+          <div className={baseStyles.primaryCtas}>
             <a
               href="https://leinwand-overland.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              className={baseStyles.ctaPrimary}
             >
               Ver sitio
             </a>
@@ -53,11 +54,11 @@ export function LeinwandDetail() {
       </section>
 
       {/* 3. DE UNA BASE EXISTENTE A UNA PROPUESTA PROPIA */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>
           De una base existente a una propuesta propia
         </h3>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           El proyecto partió de WordPress y de una plantilla como base, pero fue
           necesario adaptarla para que Leinwand Overland tuviera una presencia
           propia. Trabajé sobre distintos estilos con CSS, ajustando páginas,
@@ -67,11 +68,11 @@ export function LeinwandDetail() {
       </section>
 
       {/* 4. UNA TIENDA QUE TAMBIÉN TENÍA QUE VENDER */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>
           Una tienda que también tenía que vender
         </h3>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           Además de la parte visual, configuré la tienda con WooCommerce, los
           productos y las pasarelas de pago para que el sitio pudiera funcionar
           como un canal de venta completo y no solamente como una página de
@@ -80,9 +81,9 @@ export function LeinwandDetail() {
       </section>
 
       {/* 5. CONTENIDO VISUAL */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>Contenido visual</h3>
-        <p className={styles.paragraph}>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>Contenido visual</h3>
+        <p className={baseStyles.paragraph}>
           También trabajé sobre parte de las imágenes utilizadas en el sitio,
           combinando herramientas de IA y Photoshop para generar y adaptar
           material acorde al universo visual de Leinwand Overland.
@@ -90,9 +91,9 @@ export function LeinwandDetail() {
       </section>
 
       {/* 6. PUBLICADO Y EN USO */}
-      <section className={styles.statusSection}>
-        <h3 className={styles.sectionTitle}>Publicado y en uso</h3>
-        <p className={styles.paragraph}>
+      <section className={baseStyles.statusSection}>
+        <h3 className={baseStyles.sectionTitle}>Publicado y en uso</h3>
+        <p className={baseStyles.paragraph}>
           El sitio quedó publicado y continúa activo actualmente. Leinwand
           Overland sigue utilizándolo como parte de su presencia online y como
           canal de venta de sus productos.
@@ -100,11 +101,11 @@ export function LeinwandDetail() {
       </section>
 
       {/* 7. TECNOLOGÍAS Y HERRAMIENTAS */}
-      <section className={styles.techSection}>
-        <h3 className={styles.techTitle}>Tecnologías y herramientas</h3>
-        <ul className={styles.techList}>
+      <section className={baseStyles.techSection}>
+        <h3 className={baseStyles.techTitle}>Tecnologías y herramientas</h3>
+        <ul className={baseStyles.techList}>
           {technologies.map((tech) => (
-            <li key={tech} className={styles.techTag}>
+            <li key={tech} className={baseStyles.techTag}>
               {tech}
             </li>
           ))}

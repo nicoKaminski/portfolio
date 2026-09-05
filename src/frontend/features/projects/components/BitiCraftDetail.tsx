@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { useState } from "react";
+import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./BitiCraftDetail.module.css";
 
 const galleryImages = [
@@ -42,10 +45,10 @@ export function BitiCraftDetail() {
   };
 
   return (
-    <article className={styles.container}>
+    <article className={baseStyles.container}>
       {/* 1. Introducción */}
-      <section className={styles.introSection}>
-        <p className={styles.intro}>
+      <section className={baseStyles.introSection}>
+        <p className={baseStyles.intro}>
           BitiCraft es un emprendimiento real de papelería creativa y
           personalizada para eventos. Diseñé y desarrollé su sitio web de punta
           a punta, trabajando la experiencia, la interfaz y la implementación, y
@@ -53,13 +56,13 @@ export function BitiCraftDetail() {
           emprendimiento.
         </p>
 
-        <div className={styles.actionsBlock}>
-          <div className={styles.primaryCtas}>
+        <div className={baseStyles.actionsBlock}>
+          <div className={baseStyles.primaryCtas}>
             <a
               href="https://biticraft.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              className={baseStyles.ctaPrimary}
             >
               Ver sitio
             </a>
@@ -67,7 +70,7 @@ export function BitiCraftDetail() {
               href="https://github.com/nicoKaminski/biticraft"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaSecondary}
+              className={baseStyles.ctaSecondary}
             >
               Ver repositorio
             </a>
@@ -170,9 +173,9 @@ export function BitiCraftDetail() {
       </section>
 
       {/* 3. El objetivo */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>El objetivo</h3>
-        <p className={styles.paragraph}>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>El objetivo</h3>
+        <p className={baseStyles.paragraph}>
           El objetivo fue transformar la propuesta de BitiCraft en una
           experiencia web clara y fácil de recorrer, donde los productos y
           servicios pudieran entenderse rápidamente y las personas tuvieran una
@@ -181,9 +184,9 @@ export function BitiCraftDetail() {
       </section>
 
       {/* 4. Mi participación */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>Mi participación</h3>
-        <p className={styles.paragraph}>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>Mi participación</h3>
+        <p className={baseStyles.paragraph}>
           Me ocupé de todo el trabajo relacionado con la web: estructura, UX/UI,
           desarrollo de la interfaz y funcionamiento del contacto. Las
           decisiones de diseño fueron propuestas por mí y validadas con la
@@ -192,9 +195,9 @@ export function BitiCraftDetail() {
       </section>
 
       {/* 5. Estado actual */}
-      <section className={styles.statusSection}>
-        <h3 className={styles.sectionTitle}>Estado actual</h3>
-        <p className={styles.paragraph}>
+      <section className={baseStyles.statusSection}>
+        <h3 className={baseStyles.sectionTitle}>Estado actual</h3>
+        <p className={baseStyles.paragraph}>
           El sitio está publicado y continúa evolucionando. La siguiente etapa
           prevista es integrar Shopify para seguir ampliando la experiencia de
           BitiCraft.
@@ -202,11 +205,11 @@ export function BitiCraftDetail() {
       </section>
 
       {/* 7. Tecnologías */}
-      <section className={styles.techSection}>
-        <h3 className={styles.techTitle}>Tecnologías</h3>
-        <ul className={styles.techList}>
+      <section className={baseStyles.techSection}>
+        <h3 className={baseStyles.techTitle}>Tecnologías</h3>
+        <ul className={baseStyles.techList}>
           {technologies.map((tech) => (
-            <li key={tech} className={styles.techTag}>
+            <li key={tech} className={baseStyles.techTag}>
               {tech}
             </li>
           ))}

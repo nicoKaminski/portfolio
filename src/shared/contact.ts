@@ -10,6 +10,7 @@ export const NOMBRE_MIN_LENGTH = 2;
 export const NOMBRE_MAX_LENGTH = 80;
 
 export const EMAIL_MAX_LENGTH = 254;
+export const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export const MENSAJE_MIN_LENGTH = 20;
 export const MENSAJE_MAX_LENGTH = 3000;

@@ -6,6 +6,7 @@ import {
   ContactField,
   ContactFormState,
   EMAIL_MAX_LENGTH,
+  EMAIL_REGEX,
   MENSAJE_MAX_LENGTH,
   MENSAJE_MIN_LENGTH,
   NOMBRE_MAX_LENGTH,
@@ -32,8 +33,6 @@ const initialState: ContactFormState = {
   message: "",
   invalidFields: [],
 };
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export function ContactForm({ action, siteKey }: ContactFormProps) {
   const [state, formAction, isPending] = useActionState(action, initialState);

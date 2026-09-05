@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
-import { ProjectDetailDialog } from "../projects/components/ProjectDetailDialog";
+import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { MemoWarsDetail } from "./components/MemoWarsDetail";
 import { MemoPotterDetail } from "./components/MemoPotterDetail";
 import { QueComoDetail } from "./components/QueComoDetail";
@@ -11,14 +11,16 @@ import { SysadUniDetail } from "./components/SysadUniDetail";
 import { NutriVidaDetail } from "./components/NutriVidaDetail";
 import styles from "./Laboratory.module.css";
 
+type LabProjectId =
+  | "memo-potter"
+  | "memo-wars"
+  | "que-como"
+  | "siges-uni"
+  | "sysad-uni"
+  | "nutrivida";
+
 interface LaboratoryProject {
-  id?:
-    | "memo-potter"
-    | "memo-wars"
-    | "que-como"
-    | "siges-uni"
-    | "sysad-uni"
-    | "nutrivida";
+  id: LabProjectId;
   name: string;
   description: string;
   previewSrc: string;
@@ -63,87 +65,58 @@ const laboratoryProjects: LaboratoryProject[] = [
   },
 ];
 
-type ActiveLabProject =
-  | "memo-potter"
-  | "memo-wars"
-  | "que-como"
-  | "siges-uni"
-  | "sysad-uni"
-  | "nutrivida"
-  | null;
+type ActiveLabProject = LabProjectId | null;
+
+const LAB_DIALOG_CONFIG: Record<
+  LabProjectId,
+  { title: string; subtitle: string; closeAriaLabel: string }
+> = {
+  "memo-potter": {
+    title: "MemoPotter",
+    subtitle: "Proyecto final · Web II",
+    closeAriaLabel: "Cerrar detalle de MemoPotter",
+  },
+  "memo-wars": {
+    title: "MemoWars",
+    subtitle: "Práctica previa · Web II",
+    closeAriaLabel: "Cerrar detalle de MemoWars",
+  },
+  "que-como": {
+    title: "Qué Como · UX/UI",
+    subtitle: "Proyecto final · UX/UI",
+    closeAriaLabel: "Cerrar detalle de Qué Como · UX/UI",
+  },
+  "siges-uni": {
+    title: "SIGES UNI",
+    subtitle: "Proyecto final · Desarrollo de Aplicaciones Web",
+    closeAriaLabel: "Cerrar detalle de SIGES UNI",
+  },
+  "sysad-uni": {
+    title: "SYSAD UNI",
+    subtitle: "Práctica previa al proyecto final · Java",
+    closeAriaLabel: "Cerrar detalle de SYSAD UNI",
+  },
+  nutrivida: {
+    title: "NutriVida Suite",
+    subtitle: "Proyecto final · Java",
+    closeAriaLabel: "Cerrar detalle de NutriVida Suite",
+  },
+};
 
 export function Laboratory() {
   const [activeProject, setActiveProject] = useState<ActiveLabProject>(null);
-  const memoPotterTriggerRef = useRef<HTMLButtonElement>(null);
-  const memoWarsTriggerRef = useRef<HTMLButtonElement>(null);
-  const queComoTriggerRef = useRef<HTMLButtonElement>(null);
-  const sigesUniTriggerRef = useRef<HTMLButtonElement>(null);
-  const sysadUniTriggerRef = useRef<HTMLButtonElement>(null);
-  const nutriVidaTriggerRef = useRef<HTMLButtonElement>(null);
+  const triggerRefs = useRef<
+    Partial<Record<LabProjectId, HTMLButtonElement | null>>
+  >({});
+  const activeTriggerRef = useRef<HTMLButtonElement>(null);
+  const dialogConfig = activeProject
+    ? LAB_DIALOG_CONFIG[activeProject]
+    : null;
 
-  const isMemoPotter = activeProject === "memo-potter";
-  const isMemoWars = activeProject === "memo-wars";
-  const isQueComo = activeProject === "que-como";
-  const isSigesUni = activeProject === "siges-uni";
-  const isSysadUni = activeProject === "sysad-uni";
-  const isNutriVida = activeProject === "nutrivida";
-  const isDialogOpen = activeProject !== null;
-
-  const currentTriggerRef = isMemoPotter
-    ? memoPotterTriggerRef
-    : isMemoWars
-      ? memoWarsTriggerRef
-      : isQueComo
-        ? queComoTriggerRef
-        : isSigesUni
-          ? sigesUniTriggerRef
-          : isSysadUni
-            ? sysadUniTriggerRef
-            : isNutriVida
-              ? nutriVidaTriggerRef
-              : undefined;
-
-  const dialogTitle = isMemoPotter
-    ? "MemoPotter"
-    : isMemoWars
-      ? "MemoWars"
-      : isQueComo
-        ? "Qué Como · UX/UI"
-        : isSigesUni
-          ? "SIGES UNI"
-          : isSysadUni
-            ? "SYSAD UNI"
-            : isNutriVida
-              ? "NutriVida Suite"
-              : "";
-
-  const dialogSubtitle = isMemoPotter
-    ? "Proyecto final · Web II"
-    : isMemoWars
-      ? "Práctica previa · Web II"
-      : isQueComo
-        ? "Proyecto final · UX/UI"
-        : isSigesUni
-          ? "Proyecto final · Desarrollo de Aplicaciones Web"
-          : isSysadUni
-            ? "Práctica previa al proyecto final · Java"
-            : isNutriVida
-              ? "Proyecto final · Java"
-              : undefined;
-
-  const dialogCloseAriaLabel = isMemoPotter
-    ? "Cerrar detalle de MemoPotter"
-    : isMemoWars
-      ? "Cerrar detalle de MemoWars"
-      : isQueComo
-        ? "Cerrar detalle de Qué Como · UX/UI"
-        : isSigesUni
-          ? "Cerrar detalle de SIGES UNI"
-          : isSysadUni
-            ? "Cerrar detalle de SYSAD UNI"
-            : isNutriVida
-              ? "Cerrar detalle de NutriVida Suite"
-              : undefined;
+  const openProject = (project: LabProjectId) => {
+    activeTriggerRef.current = triggerRefs.current[project] ?? null;
+    setActiveProject(project);
+  };
 
   return (
     <section
@@ -162,115 +135,67 @@ export function Laboratory() {
         </header>
 
         <div className={styles.grid}>
-          {laboratoryProjects.map((project) => {
-            const isInteractive =
-              project.id === "memo-potter" ||
-              project.id === "memo-wars" ||
-              project.id === "que-como" ||
-              project.id === "siges-uni" ||
-              project.id === "sysad-uni" ||
-              project.id === "nutrivida";
-
-            if (isInteractive) {
-              const triggerRef =
-                project.id === "memo-potter"
-                  ? memoPotterTriggerRef
-                  : project.id === "memo-wars"
-                    ? memoWarsTriggerRef
-                    : project.id === "que-como"
-                      ? queComoTriggerRef
-                      : project.id === "siges-uni"
-                        ? sigesUniTriggerRef
-                        : project.id === "sysad-uni"
-                          ? sysadUniTriggerRef
-                          : nutriVidaTriggerRef;
-
-              return (
-                <button
-                  key={project.name}
-                  ref={triggerRef}
-                  type="button"
-                  className={styles.card}
-                  onClick={() => setActiveProject(project.id as ActiveLabProject)}
-                  aria-haspopup="dialog"
-                >
-                  <div className={styles.cardImageWrapper}>
-                    <Image
-                      src={project.previewSrc}
-                      alt=""
-                      width={400}
-                      height={225}
-                      className={styles.cardImage}
-                    />
-                  </div>
-                  <div className={styles.cardContent}>
-                    <div className={styles.cardHeader}>
-                      <span className={styles.projectName}>{project.name}</span>
-                    </div>
-                    <p className={styles.projectDescription}>
-                      {project.description}
-                    </p>
-                    <div className={styles.cardFooter}>
-                      <span className={styles.cardCta} aria-hidden="true">
-                        <span className={styles.cardCtaText}>Ver más</span>
-                        <span className={styles.cardCtaArrow}>&rarr;</span>
-                      </span>
-                    </div>
-                  </div>
-                </button>
-              );
-            }
-
-            return (
-              <article
-                key={project.name}
-                className={styles.card}
-              >
-                <div className={styles.cardImageWrapper}>
-                  <Image
-                    src={project.previewSrc}
-                    alt=""
-                    width={400}
-                    height={225}
-                    className={styles.cardImage}
-                  />
+          {laboratoryProjects.map((project) => (
+            <button
+              key={project.name}
+              ref={(element) => {
+                triggerRefs.current[project.id] = element;
+              }}
+              type="button"
+              className={styles.card}
+              onClick={() => openProject(project.id)}
+              aria-haspopup="dialog"
+            >
+              <div className={styles.cardImageWrapper}>
+                <Image
+                  src={project.previewSrc}
+                  alt=""
+                  width={400}
+                  height={225}
+                  className={styles.cardImage}
+                />
+              </div>
+              <div className={styles.cardContent}>
+                <div className={styles.cardHeader}>
+                  <span className={styles.projectName}>{project.name}</span>
                 </div>
-                <div className={styles.cardContent}>
-                  <div className={styles.cardHeader}>
-                    <span className={styles.projectName}>{project.name}</span>
-                  </div>
-                  <p className={styles.projectDescription}>
-                    {project.description}
-                  </p>
+                <p className={styles.projectDescription}>
+                  {project.description}
+                </p>
+                <div className={styles.cardFooter}>
+                  <span className={styles.cardCta} aria-hidden="true">
+                    <span className={styles.cardCtaText}>Ver más</span>
+                    <span className={styles.cardCtaArrow}>&rarr;</span>
+                  </span>
                 </div>
-              </article>
-            );
-          })}
+              </div>
+            </button>
+          ))}
         </div>
       </div>
 
       <ProjectDetailDialog
-        isOpen={isDialogOpen}
+        isOpen={activeProject !== null}
         onClose={() => setActiveProject(null)}
-        title={dialogTitle}
-        subtitle={dialogSubtitle}
-        closeAriaLabel={dialogCloseAriaLabel}
-        triggerRef={currentTriggerRef}
+        title={dialogConfig?.title ?? ""}
+        subtitle={dialogConfig?.subtitle}
+        closeAriaLabel={dialogConfig?.closeAriaLabel}
+        triggerRef={activeTriggerRef}
       >
-        {isMemoWars && (
+        {activeProject === "memo-wars" && (
           <MemoWarsDetail
             onNavigateToMemoPotter={() => setActiveProject("memo-potter")}
           />
         )}
-        {isMemoPotter && (
+        {activeProject === "memo-potter" && (
           <MemoPotterDetail
             onNavigateToMemoWars={() => setActiveProject("memo-wars")}
           />
         )}
-        {isQueComo && <QueComoDetail />}
-        {isSigesUni && <SigesUniDetail />}
-        {isSysadUni && <SysadUniDetail />}
-        {isNutriVida && <NutriVidaDetail />}
+        {activeProject === "que-como" && <QueComoDetail />}
+        {activeProject === "siges-uni" && <SigesUniDetail />}
+        {activeProject === "sysad-uni" && <SysadUniDetail />}
+        {activeProject === "nutrivida" && <NutriVidaDetail />}
       </ProjectDetailDialog>
     </section>
   );

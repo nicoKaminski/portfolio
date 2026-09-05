@@ -1,3 +1,5 @@
+"use client";
+
 import styles from "./ProjectDetailDialog.module.css";
 import { useEffect, useRef } from "react";
 

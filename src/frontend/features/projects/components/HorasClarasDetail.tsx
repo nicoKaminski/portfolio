@@ -1,4 +1,5 @@
 import Image from "next/image";
+import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./HorasClarasDetail.module.css";
 
 const decisionItems = [
@@ -34,8 +35,8 @@ export function HorasClarasDetail() {
   return (
     <article className={styles.container}>
       {/* A. Introducción */}
-      <section className={styles.introSection}>
-        <p className={styles.intro}>
+      <section className={baseStyles.introSection}>
+        <p className={baseStyles.intro}>
           Horas Claras nació de un problema bastante simple: Ariel, un amigo y
           compañero de la facu, y yo necesitábamos registrar nuestras horas de
           trabajo, pero solo yo tenía acceso a Jira para cargarlas. Él llevaba sus
@@ -43,19 +44,19 @@ export function HorasClarasDetail() {
           tenía que cruzar ambos archivos con Jira para comprobar que todo
           coincidiera.
         </p>
-        <p className={styles.intro}>
+        <p className={baseStyles.intro}>
           Desarrollé Horas Claras para reemplazar ese proceso por una sola
           aplicación donde los dos pudiéramos registrar nuestro trabajo y yo
           pudiera controlar qué horas seguían pendientes de cargar en Jira.
         </p>
 
-        <div className={styles.actionsBlock}>
-          <div className={styles.primaryCtas}>
+        <div className={baseStyles.actionsBlock}>
+          <div className={baseStyles.primaryCtas}>
             <a
               href="https://horas-claras.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              className={baseStyles.ctaPrimary}
             >
               Abrir aplicación
             </a>
@@ -63,7 +64,7 @@ export function HorasClarasDetail() {
               href="https://github.com/nicoKaminski/horas-claras"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaSecondary}
+              className={baseStyles.ctaSecondary}
             >
               Ver repositorio
             </a>
@@ -141,13 +142,13 @@ export function HorasClarasDetail() {
         <h3 className={styles.sectionTitle}>La solución</h3>
         <div className={styles.solutionGrid}>
           <div className={styles.solutionText}>
-            <p className={styles.paragraph}>
+            <p className={baseStyles.paragraph}>
               La idea no era construir un sistema enorme, sino eliminar las
               partes incómodas del proceso. Cada uno puede registrar y gestionar
               sus propias horas, consultar el trabajo realizado y mantener
               identificado qué todavía falta trasladar a Jira.
             </p>
-            <p className={styles.paragraph}>
+            <p className={baseStyles.paragraph}>
               Para mí, además, existe una vista global desde la que puedo
               revisar los registros de ambos y marcar los que ya fueron cargados.
               El dashboard completa el flujo con métricas y una lectura rápida
@@ -190,12 +191,12 @@ export function HorasClarasDetail() {
         <h3 className={styles.conclusionTitle}>
           De herramienta improvisada a herramienta real
         </h3>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           Lo que empezó como un TXT, un Excel y una revisión manual a fin de mes
           terminó convirtiéndose en una aplicación que Ariel y yo usamos para
           gestionar nuestras horas de trabajo.
         </p>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           El MVP está completo y desplegado. La instancia de uso real permanece
           protegida por autenticación, mientras que el código del proyecto es
           público y puede consultarse en GitHub.
@@ -205,7 +206,7 @@ export function HorasClarasDetail() {
       {/* F. Tecnologías */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Tecnologías</h3>
-        <ul className={styles.techList}>
+        <ul className={baseStyles.techList}>
           {technologies.map((tech) => (
             <li key={tech} className={styles.techTag}>
               {tech}

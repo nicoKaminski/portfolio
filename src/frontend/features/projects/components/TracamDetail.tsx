@@ -1,5 +1,8 @@
+"use client";
+
 import Image from "next/image";
 import { useState, useRef, useEffect, useCallback } from "react";
+import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./TracamDetail.module.css";
 
 interface ZoomImage {
@@ -59,10 +62,10 @@ export function TracamDetail() {
   }, [zoomedImage, handleCloseZoom]);
 
   return (
-    <article className={styles.container}>
+    <article className={baseStyles.container}>
       {/* 1. INTRODUCCIÓN */}
-      <section className={styles.introSection}>
-        <p className={styles.intro}>
+      <section className={baseStyles.introSection}>
+        <p className={baseStyles.intro}>
           TRACAM es un MVP desarrollado por Grupo6S para centralizar la gestión
           operativa y la trazabilidad de viajes de camiones. El proyecto busca
           reemplazar progresivamente procesos distribuidos entre papel, Excel,
@@ -70,13 +73,13 @@ export function TracamDetail() {
           organizar la operación diaria.
         </p>
 
-        <div className={styles.actionsBlock}>
-          <div className={styles.primaryCtas}>
+        <div className={baseStyles.actionsBlock}>
+          <div className={baseStyles.primaryCtas}>
             <a
               href="https://tracam.grupo6s.com/login"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              className={baseStyles.ctaPrimary}
             >
               Ver aplicación
             </a>
@@ -108,7 +111,7 @@ export function TracamDetail() {
           <button
             ref={btn01Ref}
             type="button"
-            className={`${styles.imageButton} ${styles.primaryImageButton}`}
+            className={styles.imageButton}
             onClick={() =>
               setZoomedImage({
                 src: "/projects/tracam/captura-01.jpg",
@@ -153,7 +156,7 @@ export function TracamDetail() {
           <button
             ref={btn02Ref}
             type="button"
-            className={`${styles.imageButton} ${styles.secondaryImageButton}`}
+            className={styles.imageButton}
             onClick={() =>
               setZoomedImage({
                 src: "/projects/tracam/captura-02.jpg",
@@ -234,9 +237,9 @@ export function TracamDetail() {
       )}
 
       {/* 3. UN PROBLEMA OPERATIVO DISTRIBUIDO */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>Un problema operativo distribuido</h3>
-        <p className={styles.paragraph}>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>Un problema operativo distribuido</h3>
+        <p className={baseStyles.paragraph}>
           La operación que TRACAM busca ordenar no sucede en un único lugar.
           Viajes, camiones, choferes, prioridades y datos operativos pueden
           terminar repartidos entre distintos medios y requieren seguimiento
@@ -246,8 +249,8 @@ export function TracamDetail() {
       </section>
 
       {/* 4. MI PARTICIPACIÓN */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>Mi participación</h3>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>Mi participación</h3>
         <div className={styles.participationContent}>
           <div className={styles.roleSummary}>
             <span className={styles.roleBadge}>UX/UI</span>
@@ -256,12 +259,12 @@ export function TracamDetail() {
             <span className={styles.rolePlus} aria-hidden="true">+</span>
             <span className={styles.roleBadge}>Backend</span>
           </div>
-          <p className={styles.paragraph}>
+          <p className={baseStyles.paragraph}>
             Participo en el desarrollo full stack de TRACAM dentro de Grupo6S,
             trabajando tanto sobre la interfaz con React y TypeScript como sobre el
             backend con NestJS y PostgreSQL.
           </p>
-          <p className={styles.paragraph}>
+          <p className={baseStyles.paragraph}>
             Además, tengo un rol especialmente fuerte en UX/UI. Desarrollo las
             propuestas de diseño y los patrones visuales que sirven como
             referencia para que el resto del equipo pueda mantener coherencia al
@@ -271,11 +274,11 @@ export function TracamDetail() {
       </section>
 
       {/* 5. DISEÑO QUE PUEDE CRECER CON EL PRODUCTO */}
-      <section className={styles.editorialSection}>
-        <h3 className={styles.sectionTitle}>
+      <section className={baseStyles.editorialSection}>
+        <h3 className={baseStyles.sectionTitle}>
           Diseño que puede crecer con el producto
         </h3>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           Como el sistema continúa incorporando flujos y funcionalidades, una
           parte importante del trabajo de diseño consiste en establecer patrones
           que puedan repetirse sin que cada nueva pantalla parezca pertenecer a
@@ -285,26 +288,26 @@ export function TracamDetail() {
       </section>
 
       {/* 6. ESTADO ACTUAL */}
-      <section className={styles.statusSection}>
-        <h3 className={styles.statusTitle}>Estado actual</h3>
-        <p className={styles.paragraph}>
+      <section className={baseStyles.statusSection}>
+        <h3 className={baseStyles.statusTitle}>Estado actual</h3>
+        <p className={baseStyles.paragraph}>
           TRACAM se encuentra actualmente en etapa de MVP y está siendo probado
           por el cliente. El proyecto todavía no está finalizado: seguimos
           ajustando funcionalidades, flujos de uso y la experiencia general a
           partir de su utilización real.
         </p>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           La interfaz también continúa evolucionando y todavía requiere trabajo
           de refinamiento visual antes de considerar el producto cerrado.
         </p>
       </section>
 
       {/* 7. TECNOLOGÍAS */}
-      <section className={styles.techSection}>
-        <h3 className={styles.techTitle}>Tecnologías</h3>
-        <ul className={styles.techList}>
+      <section className={baseStyles.techSection}>
+        <h3 className={baseStyles.techTitle}>Tecnologías</h3>
+        <ul className={baseStyles.techList}>
           {technologies.map((tech) => (
-            <li key={tech} className={styles.techTag}>
+            <li key={tech} className={baseStyles.techTag}>
               {tech}
             </li>
           ))}

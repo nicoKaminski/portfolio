@@ -2,13 +2,20 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
-import { ProjectDetailDialog } from "./components/ProjectDetailDialog";
+import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { GeClauDetail } from "./components/GeClauDetail";
 import { HorasClarasDetail } from "./components/HorasClarasDetail";
 import { BitiCraftDetail } from "./components/BitiCraftDetail";
 import { TracamDetail } from "./components/TracamDetail";
 import { LeinwandDetail } from "./components/LeinwandDetail";
 import styles from "./Projects.module.css";
+
+type ActiveProject =
+  | "geclau"
+  | "horas-claras"
+  | "biticraft"
+  | "tracam"
+  | "leinwand";
 
 const featuredProjects = [
   {
@@ -25,7 +32,7 @@ const featuredProjects = [
     description:
       "Una herramienta para registrar horas de trabajo, controlar pendientes y mantener ordenada la carga en Jira.",
   },
-];
+] as const;
 
 const secondaryProjects = [
   {
@@ -49,21 +56,60 @@ const secondaryProjects = [
     description:
       "E-commerce desarrollado con WordPress y WooCommerce para una empresa de equipamiento overland.",
   },
-];
+] as const;
+
+const PROJECT_DIALOG_CONFIG: Record<
+  ActiveProject,
+  {
+    title: string;
+    subtitle: string;
+    status?: string;
+    closeAriaLabel: string;
+  }
+> = {
+  geclau: {
+    title: "GeClAu",
+    subtitle: "Gestión académica de clases y asignación de aulas",
+    closeAriaLabel: "Cerrar detalle de GeClAu",
+  },
+  "horas-claras": {
+    title: "Horas Claras",
+    subtitle: "Registro de horas y seguimiento de carga en Jira",
+    closeAriaLabel: "Cerrar detalle de Horas Claras",
+  },
+  biticraft: {
+    title: "BitiCraft",
+    subtitle: "Sitio web para un emprendimiento de papelería personalizada",
+    status: "Publicado · En evolución",
+    closeAriaLabel: "Cerrar detalle de BitiCraft",
+  },
+  tracam: {
+    title: "TRACAM",
+    subtitle: "Gestión operativa y trazabilidad de viajes de camiones",
+    closeAriaLabel: "Cerrar detalle de TRACAM",
+  },
+  leinwand: {
+    title: "Leinwand Overland",
+    subtitle: "E-commerce de equipamiento para aventura y overland",
+    status: "Publicado · En uso",
+    closeAriaLabel: "Cerrar detalle de Leinwand Overland",
+  },
+};
 
 export function Projects() {
-  const [activeProject, setActiveProject] = useState<string | null>(null);
-  const geclauTriggerRef = useRef<HTMLButtonElement>(null);
-  const horasClarasTriggerRef = useRef<HTMLButtonElement>(null);
-  const biticraftTriggerRef = useRef<HTMLButtonElement>(null);
-  const tracamTriggerRef = useRef<HTMLButtonElement>(null);
-  const leinwandTriggerRef = useRef<HTMLButtonElement>(null);
+  const [activeProject, setActiveProject] = useState<ActiveProject | null>(null);
+  const triggerRefs = useRef<
+    Partial<Record<ActiveProject, HTMLButtonElement | null>>
+  >({});
+  const activeTriggerRef = useRef<HTMLButtonElement>(null);
+  const dialogConfig = activeProject
+    ? PROJECT_DIALOG_CONFIG[activeProject]
+    : null;
 
-  const isGeclauOpen = activeProject === "geclau";
-  const isHorasClarasOpen = activeProject === "horas-claras";
-  const isBiticraftOpen = activeProject === "biticraft";
-  const isTracamOpen = activeProject === "tracam";
-  const isLeinwandOpen = activeProject === "leinwand";
+  const openProject = (project: ActiveProject) => {
+    activeTriggerRef.current = triggerRefs.current[project] ?? null;
+    setActiveProject(project);
+  };
 
   return (
     <section
@@ -83,187 +129,114 @@ export function Projects() {
 
         {/* Nivel 1 · Protagonistas (2 columnas) */}
         <div className={styles.featuredGrid}>
-          {featuredProjects.map((project) => {
-            const isGeclau = project.id === "geclau";
-            const isHorasClaras = project.id === "horas-claras";
-            const isInteractive = isGeclau || isHorasClaras;
-            const triggerRef = isGeclau
-              ? geclauTriggerRef
-              : isHorasClaras
-                ? horasClarasTriggerRef
-                : undefined;
+          {featuredProjects.map((project) => (
+            <article
+              key={project.id}
+              className={`${styles.featuredCard} ${styles.interactiveCard}`}
+            >
+              <button
+                ref={(element) => {
+                  triggerRefs.current[project.id] = element;
+                }}
+                type="button"
+                className={styles.cardActionOverlay}
+                onClick={() => openProject(project.id)}
+                aria-label={`Más info sobre ${project.title}`}
+              />
 
-            return (
-              <article
-                key={project.id}
-                className={`${styles.featuredCard} ${isInteractive ? styles.interactiveCard : ""}`}
-              >
-                {isInteractive && (
-                  <button
-                    ref={triggerRef}
-                    type="button"
-                    className={styles.cardActionOverlay}
-                    onClick={() => setActiveProject(project.id)}
-                    aria-label={`Más info sobre ${project.title}`}
+              <div className={styles.mediaContainer} aria-hidden="true">
+                <div className={styles.logoSurface}>
+                  <Image
+                    src={project.logo}
+                    alt=""
+                    fill
+                    sizes="(max-width: 960px) 100vw, 560px"
+                    className={styles.featuredLogo}
                   />
-                )}
-
-                <div
-                  className={styles.mediaContainer}
-                  aria-hidden="true"
-                >
-                  <div className={styles.logoSurface}>
-                    <Image
-                      src={project.logo}
-                      alt=""
-                      fill
-                      sizes="(max-width: 960px) 100vw, 560px"
-                      className={styles.featuredLogo}
-                    />
-                  </div>
                 </div>
-                <div className={styles.featuredContent}>
-                  <h3 className={styles.featuredTitle}>{project.title}</h3>
-                  <div className={styles.featuredBody}>
-                    <p className={styles.featuredDescription}>
-                      {project.description}
-                    </p>
-                    {isInteractive && (
-                      <span className={styles.moreInfoCta} aria-hidden="true">
-                        <span className={styles.moreInfoCtaText}>Más info</span>
-                        <span className={styles.moreInfoCtaArrow}>&rarr;</span>
-                      </span>
-                    )}
-                  </div>
+              </div>
+              <div className={styles.featuredContent}>
+                <h3 className={styles.featuredTitle}>{project.title}</h3>
+                <div className={styles.featuredBody}>
+                  <p className={styles.featuredDescription}>
+                    {project.description}
+                  </p>
+                  <span className={styles.moreInfoCta} aria-hidden="true">
+                    <span className={styles.moreInfoCtaText}>Más info</span>
+                    <span className={styles.moreInfoCtaArrow}>&rarr;</span>
+                  </span>
                 </div>
-              </article>
-            );
-          })}
+              </div>
+            </article>
+          ))}
         </div>
 
         {/* Nivel 2 · Secundarios (3 columnas) */}
         <div className={styles.secondaryGrid}>
-          {secondaryProjects.map((project) => {
-            const isBiticraft = project.id === "biticraft";
-            const isTracam = project.id === "tracam";
-            const isLeinwand = project.id === "leinwand";
-            const isInteractive = isBiticraft || isTracam || isLeinwand;
-            const triggerRef = isBiticraft
-              ? biticraftTriggerRef
-              : isTracam
-                ? tracamTriggerRef
-                : isLeinwand
-                  ? leinwandTriggerRef
-                  : undefined;
-
-            return (
-              <article
-                key={project.id}
-                className={`${styles.secondaryCard} ${isInteractive ? styles.secondaryInteractiveCard : ""}`}
-              >
-                {isInteractive && (
-                  <button
-                    ref={triggerRef}
-                    type="button"
-                    className={styles.secondaryActionOverlay}
-                    onClick={() => setActiveProject(project.id)}
-                    aria-label={`Más info sobre ${project.title}`}
+          {secondaryProjects.map((project) => (
+            <article
+              key={project.id}
+              className={`${styles.secondaryCard} ${styles.secondaryInteractiveCard}`}
+            >
+              <button
+                ref={(element) => {
+                  triggerRefs.current[project.id] = element;
+                }}
+                type="button"
+                className={styles.secondaryActionOverlay}
+                onClick={() => openProject(project.id)}
+                aria-label={`Más info sobre ${project.title}`}
+              />
+              <div className={styles.secondaryHeader}>
+                <h3 className={styles.secondaryTitle}>{project.title}</h3>
+                <div
+                  className={styles.secondaryLogoContainer}
+                  aria-hidden="true"
+                >
+                  <Image
+                    src={project.logo}
+                    alt=""
+                    fill
+                    sizes="110px"
+                    className={`${styles.secondaryLogo} ${project.id === "leinwand" ? styles.secondaryLogoLeinwand : ""}`}
                   />
-                )}
-                <div className={styles.secondaryHeader}>
-                  <h3 className={styles.secondaryTitle}>{project.title}</h3>
-                  <div
-                    className={styles.secondaryLogoContainer}
-                    aria-hidden="true"
-                  >
-                    <Image
-                      src={project.logo}
-                      alt=""
-                      fill
-                      sizes="110px"
-                      className={`${styles.secondaryLogo} ${project.id === "leinwand" ? styles.secondaryLogoLeinwand : ""}`}
-                    />
-                  </div>
                 </div>
-                <div className={styles.secondaryBody}>
-                  <p className={styles.secondaryDescription}>
-                    {project.description}
-                  </p>
-                  {isInteractive && (
-                    <span
-                      className={styles.secondaryMoreInfoCta}
-                      aria-hidden="true"
-                    >
-                      <span className={styles.secondaryMoreInfoCtaText}>
-                        Más info
-                      </span>
-                      <span className={styles.secondaryMoreInfoCtaArrow}>
-                        &rarr;
-                      </span>
-                    </span>
-                  )}
-                </div>
-              </article>
-            );
-          })}
+              </div>
+              <div className={styles.secondaryBody}>
+                <p className={styles.secondaryDescription}>
+                  {project.description}
+                </p>
+                <span
+                  className={styles.secondaryMoreInfoCta}
+                  aria-hidden="true"
+                >
+                  <span className={styles.secondaryMoreInfoCtaText}>
+                    Más info
+                  </span>
+                  <span className={styles.secondaryMoreInfoCtaArrow}>
+                    &rarr;
+                  </span>
+                </span>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
 
       <ProjectDetailDialog
-        isOpen={isGeclauOpen}
+        isOpen={activeProject !== null}
         onClose={() => setActiveProject(null)}
-        title="GeClAu"
-        subtitle="Gestión académica de clases y asignación de aulas"
-        closeAriaLabel="Cerrar detalle de GeClAu"
-        triggerRef={geclauTriggerRef}
+        title={dialogConfig?.title ?? ""}
+        subtitle={dialogConfig?.subtitle}
+        status={dialogConfig?.status}
+        closeAriaLabel={dialogConfig?.closeAriaLabel}
+        triggerRef={activeTriggerRef}
       >
-        <GeClauDetail />
-      </ProjectDetailDialog>
-
-      <ProjectDetailDialog
-        isOpen={isHorasClarasOpen}
-        onClose={() => setActiveProject(null)}
-        title="Horas Claras"
-        subtitle="Registro de horas y seguimiento de carga en Jira"
-        closeAriaLabel="Cerrar detalle de Horas Claras"
-        triggerRef={horasClarasTriggerRef}
-      >
-        <HorasClarasDetail />
-      </ProjectDetailDialog>
-
-      <ProjectDetailDialog
-        isOpen={isBiticraftOpen}
-        onClose={() => setActiveProject(null)}
-        title="BitiCraft"
-        subtitle="Sitio web para un emprendimiento de papelería personalizada"
-        status="Publicado · En evolución"
-        closeAriaLabel="Cerrar detalle de BitiCraft"
-        triggerRef={biticraftTriggerRef}
-      >
-        <BitiCraftDetail />
-      </ProjectDetailDialog>
-
-      <ProjectDetailDialog
-        isOpen={isTracamOpen}
-        onClose={() => setActiveProject(null)}
-        title="TRACAM"
-        subtitle="Gestión operativa y trazabilidad de viajes de camiones"
-        closeAriaLabel="Cerrar detalle de TRACAM"
-        triggerRef={tracamTriggerRef}
-      >
-        <TracamDetail />
-      </ProjectDetailDialog>
-
-      <ProjectDetailDialog
-        isOpen={isLeinwandOpen}
-        onClose={() => setActiveProject(null)}
-        title="Leinwand Overland"
-        subtitle="E-commerce de equipamiento para aventura y overland"
-        status="Publicado · En uso"
-        closeAriaLabel="Cerrar detalle de Leinwand Overland"
-        triggerRef={leinwandTriggerRef}
-      >
-        <LeinwandDetail />
+        {activeProject === "geclau" && <GeClauDetail />}
+        {activeProject === "horas-claras" && <HorasClarasDetail />}
+        {activeProject === "biticraft" && <BitiCraftDetail />}
+        {activeProject === "tracam" && <TracamDetail />}
+        {activeProject === "leinwand" && <LeinwandDetail />}
       </ProjectDetailDialog>
     </section>
   );

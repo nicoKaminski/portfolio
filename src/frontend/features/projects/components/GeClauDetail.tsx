@@ -1,3 +1,4 @@
+import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./GeClauDetail.module.css";
 
 const participationItems = [
@@ -65,10 +66,10 @@ const technologies = [
 
 export function GeClauDetail() {
   return (
-    <article className={styles.container}>
+    <article className={baseStyles.container}>
       {/* Introducción y Acciones principales */}
-      <section className={styles.introSection}>
-        <p className={styles.intro}>
+      <section className={baseStyles.introSection}>
+        <p className={baseStyles.intro}>
           GeClAu empezó como un proyecto académico y terminó resolviendo un
           problema real de la UTN Mar del Plata. Detrás de algo tan simple como
           asignar un aula había horarios, docentes, capacidades, recursos y un
@@ -78,12 +79,12 @@ export function GeClauDetail() {
         </p>
 
         <div className={styles.actionsBlock}>
-          <div className={styles.primaryCtas}>
+          <div className={baseStyles.primaryCtas}>
             <a
               href="https://demo.geclau.grupo6s.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              className={baseStyles.ctaPrimary}
             >
               Ver demo
             </a>
@@ -91,7 +92,7 @@ export function GeClauDetail() {
               href="https://aulas.mdp.utn.edu.ar/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaSecondary}
+              className={baseStyles.ctaSecondary}
             >
               Ver implementación UTN
             </a>
@@ -131,7 +132,7 @@ export function GeClauDetail() {
       {/* El problema */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>El problema</h3>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           Antes de GeClAu, buena parte de la gestión estaba repartida entre
           planillas Excel armadas por distintas personas, mensajes y archivos
           con formatos diferentes. Cada uno había encontrado su propia forma de
@@ -181,7 +182,7 @@ export function GeClauDetail() {
       {/* Resultado */}
       <section className={styles.resultSection}>
         <h3 className={styles.sectionTitle}>Resultado</h3>
-        <p className={styles.paragraph}>
+        <p className={baseStyles.paragraph}>
           GeClAu pasó de ser un proyecto académico a una herramienta
           implementada y operativa en UTN Mar del Plata. Centraliza la gestión
           académica, ayuda a prevenir conflictos de horarios y espacios y
@@ -193,7 +194,7 @@ export function GeClauDetail() {
       {/* Tecnologías */}
       <section className={styles.section}>
         <h3 className={styles.sectionTitle}>Tecnologías</h3>
-        <ul className={styles.techList}>
+        <ul className={baseStyles.techList}>
           {technologies.map((tech) => (
             <li key={tech} className={styles.techTag}>
               {tech}

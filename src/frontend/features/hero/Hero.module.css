@@ -113,10 +113,6 @@
   -webkit-text-fill-color: transparent;
 }
 
-.nowrap {
-  white-space: nowrap;
-}
-
 .description {
   font-size: clamp(1.05rem, 1.7vw, 1.15rem);
   line-height: 1.6;

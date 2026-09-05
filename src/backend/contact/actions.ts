@@ -5,6 +5,7 @@ import {
   ContactField,
   ContactFormState,
   EMAIL_MAX_LENGTH,
+  EMAIL_REGEX,
   MENSAJE_MAX_LENGTH,
   MENSAJE_MIN_LENGTH,
   NOMBRE_MAX_LENGTH,
@@ -25,8 +26,6 @@ const ALLOWED_FIELDS = new Set([
   "website",
   "turnstileToken",
 ]);
-
-const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
 export async function sendContactMessage(
   _previousState: ContactFormState,

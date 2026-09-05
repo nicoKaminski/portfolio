@@ -217,7 +217,7 @@ Para una tarea con cambios, la entrega debe informar como mínimo:
 6. impacto de seguridad o privacidad, si aplica;
 7. riesgos, dudas o limitaciones;
 8. cambios fuera de alcance detectados;
-9. mensaje de commit recomendado, sin ejecutar el commit.
+9. mensaje de commit recomendado en formato Conventional Commits, con descripción en español, sin ejecutar el commit.
 
 Para un análisis, diagnóstico o consulta sin cambios, usar un cierre breve con objetivo, hallazgos o respuesta, evidencia revisada, limitaciones relevantes y confirmación de que el árbol no fue modificado. No incluir apartados vacíos por rutina.
 

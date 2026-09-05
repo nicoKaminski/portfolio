@@ -221,3 +221,30 @@ Mensaje de commit recomendado
 Reportar objetivo, resultado o hallazgos, evidencia revisada, limitaciones relevantes y confirmar que no se modificaron archivos. Omitir campos vacíos y no recomendar un commit salvo que se hayan propuesto cambios documentales o técnicos concretos.
 
 El mensaje de commit es una recomendación. El agente nunca ejecuta el commit.
+
+### Convención del mensaje recomendado
+
+El mensaje debe seguir Conventional Commits:
+
+```text
+<tipo>(<alcance opcional>): <descripción en español>
+```
+
+Reglas:
+
+- usar tipos convencionales en inglés y minúsculas: `feat`, `fix`, `refactor`, `style`, `docs`, `test`, `perf`, `build`, `ci`, `chore` o `revert`;
+- redactar la descripción en español, preferentemente en infinitivo, sin mayúscula inicial ni punto final;
+- usar un alcance breve, estable y en minúsculas cuando aporte contexto, por ejemplo: `proyectos`, `laboratorio`, `contacto`, `navegacion` o `tema`;
+- omitir el alcance antes que inventar uno ambiguo;
+- elegir el tipo según la responsabilidad principal del cambio, no según la cantidad de archivos modificados;
+- usar `!` y el footer `BREAKING CHANGE:` cuando exista un cambio incompatible;
+- recomendar el mensaje, pero nunca ejecutar el commit.
+
+Ejemplos:
+
+```text
+feat(laboratorio): agregar detalle de NutriVida Suite
+fix(contacto): corregir validación del correo electrónico
+refactor(proyectos): centralizar diálogos y estilos de detalle
+docs(agentes): definir convención para mensajes de commit
+```
