@@ -1,19 +1,11 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useRef, useEffect, useCallback } from "react";
 import { ActionLink } from "@/frontend/components/ActionLink";
+import { ImageLightbox } from "@/frontend/components/ImageLightbox";
 import { InlineLink } from "@/frontend/components/InlineLink";
 import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./TracamDetail.module.css";
-
-interface ZoomImage {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  id: "captura-01" | "captura-02";
-}
 
 const technologies = [
   "React",
@@ -28,41 +20,6 @@ const technologies = [
 ];
 
 export function TracamDetail() {
-  const [zoomedImage, setZoomedImage] = useState<ZoomImage | null>(null);
-  const btn01Ref = useRef<HTMLButtonElement>(null);
-  const btn02Ref = useRef<HTMLButtonElement>(null);
-  const zoomCloseBtnRef = useRef<HTMLButtonElement>(null);
-
-  const handleCloseZoom = useCallback(() => {
-    if (!zoomedImage) return;
-    const closedId = zoomedImage.id;
-    setZoomedImage(null);
-    if (closedId === "captura-01") {
-      btn01Ref.current?.focus();
-    } else if (closedId === "captura-02") {
-      btn02Ref.current?.focus();
-    }
-  }, [zoomedImage]);
-
-  useEffect(() => {
-    if (!zoomedImage) return;
-
-    zoomCloseBtnRef.current?.focus();
-
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        e.stopPropagation();
-        e.preventDefault();
-        handleCloseZoom();
-      }
-    };
-
-    window.addEventListener("keydown", handleKeyDown, { capture: true });
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown, { capture: true });
-    };
-  }, [zoomedImage, handleCloseZoom]);
-
   return (
     <article className={baseStyles.container}>
       {/* 1. INTRODUCCIÓN */}
@@ -109,20 +66,13 @@ export function TracamDetail() {
         aria-label="Capturas de TRACAM"
       >
         <div className={styles.mediaGrid}>
-          <button
-            ref={btn01Ref}
-            type="button"
-            className={styles.imageButton}
-            onClick={() =>
-              setZoomedImage({
-                src: "/projects/tracam/captura-01.jpg",
-                alt: "Vista principal de TRACAM",
-                width: 1901,
-                height: 866,
-                id: "captura-01",
-              })
-            }
-            aria-label="Ampliar vista principal de TRACAM"
+          <ImageLightbox
+            src="/projects/tracam/captura-01.jpg"
+            alt="Vista principal de TRACAM"
+            width={1901}
+            height={866}
+            triggerAriaLabel="Ampliar vista principal de TRACAM"
+            triggerClassName={styles.imageButton}
           >
             <div className={styles.primaryImageWrapper}>
               <Image
@@ -152,22 +102,15 @@ export function TracamDetail() {
                 </svg>
               </span>
             </div>
-          </button>
+          </ImageLightbox>
 
-          <button
-            ref={btn02Ref}
-            type="button"
-            className={styles.imageButton}
-            onClick={() =>
-              setZoomedImage({
-                src: "/projects/tracam/captura-02.jpg",
-                alt: "Vista operativa de TRACAM",
-                width: 1893,
-                height: 865,
-                id: "captura-02",
-              })
-            }
-            aria-label="Ampliar vista operativa de TRACAM"
+          <ImageLightbox
+            src="/projects/tracam/captura-02.jpg"
+            alt="Vista operativa de TRACAM"
+            width={1893}
+            height={865}
+            triggerAriaLabel="Ampliar vista operativa de TRACAM"
+            triggerClassName={styles.imageButton}
           >
             <div className={styles.secondaryImageWrapper}>
               <Image
@@ -196,46 +139,9 @@ export function TracamDetail() {
                 </svg>
               </span>
             </div>
-          </button>
+          </ImageLightbox>
         </div>
       </section>
-
-      {/* MODAL DE AMPLIACIÓN (LIGHTBOX LOCAL) */}
-      {zoomedImage && (
-        <div
-          className={styles.zoomOverlay}
-          onClick={handleCloseZoom}
-          role="dialog"
-          aria-modal="true"
-          aria-label={`Ampliación: ${zoomedImage.alt}`}
-        >
-          <div
-            className={styles.zoomDialog}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              ref={zoomCloseBtnRef}
-              type="button"
-              className={styles.zoomCloseButton}
-              onClick={handleCloseZoom}
-              aria-label="Cerrar ampliación de imagen"
-            >
-              <span aria-hidden="true">✕</span>
-            </button>
-            <div className={styles.zoomImageContainer}>
-              <Image
-                src={zoomedImage.src}
-                alt={zoomedImage.alt}
-                width={zoomedImage.width}
-                height={zoomedImage.height}
-                sizes="(max-width: 960px) 96vw, 920px"
-                className={styles.zoomedImage}
-                priority
-              />
-            </div>
-          </div>
-        </div>
-      )}
 
       {/* 3. UN PROBLEMA OPERATIVO DISTRIBUIDO */}
       <section className={baseStyles.editorialSection}>

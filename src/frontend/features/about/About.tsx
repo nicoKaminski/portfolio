@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ActionButton } from "@/frontend/components/ActionButton";
 import styles from "./About.module.css";
 
 function GameControllerIcon() {
@@ -55,15 +56,16 @@ export function About() {
 
           {/* Zona 3: CTA sin Próximamente */}
           <div className={styles.ctaZone}>
-            <button
+            <ActionButton
               type="button"
-              className={styles.gameButton}
+              variant="secondary"
+              size="compact"
+              startIcon={<GameControllerIcon />}
               disabled
               aria-disabled="true"
             >
-              <GameControllerIcon />
-              <span>Jugar</span>
-            </button>
+              Jugar
+            </ActionButton>
           </div>
         </aside>
       </div>

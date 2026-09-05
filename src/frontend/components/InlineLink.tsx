@@ -1,5 +1,5 @@
 import type { AnchorHTMLAttributes, ReactNode } from "react";
-import styles from "./InlineLink.module.css";
+import styles from "./InlineAction.module.css";
 
 export interface InlineLinkProps
   extends AnchorHTMLAttributes<HTMLAnchorElement> {
@@ -11,7 +11,7 @@ export function InlineLink({
   children,
   ...props
 }: InlineLinkProps) {
-  const linkClassName = `${styles.link}${className ? ` ${className}` : ""}`;
+  const linkClassName = `${styles.action}${className ? ` ${className}` : ""}`;
 
   return (
     <a {...props} className={linkClassName}>

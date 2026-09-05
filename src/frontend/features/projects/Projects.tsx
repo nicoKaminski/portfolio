@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
+import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { GeClauDetail } from "./components/GeClauDetail";
 import { HorasClarasDetail } from "./components/HorasClarasDetail";
@@ -133,6 +134,7 @@ export function Projects() {
             <article
               key={project.id}
               className={`${styles.featuredCard} ${styles.interactiveCard}`}
+              data-card-action
             >
               <button
                 ref={(element) => {
@@ -140,6 +142,7 @@ export function Projects() {
                 }}
                 type="button"
                 className={styles.cardActionOverlay}
+                data-card-action-trigger
                 onClick={() => openProject(project.id)}
                 aria-label={`Más info sobre ${project.title}`}
               />
@@ -161,10 +164,7 @@ export function Projects() {
                   <p className={styles.featuredDescription}>
                     {project.description}
                   </p>
-                  <span className={styles.moreInfoCta} aria-hidden="true">
-                    <span className={styles.moreInfoCtaText}>Más info</span>
-                    <span className={styles.moreInfoCtaArrow}>&rarr;</span>
-                  </span>
+                  <CardActionLabel label="Más info" size="large" />
                 </div>
               </div>
             </article>
@@ -177,6 +177,7 @@ export function Projects() {
             <article
               key={project.id}
               className={`${styles.secondaryCard} ${styles.secondaryInteractiveCard}`}
+              data-card-action
             >
               <button
                 ref={(element) => {
@@ -184,6 +185,7 @@ export function Projects() {
                 }}
                 type="button"
                 className={styles.secondaryActionOverlay}
+                data-card-action-trigger
                 onClick={() => openProject(project.id)}
                 aria-label={`Más info sobre ${project.title}`}
               />
@@ -206,17 +208,7 @@ export function Projects() {
                 <p className={styles.secondaryDescription}>
                   {project.description}
                 </p>
-                <span
-                  className={styles.secondaryMoreInfoCta}
-                  aria-hidden="true"
-                >
-                  <span className={styles.secondaryMoreInfoCtaText}>
-                    Más info
-                  </span>
-                  <span className={styles.secondaryMoreInfoCtaArrow}>
-                    &rarr;
-                  </span>
-                </span>
+                <CardActionLabel label="Más info" size="medium" />
               </div>
             </article>
           ))}

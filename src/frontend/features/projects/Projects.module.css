@@ -300,88 +300,6 @@
   flex: 1;
 }
 
-.moreInfoCta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.45rem;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--color-text);
-  background-color: color-mix(in srgb, var(--color-surface) 65%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
-  padding: 0.45rem 0.95rem;
-  border-radius: 8px;
-  box-shadow: 0 1px 4px color-mix(in srgb, var(--color-text) 5%, transparent);
-  transition: var(--transition-interactive);
-  flex-shrink: 0;
-}
-
-.moreInfoCtaArrow {
-  font-size: 0.95rem;
-  line-height: 1;
-  color: var(--color-text-secondary);
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.interactiveCard:hover .moreInfoCta,
-.interactiveCard:has(.cardActionOverlay:focus-visible) .moreInfoCta {
-  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-mid-cyan) 14%, transparent) 0%,
-    color-mix(in srgb, var(--brand-bright-mint) 12%, transparent) 100%
-  );
-  box-shadow: 0 4px 14px -3px color-mix(in srgb, var(--brand-bright-mint) 28%, transparent);
-}
-
-.interactiveCard:hover .moreInfoCtaText,
-.interactiveCard:has(.cardActionOverlay:focus-visible) .moreInfoCtaText {
-  background: linear-gradient(
-    135deg,
-    var(--brand-mid-cyan) 0%,
-    var(--brand-bright-mint) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.interactiveCard:hover .moreInfoCtaArrow,
-.interactiveCard:has(.cardActionOverlay:focus-visible) .moreInfoCtaArrow {
-  color: var(--brand-bright-mint);
-  transform: translateX(3px);
-}
-
-[data-theme="light"] .interactiveCard:hover .moreInfoCta,
-[data-theme="light"] .interactiveCard:has(.cardActionOverlay:focus-visible) .moreInfoCta {
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-base-blue) 10%, transparent) 0%,
-    color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 100%
-  );
-  box-shadow: 0 4px 14px -3px color-mix(in srgb, var(--brand-base-blue) 22%, transparent);
-}
-
-[data-theme="light"] .interactiveCard:hover .moreInfoCtaText,
-[data-theme="light"] .interactiveCard:has(.cardActionOverlay:focus-visible) .moreInfoCtaText {
-  background: linear-gradient(
-    135deg,
-    var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-[data-theme="light"] .interactiveCard:hover .moreInfoCtaArrow,
-[data-theme="light"] .interactiveCard:has(.cardActionOverlay:focus-visible) .moreInfoCtaArrow {
-  color: var(--brand-base-blue);
-  transform: translateX(3px);
-}
-
 /* Nivel 2 · Tarjetas Secundarias */
 .secondaryCard {
   background:
@@ -566,88 +484,6 @@
   flex: 1;
 }
 
-.secondaryMoreInfoCta {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.35rem;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--color-text);
-  background-color: color-mix(in srgb, var(--color-surface) 65%, transparent);
-  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
-  padding: 0.35rem 0.75rem;
-  border-radius: 7px;
-  box-shadow: 0 1px 3px color-mix(in srgb, var(--color-text) 5%, transparent);
-  transition: var(--transition-interactive);
-  flex-shrink: 0;
-}
-
-.secondaryMoreInfoCtaArrow {
-  font-size: 0.85rem;
-  line-height: 1;
-  color: var(--color-text-secondary);
-  transition: transform 0.2s ease, color 0.2s ease;
-}
-
-.secondaryInteractiveCard:hover .secondaryMoreInfoCta,
-.secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryMoreInfoCta {
-  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-mid-cyan) 14%, transparent) 0%,
-    color-mix(in srgb, var(--brand-bright-mint) 12%, transparent) 100%
-  );
-  box-shadow: 0 3px 12px -2px color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
-}
-
-.secondaryInteractiveCard:hover .secondaryMoreInfoCtaText,
-.secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryMoreInfoCtaText {
-  background: linear-gradient(
-    135deg,
-    var(--brand-mid-cyan) 0%,
-    var(--brand-bright-mint) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.secondaryInteractiveCard:hover .secondaryMoreInfoCtaArrow,
-.secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryMoreInfoCtaArrow {
-  color: var(--brand-bright-mint);
-  transform: translateX(2.5px);
-}
-
-[data-theme="light"] .secondaryInteractiveCard:hover .secondaryMoreInfoCta,
-[data-theme="light"] .secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryMoreInfoCta {
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-base-blue) 10%, transparent) 0%,
-    color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 100%
-  );
-  box-shadow: 0 3px 12px -2px color-mix(in srgb, var(--brand-base-blue) 20%, transparent);
-}
-
-[data-theme="light"] .secondaryInteractiveCard:hover .secondaryMoreInfoCtaText,
-[data-theme="light"] .secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryMoreInfoCtaText {
-  background: linear-gradient(
-    135deg,
-    var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-[data-theme="light"] .secondaryInteractiveCard:hover .secondaryMoreInfoCtaArrow,
-[data-theme="light"] .secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryMoreInfoCtaArrow {
-  color: var(--brand-base-blue);
-  transform: translateX(2.5px);
-}
-
 /* Responsive */
 @media (max-width: 1024px) {
   .secondaryGrid {
@@ -722,11 +558,5 @@
   .secondaryInteractiveCard:hover,
   .secondaryInteractiveCard:active {
     transform: none;
-  }
-
-  .moreInfoCtaArrow,
-  .secondaryMoreInfoCtaArrow {
-    transition: none !important;
-    transform: none !important;
   }
 }

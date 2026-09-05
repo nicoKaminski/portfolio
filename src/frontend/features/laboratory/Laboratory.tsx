@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
+import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { MemoWarsDetail } from "./components/MemoWarsDetail";
 import { MemoPotterDetail } from "./components/MemoPotterDetail";
@@ -145,6 +146,7 @@ export function Laboratory() {
               className={styles.card}
               onClick={() => openProject(project.id)}
               aria-haspopup="dialog"
+              data-card-action
             >
               <div className={styles.cardImageWrapper}>
                 <Image
@@ -163,10 +165,11 @@ export function Laboratory() {
                   {project.description}
                 </p>
                 <div className={styles.cardFooter}>
-                  <span className={styles.cardCta} aria-hidden="true">
-                    <span className={styles.cardCtaText}>Ver más</span>
-                    <span className={styles.cardCtaArrow}>&rarr;</span>
-                  </span>
+                  <CardActionLabel
+                    label="Ver más"
+                    size="small"
+                    appearance="plain"
+                  />
                 </div>
               </div>
             </button>

@@ -2,33 +2,12 @@
 
 import Image from "next/image";
 import { useState, useEffect } from "react";
+import { ActionLink } from "@/frontend/components/ActionLink";
+import { DownloadIcon } from "@/frontend/components/DownloadIcon";
 import { ThemeToggle } from "@/frontend/features/theme";
+import { CV_URL } from "@/shared/links";
 import { BackToTop } from "./components/BackToTop";
 import styles from "./Navbar.module.css";
-
-const CV_URL =
-  "https://drive.google.com/file/d/1QMCkkZUyxp57YlQR5wZT-rhBv8ZTDkQd/view?usp=sharing";
-
-function DownloadIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      aria-hidden="true"
-      className={className}
-    >
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
-      <polyline points="7 10 12 15 17 10" />
-      <line x1="12" y1="15" x2="12" y2="3" />
-    </svg>
-  );
-}
 
 function HamburgerIcon() {
   return (
@@ -208,16 +187,17 @@ export function Navbar() {
 
             <ThemeToggle />
 
-            <a
+            <ActionLink
               href={CV_URL}
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.cvButton}
+              variant="secondary"
+              size="compact"
+              startIcon={<DownloadIcon />}
               aria-label="Descargar CV (abre en nueva pestaña)"
             >
-              <DownloadIcon className={styles.cvIcon} />
-              <span>Descargar CV</span>
-            </a>
+              Descargar CV
+            </ActionLink>
           </div>
 
           {/* Acciones mobile: ThemeToggle + Botón Hamburguesa */}
@@ -265,17 +245,19 @@ export function Navbar() {
                 );
               })}
               <li className={styles.mobileCvItem}>
-                <a
+                <ActionLink
                   href={CV_URL}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={styles.mobileCvButton}
+                  variant="secondary"
+                  size="compact"
+                  startIcon={<DownloadIcon />}
+                  className={styles.mobileCvAction}
                   onClick={closeMenu}
                   aria-label="Descargar CV (abre en nueva pestaña)"
                 >
-                  <DownloadIcon className={styles.cvIcon} />
-                  <span>Descargar CV</span>
-                </a>
+                  Descargar CV
+                </ActionLink>
               </li>
             </ul>
           </nav>

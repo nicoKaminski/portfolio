@@ -1,0 +1,210 @@
+.label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  font-weight: 600;
+  color: var(--color-text);
+  transition: var(--transition-interactive);
+}
+
+.large {
+  gap: 0.45rem;
+  padding: 0.45rem 0.95rem;
+  border-radius: 8px;
+  font-size: 0.875rem;
+}
+
+.medium {
+  gap: 0.35rem;
+  padding: 0.35rem 0.75rem;
+  border-radius: 7px;
+  font-size: 0.8rem;
+}
+
+.small {
+  gap: 0.35rem;
+  padding: 0;
+  font-size: 0.75rem;
+}
+
+.surface {
+  background-color: color-mix(in srgb, var(--color-surface) 65%, transparent);
+  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
+  box-shadow: 0 1px 4px color-mix(in srgb, var(--color-text) 5%, transparent);
+}
+
+.surface.medium {
+  border-color: color-mix(in srgb, var(--color-border) 40%, transparent);
+  box-shadow: 0 1px 3px color-mix(in srgb, var(--color-text) 5%, transparent);
+}
+
+.plain {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+.text {
+  color: var(--color-text);
+  transition: color var(--transition-interactive);
+}
+
+.arrow {
+  color: var(--color-text-secondary);
+  font-size: 0.85rem;
+  line-height: 1;
+  transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.large .arrow {
+  font-size: 0.95rem;
+}
+
+.small .arrow {
+  font-size: 0.8rem;
+}
+
+:where(
+  [data-card-action]:hover,
+  [data-card-action]:focus-visible,
+  [data-card-action]:has([data-card-action-trigger]:focus-visible)
+) .surface {
+  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-mid-cyan) 14%, transparent) 0%,
+    color-mix(in srgb, var(--brand-bright-mint) 12%, transparent) 100%
+  );
+}
+
+:where(
+  [data-card-action]:hover,
+  [data-card-action]:focus-visible,
+  [data-card-action]:has([data-card-action-trigger]:focus-visible)
+) .large.surface {
+  box-shadow: 0 4px 14px -3px color-mix(in srgb, var(--brand-bright-mint) 28%, transparent);
+}
+
+:where(
+  [data-card-action]:hover,
+  [data-card-action]:focus-visible,
+  [data-card-action]:has([data-card-action-trigger]:focus-visible)
+) .medium.surface {
+  box-shadow: 0 3px 12px -2px color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
+}
+
+:where(
+  [data-card-action]:hover,
+  [data-card-action]:focus-visible,
+  [data-card-action]:has([data-card-action-trigger]:focus-visible)
+) .text {
+  background: linear-gradient(
+    135deg,
+    var(--brand-mid-cyan) 0%,
+    var(--brand-bright-mint) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+:where(
+  [data-card-action]:hover,
+  [data-card-action]:focus-visible,
+  [data-card-action]:has([data-card-action-trigger]:focus-visible)
+) .arrow {
+  color: var(--brand-bright-mint);
+  transform: translateX(2.5px);
+}
+
+:where(
+  [data-card-action]:hover,
+  [data-card-action]:focus-visible,
+  [data-card-action]:has([data-card-action-trigger]:focus-visible)
+) .large .arrow {
+  transform: translateX(3px);
+}
+
+[data-theme="light"]
+  :where(
+    [data-card-action]:hover,
+    [data-card-action]:focus-visible,
+    [data-card-action]:has([data-card-action-trigger]:focus-visible)
+  )
+  .surface {
+  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
+  background: linear-gradient(
+    135deg,
+    color-mix(in srgb, var(--brand-base-blue) 10%, transparent) 0%,
+    color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 100%
+  );
+}
+
+[data-theme="light"]
+  :where(
+    [data-card-action]:hover,
+    [data-card-action]:focus-visible,
+    [data-card-action]:has([data-card-action-trigger]:focus-visible)
+  )
+  .large.surface {
+  box-shadow: 0 4px 14px -3px color-mix(in srgb, var(--brand-base-blue) 22%, transparent);
+}
+
+[data-theme="light"]
+  :where(
+    [data-card-action]:hover,
+    [data-card-action]:focus-visible,
+    [data-card-action]:has([data-card-action-trigger]:focus-visible)
+  )
+  .medium.surface {
+  box-shadow: 0 3px 12px -2px color-mix(in srgb, var(--brand-base-blue) 20%, transparent);
+}
+
+[data-theme="light"]
+  :where(
+    [data-card-action]:hover,
+    [data-card-action]:focus-visible,
+    [data-card-action]:has([data-card-action-trigger]:focus-visible)
+  )
+  .text {
+  background: linear-gradient(
+    135deg,
+    var(--brand-base-blue) 0%,
+    var(--brand-mid-cyan) 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+[data-theme="light"]
+  :where(
+    [data-card-action]:hover,
+    [data-card-action]:focus-visible,
+    [data-card-action]:has([data-card-action-trigger]:focus-visible)
+  )
+  .arrow {
+  color: var(--brand-base-blue);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .arrow {
+    transition: none;
+  }
+
+  :where(
+    [data-card-action]:hover,
+    [data-card-action]:focus-visible,
+    [data-card-action]:has([data-card-action-trigger]:focus-visible)
+  )
+  .arrow,
+  :where(
+    [data-card-action]:hover,
+    [data-card-action]:focus-visible,
+    [data-card-action]:has([data-card-action-trigger]:focus-visible)
+  )
+  .large .arrow {
+    transform: none;
+  }
+}

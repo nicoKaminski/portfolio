@@ -1,6 +1,6 @@
 import Image from "next/image";
-import { ActionButton } from "@/frontend/components/ActionButton";
 import { ActionLink } from "@/frontend/components/ActionLink";
+import { InlineButton } from "@/frontend/components/InlineButton";
 import styles from "./LaboratoryDetail.module.css";
 
 interface MemoWarsDetailProps {
@@ -90,14 +90,11 @@ export function MemoWarsDetail({
           Esta práctica fue la base para MemoPotter, donde llevé la misma
           mecánica a un proyecto más completo.
         </p>
-        <ActionButton
-          type="button"
-          variant="secondary"
-          className={styles.navSwitchAction}
-          onClick={onNavigateToMemoPotter}
-        >
-          Ver evolución → MemoPotter
-        </ActionButton>
+        <div className={styles.contextualNav}>
+          <InlineButton onClick={onNavigateToMemoPotter}>
+            Ver evolución → MemoPotter
+          </InlineButton>
+        </div>
       </section>
     </article>
   );

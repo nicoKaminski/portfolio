@@ -265,7 +265,7 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
             <ActionButton
               type="submit"
               variant="primary"
-              className={isPending ? styles.submitButtonPending : undefined}
+              loading={isPending}
               disabled={isPending || !siteKey}
             >
               {isPending ? (

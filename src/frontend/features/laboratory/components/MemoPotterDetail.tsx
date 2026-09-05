@@ -1,5 +1,6 @@
 import Image from "next/image";
 import { ActionLink } from "@/frontend/components/ActionLink";
+import { InlineButton } from "@/frontend/components/InlineButton";
 import styles from "./LaboratoryDetail.module.css";
 
 interface MemoPotterDetailProps {
@@ -58,13 +59,11 @@ export function MemoPotterDetail({
             </ActionLink>
           </div>
 
-          <button
-            type="button"
-            className={styles.navInverseButton}
-            onClick={onNavigateToMemoWars}
-          >
-            ← Ver la práctica previa: MemoWars
-          </button>
+          <div className={styles.contextualNav}>
+            <InlineButton onClick={onNavigateToMemoWars}>
+              ← Ver la práctica previa: MemoWars
+            </InlineButton>
+          </div>
         </div>
       </section>
 
