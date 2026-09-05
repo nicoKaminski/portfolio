@@ -128,81 +128,8 @@
   margin-top: 0.25rem;
 }
 
-.primaryButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  padding: 0.875rem 1.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: #1d314a;
-  background: linear-gradient(
-    135deg,
-    var(--brand-mid-cyan) 0%,
-    var(--brand-bright-mint) 100%
-  );
-  border: 1px solid transparent;
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  min-height: 48px;
-  box-shadow: 0 4px 18px -4px color-mix(in srgb, var(--brand-bright-mint) 35%, transparent);
-  transition: var(--transition-interactive);
-}
-
-[data-theme="light"] .primaryButton {
-  color: #ffffff;
-  background: linear-gradient(
-    135deg,
-    var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 100%
-  );
-  box-shadow: 0 4px 18px -4px color-mix(in srgb, var(--brand-base-blue) 35%, transparent);
-}
-
-.primaryButton:hover {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-mid-cyan) 85%, white) 0%,
-    color-mix(in srgb, var(--brand-bright-mint) 85%, white) 100%
-  );
-  border-color: color-mix(in srgb, var(--brand-bright-mint) 60%, transparent);
-  color: #1d314a;
-  box-shadow: 0 6px 24px -4px color-mix(in srgb, var(--brand-bright-mint) 50%, transparent);
-}
-
-[data-theme="light"] .primaryButton:hover {
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-base-blue) 90%, black) 0%,
-    color-mix(in srgb, var(--brand-mid-cyan) 90%, black) 100%
-  );
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, transparent);
-  color: #ffffff;
-  box-shadow: 0 6px 24px -4px color-mix(in srgb, var(--brand-base-blue) 50%, transparent);
-}
-
-.primaryButton:hover .chatIcon {
-  transform: scale(1.14);
-}
-
 .conversationAction:hover .chatIcon {
   transform: scale(1.14);
-}
-
-.primaryButton:active {
-  transform: scale(0.985);
-  box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--brand-bright-mint) 40%, transparent);
-}
-
-[data-theme="light"] .primaryButton:active {
-  box-shadow: 0 2px 10px -2px color-mix(in srgb, var(--brand-base-blue) 40%, transparent);
-}
-
-.primaryButton:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 4px;
 }
 
 .chatIcon {
@@ -210,87 +137,8 @@
   transition: transform 0.2s ease;
 }
 
-.secondaryButton {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.55rem;
-  padding: 0.875rem 1.75rem;
-  font-size: 1rem;
-  font-weight: 600;
-  color: var(--color-text);
-  background-color: transparent;
-  border: 1px solid var(--color-border);
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  min-height: 48px;
-  transition: var(--transition-interactive);
-}
-
-.secondaryButton:hover {
-  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-mid-cyan) 12%, transparent) 0%,
-    color-mix(in srgb, var(--brand-bright-mint) 10%, transparent) 100%
-  );
-  box-shadow: 0 4px 18px -4px color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
-}
-
-.secondaryButton:hover span {
-  background: linear-gradient(
-    135deg,
-    var(--brand-mid-cyan) 0%,
-    var(--brand-bright-mint) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.secondaryButton:hover .arrowIcon {
-  color: var(--brand-bright-mint);
-  transform: translateX(3px);
-}
-
 .projectsAction:hover .arrowIcon {
   transform: translateX(3px);
-}
-
-.secondaryButton:active {
-  transform: scale(0.985);
-}
-
-[data-theme="light"] .secondaryButton:hover {
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  background: linear-gradient(
-    135deg,
-    color-mix(in srgb, var(--brand-base-blue) 8%, transparent) 0%,
-    color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 100%
-  );
-  box-shadow: 0 4px 18px -4px color-mix(in srgb, var(--brand-base-blue) 20%, transparent);
-}
-
-[data-theme="light"] .secondaryButton:hover span {
-  background: linear-gradient(
-    135deg,
-    var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-[data-theme="light"] .secondaryButton:hover .arrowIcon {
-  color: var(--brand-base-blue);
-  transform: translateX(3px);
-}
-
-.secondaryButton:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 4px;
 }
 
 .arrowIcon {
@@ -583,18 +431,6 @@
     margin-top: 0.25rem;
   }
 
-  .primaryButton,
-  .secondaryButton {
-    width: 100%;
-    padding: 0.75rem 0.5rem;
-    font-size: clamp(0.825rem, 3.2vw, 0.925rem);
-    font-weight: 600;
-    min-height: 46px;
-    gap: 0.4rem;
-    white-space: nowrap;
-    justify-content: center;
-  }
-
   .social {
     grid-area: social;
     display: flex;
@@ -640,15 +476,7 @@
     animation: none;
   }
 
-  .primaryButton:hover .chatIcon {
-    transform: none;
-  }
-
   .conversationAction:hover .chatIcon {
-    transform: none;
-  }
-
-  .secondaryButton:hover .arrowIcon {
     transform: none;
   }
 

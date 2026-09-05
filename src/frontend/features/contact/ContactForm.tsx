@@ -281,7 +281,7 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
                   </span>
                 </>
               ) : (
-                <span className={styles.submitButtonText}>Enviar mensaje</span>
+                <span>Enviar mensaje</span>
               )}
             </ActionButton>
           </div>
