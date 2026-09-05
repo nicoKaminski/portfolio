@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import styles from "./LaboratoryDetail.module.css";
 
 const technologies = ["Java", "Swing", "JDBC", "MariaDB"];
@@ -19,14 +20,14 @@ export function NutriVidaDetail() {
 
         <div className={styles.actionsBlock}>
           <div className={styles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://github.com/abfj27/G63Nutricionista"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              variant="primary"
             >
               Ver código en GitHub
-            </a>
+            </ActionLink>
           </div>
         </div>
       </section>

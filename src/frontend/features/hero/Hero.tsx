@@ -1,3 +1,4 @@
+import { ActionLink } from "@/frontend/components/ActionLink";
 import { AbstractVisual } from "./components/AbstractVisual";
 import styles from "./Hero.module.css";
 
@@ -107,14 +108,22 @@ export function Hero() {
             con backend, datos e integración cuando el producto lo necesita.
           </p>
           <div className={styles.actions}>
-            <a href="#contacto" className={styles.primaryButton}>
-              <span>Conversemos</span>
-              <ChatIcon className={styles.chatIcon} />
-            </a>
-            <a href="#proyectos" className={styles.secondaryButton}>
-              <span>Ver proyectos</span>
-              <ArrowRightIcon className={styles.arrowIcon} />
-            </a>
+            <ActionLink
+              href="#contacto"
+              variant="primary"
+              className={styles.conversationAction}
+              endIcon={<ChatIcon className={styles.chatIcon} />}
+            >
+              Conversemos
+            </ActionLink>
+            <ActionLink
+              href="#proyectos"
+              variant="secondary"
+              className={styles.projectsAction}
+              endIcon={<ArrowRightIcon className={styles.arrowIcon} />}
+            >
+              Ver proyectos
+            </ActionLink>
           </div>
           <div className={styles.social}>
             <span className={styles.socialPrompt}>También podés encontrarme en</span>

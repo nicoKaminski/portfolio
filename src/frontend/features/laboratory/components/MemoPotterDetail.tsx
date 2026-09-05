@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import styles from "./LaboratoryDetail.module.css";
 
 interface MemoPotterDetailProps {
@@ -39,22 +40,22 @@ export function MemoPotterDetail({
 
         <div className={styles.actionsBlock}>
           <div className={styles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://memo-potter.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              variant="primary"
             >
               Jugar
-            </a>
-            <a
+            </ActionLink>
+            <ActionLink
               href="https://github.com/nicoKaminski/Memo-Potter"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaSecondary}
+              variant="secondary"
             >
               GitHub
-            </a>
+            </ActionLink>
           </div>
 
           <button

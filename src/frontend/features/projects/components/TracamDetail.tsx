@@ -2,6 +2,8 @@
 
 import Image from "next/image";
 import { useState, useRef, useEffect, useCallback } from "react";
+import { ActionLink } from "@/frontend/components/ActionLink";
+import { InlineLink } from "@/frontend/components/InlineLink";
 import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./TracamDetail.module.css";
 
@@ -75,14 +77,14 @@ export function TracamDetail() {
 
         <div className={baseStyles.actionsBlock}>
           <div className={baseStyles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://tracam.grupo6s.com/login"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaPrimary}
+              variant="primary"
             >
               Ver aplicación
-            </a>
+            </ActionLink>
           </div>
 
           <div className={styles.teamInfo}>
@@ -90,14 +92,13 @@ export function TracamDetail() {
             <span className={styles.dotSeparator} aria-hidden="true">
               ·
             </span>
-            <a
+            <InlineLink
               href="https://grupo6s.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.teamLink}
             >
               Conocer Grupo6s
-            </a>
+            </InlineLink>
           </div>
         </div>
       </section>

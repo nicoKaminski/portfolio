@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./BitiCraftDetail.module.css";
 
@@ -58,22 +59,22 @@ export function BitiCraftDetail() {
 
         <div className={baseStyles.actionsBlock}>
           <div className={baseStyles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://biticraft.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaPrimary}
+              variant="primary"
             >
               Ver sitio
-            </a>
-            <a
+            </ActionLink>
+            <ActionLink
               href="https://github.com/nicoKaminski/biticraft"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaSecondary}
+              variant="secondary"
             >
               Ver repositorio
-            </a>
+            </ActionLink>
           </div>
         </div>
       </section>

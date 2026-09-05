@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import labStyles from "./LaboratoryDetail.module.css";
 import styles from "./QueComoDetail.module.css";
 
@@ -92,14 +93,15 @@ export function QueComoDetail() {
         </p>
 
         <div className={`${labStyles.actionsBlock} ${styles.actionsBlock}`}>
-          <a
+          <ActionLink
             href={FIGMA_PROTOTYPE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={labStyles.ctaPrimary}
+            variant="primary"
+            className={styles.prototypeAction}
           >
             Ver prototipo
-          </a>
+          </ActionLink>
         </div>
       </section>
 

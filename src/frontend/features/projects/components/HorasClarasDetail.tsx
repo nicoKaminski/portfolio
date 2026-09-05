@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./HorasClarasDetail.module.css";
 
@@ -52,22 +53,22 @@ export function HorasClarasDetail() {
 
         <div className={baseStyles.actionsBlock}>
           <div className={baseStyles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://horas-claras.vercel.app/"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaPrimary}
+              variant="primary"
             >
               Abrir aplicación
-            </a>
-            <a
+            </ActionLink>
+            <ActionLink
               href="https://github.com/nicoKaminski/horas-claras"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaSecondary}
+              variant="secondary"
             >
               Ver repositorio
-            </a>
+            </ActionLink>
           </div>
           <p className={styles.authNote}>
             La instancia desplegada es privada y requiere autenticación.

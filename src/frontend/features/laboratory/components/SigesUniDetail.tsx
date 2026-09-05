@@ -1,3 +1,4 @@
+import { ActionLink } from "@/frontend/components/ActionLink";
 import styles from "./LaboratoryDetail.module.css";
 
 const technologies = [
@@ -23,14 +24,14 @@ export function SigesUniDetail() {
 
         <div className={styles.actionsBlock}>
           <div className={styles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://github.com/nicoKaminski/universidad"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              variant="primary"
             >
               Ver código en GitHub
-            </a>
+            </ActionLink>
           </div>
         </div>
       </section>

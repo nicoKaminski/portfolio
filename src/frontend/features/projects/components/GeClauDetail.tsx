@@ -1,3 +1,5 @@
+import { ActionLink } from "@/frontend/components/ActionLink";
+import { InlineLink } from "@/frontend/components/InlineLink";
 import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./GeClauDetail.module.css";
 
@@ -80,22 +82,22 @@ export function GeClauDetail() {
 
         <div className={styles.actionsBlock}>
           <div className={baseStyles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://demo.geclau.grupo6s.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaPrimary}
+              variant="primary"
             >
               Ver demo
-            </a>
-            <a
+            </ActionLink>
+            <ActionLink
               href="https://aulas.mdp.utn.edu.ar/"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaSecondary}
+              variant="secondary"
             >
               Ver implementación UTN
-            </a>
+            </ActionLink>
           </div>
 
           <div className={styles.teamInfo}>
@@ -103,14 +105,13 @@ export function GeClauDetail() {
             <span className={styles.dotSeparator} aria-hidden="true">
               ·
             </span>
-            <a
+            <InlineLink
               href="https://grupo6s.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.teamLink}
             >
               Conocer Grupo6s
-            </a>
+            </InlineLink>
           </div>
         </div>
       </section>

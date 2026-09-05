@@ -2,6 +2,7 @@
 
 import { useActionState, useEffect, useRef, useState } from "react";
 import Script from "next/script";
+import { ActionButton } from "@/frontend/components/ActionButton";
 import {
   ContactField,
   ContactFormState,
@@ -261,9 +262,10 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
               </p>
             )}
 
-            <button
+            <ActionButton
               type="submit"
-              className={`${styles.submitButton} ${isPending ? styles.submitButtonPending : ""}`}
+              variant="primary"
+              className={isPending ? styles.submitButtonPending : undefined}
               disabled={isPending || !siteKey}
             >
               {isPending ? (
@@ -281,7 +283,7 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
               ) : (
                 <span className={styles.submitButtonText}>Enviar mensaje</span>
               )}
-            </button>
+            </ActionButton>
           </div>
         </form>
 

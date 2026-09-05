@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import styles from "./LaboratoryDetail.module.css";
 
 interface MemoWarsDetailProps {
@@ -21,22 +22,22 @@ export function MemoWarsDetail({
 
         <div className={styles.actionsBlock}>
           <div className={styles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://nicokaminski.github.io/memo-wars/"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaPrimary}
+              variant="primary"
             >
               Jugar
-            </a>
-            <a
+            </ActionLink>
+            <ActionLink
               href="https://github.com/nicoKaminski/memo-wars"
               target="_blank"
               rel="noopener noreferrer"
-              className={styles.ctaSecondary}
+              variant="secondary"
             >
               GitHub
-            </a>
+            </ActionLink>
           </div>
         </div>
       </section>

@@ -156,9 +156,19 @@ Los hooks no deben convertirse en “cajones” que mezclen múltiples responsab
 - No agregar librerías CSS/UI sin autorización.
 - La apariencia de la scrollbar del Portfolio es global y se define en `src/app/globals.css`; no debe duplicarse en CSS Modules de features salvo que exista una necesidad funcional explícita y diferente.
 
+### Tipografía
+
+- Onest es la tipografía vigente y aprobada para el Portfolio.
+- Su definición global pertenece a `src/app/globals.css`; las features y los componentes deben heredarla o consumir el token tipográfico correspondiente.
+- No mantener tipografías globales paralelas ni redefinir la familia principal por feature.
+
 ## 8. Theme y tokens
 
-`src/app/globals.css` es la fuente de verdad técnica de los tokens implementados. La paleta de marca vigente es:
+### Estado implementado actual
+
+`src/app/globals.css` es la única fuente técnica de verdad para primitives, colores, roles semánticos y tokens globales consumidos por la aplicación.
+
+La paleta de marca implementada es:
 
 ```text
 #1D314A
@@ -174,9 +184,7 @@ Roles de marca:
 - cyan intermedio: `#228DAF`;
 - menta brillante: `#02F1B6`.
 
-Las paletas de tema aprobadas son:
-
-### Tema claro · Glaciar
+#### Tema claro implementado · Glaciar
 
 ```text
 #E1ECEE
@@ -185,7 +193,7 @@ Las paletas de tema aprobadas son:
 #648A81
 ```
 
-Roles semánticos aprobados:
+Roles semánticos implementados:
 
 - fondo principal: `#E1ECEE`;
 - superficie principal: `#E1ECEE`;
@@ -194,7 +202,7 @@ Roles semánticos aprobados:
 - acento e interacción: `#10698C`;
 - bordes y detalles: `#648A81`.
 
-### Tema oscuro · Aurora
+#### Tema oscuro implementado y aprobado como base · Aurora
 
 ```text
 #02F1B6
@@ -204,7 +212,7 @@ Roles semánticos aprobados:
 #353B55
 ```
 
-Roles semánticos aprobados:
+Roles semánticos implementados:
 
 - fondo principal: `#1D314A`;
 - superficie principal: `#2B4C6A`;
@@ -217,17 +225,38 @@ Roles semánticos aprobados:
 
 La menta Aurora `#02F1B6` no debe utilizarse como color general de texto. Su función principal es destacar interacción, foco, enlaces, CTA y detalles visuales.
 
+El modo oscuro actualmente implementado es la base visual aprobada. No debe rediseñarse globalmente sin una instrucción explícita.
+
+El tema claro Glaciar describe el estado implementado actual; no debe confundirse con la próxima evolución aprobada.
+
+### Dirección aprobada pendiente · Tema claro Caribe
+
+La próxima evolución aprobada para el tema claro es la paleta Caribe:
+
+```text
+#E6ECF5
+#BDE0F5
+#7CB9E2
+#3471A4
+#4E8C94
+#A1E2D6
+```
+
+Esta paleta todavía no está implementada. Antes de incorporarla deben definirse sus roles semánticos en `src/app/globals.css` y migrarse los consumidores de forma controlada.
+
+También está aprobada una futura superficie elevada casi blanca para el tema claro. Su valor HEX todavía no está decidido y no debe inventarse.
+
 Reglas:
 
-- centralizar colores repetidos mediante variables CSS/tokens semánticos;
-- no repetir hexadecimales en múltiples CSS Modules;
-- preferir una única fuente de verdad para tokens visuales;
+- centralizar primitives, colores y valores globales reutilizados en `src/app/globals.css` mediante variables CSS y exponer roles semánticos para su consumo;
+- los componentes deben consumir tokens semánticos en lugar de depender directamente de primitives o valores de paleta;
+- las features no deben mantener paletas globales paralelas ni repetir hexadecimales globales en sus CSS Modules;
 - no inventar colores derivados o roles nuevos sin una necesidad concreta;
-- los derivados ya definidos por el sistema de theme se consideran parte de la paleta aprobada;
+- los derivados ya definidos por el sistema de theme se consideran parte del sistema visual vigente;
 - los colores funcionales de error, éxito o advertencia pueden definirse cuando sean necesarios, con contraste accesible y tokens centralizados, sin incorporarlos por ello a la paleta de marca;
-- no crear un objeto TypeScript de tema solo para duplicar variables CSS.
+- no crear en TypeScript una segunda fuente de tema que duplique variables, valores o roles definidos en CSS.
 
-Cuando JavaScript necesite un color por una razón real —por ejemplo canvas, gráficos o el minijuego— puede evaluarse una fuente tipada específica, evitando mantener dos fuentes divergentes del mismo token.
+Cuando JavaScript necesite un color por una razón real —por ejemplo canvas, gráficos o el minijuego— debe consumir la fuente CSS vigente mediante un mecanismo explícito, sin copiar sus HEX ni mantener un tema paralelo.
 
 El selector de tema ya vive como feature dedicada en `src/frontend/features/theme/`. Inspeccionar su implementación real antes de modificar su contrato o ubicación.
 
@@ -246,10 +275,14 @@ El selector de tema ya vive como feature dedicada en `src/frontend/features/them
 
 Los estados interactivos deben responder a la semántica del elemento y mantener una lógica visual coherente en tema claro y oscuro.
 
+### Estado implementado actual
+
+El núcleo del sistema interactivo compartido centraliza las acciones semánticas y los enlaces editoriales inline mediante componentes presentacionales reutilizables. Los tokens globales gobiernan color, borde, profundidad, foco y transiciones cuando esos estados se comparten; cada feature conserva el control de su layout y composición.
+
 Familias actuales:
 
-- **Acción primaria:** mantiene un estado base sólido y su hover puede pasar a una superficie contextual sutil con borde y texto de acento, claramente perceptible en claro y oscuro. No utiliza movimiento, elevación, sombra ni opacity para el hover del CTA.
-- **Enlaces:** no deben convertirse automáticamente en botones ni depender de un cambio cromático casi imperceptible. Navbar puede utilizar color de acento + superficie contextual sutil; los links del Footer utilizan cambio cromático a color de acento sin fondo contextual y sin subrayado. No agregar movimiento a enlaces de texto solo para hacer visible el hover.
+- **Acciones primary y secondary:** `ActionLink` y `ActionButton` comparten estructura, variantes semánticas y estados mediante el mismo módulo visual. Primary conserva su gradiente y color de texto base; en hover refuerza el gradiente, el borde y el glow mediante tokens semánticos y se eleva `2px`. Al presionarse vuelve hacia la superficie y reduce levemente su escala. Secondary mantiene una respuesta visual propia y no hereda automáticamente el tratamiento de primary.
+- **Enlaces editoriales inline:** `InlineLink` hereda el color del contexto en reposo y revela en hover o foco un subrayado en gradiente de izquierda a derecha sin alterar el layout. El foco mantiene además un outline visible. Este patrón no reemplaza automáticamente los tratamientos específicos de navegación: Navbar y Footer pueden conservar respuestas acordes con su función.
 - **Controles:** pueden comunicar hover mediante borde y superficie cuando esa respuesta represente mejor su función.
 
 Reglas generales:
@@ -262,6 +295,30 @@ Reglas generales:
 - un control `disabled` no debe presentar hover, desplazamiento ni apariencia de acción disponible;
 - una card, superficie o elemento no interactivo no debe recibir hover que sugiera que puede accionarse;
 - las distintas familias no necesitan tener el mismo hover: la coherencia proviene de compartir criterios, tokens, duración y accesibilidad, no de hacer que todos los elementos reaccionen igual.
+
+### Sistema interactivo compartido
+
+- Las acciones que compartan semántica deben reutilizar `ActionLink` o `ActionButton` en lugar de redefinir independientemente padding, radio, tipografía, borde, colores, hover, foco y transición dentro de cada feature.
+- Los enlaces editoriales inline que compartan el mismo comportamiento deben reutilizar `InlineLink`; no deben simular una acción ni adoptar un color sólido de acento en reposo por defecto.
+- Las variantes deben representar intención semántica y no pertenencia a Hero, Contacto, Proyectos o Laboratorio.
+- Cada feature conserva control sobre layout, posición, agrupación, ancho local y necesidades realmente específicas.
+- Antes de ampliar el sistema con nuevos componentes, variantes o familias de controles, deben auditarse sus consumidores reales y comprobarse que exista una responsabilidad compartida concreta.
+
+## 8-B. Motion
+
+### Estado implementado actual
+
+La aplicación ya combina transiciones globales con animaciones y transiciones locales, y contempla `prefers-reduced-motion`. Esto no implica que el sistema de motion compartido esté consolidado.
+
+### Dirección aprobada pendiente
+
+- El Portfolio debe sentirse calmo, reactivo y vivo.
+- Las interacciones importantes deben ser perceptibles; evitar animaciones tan leves que prácticamente no se vean.
+- Centralizar duraciones, easings y tokens de motion cuando exista reutilización real, sin crear abstracciones preventivas.
+- Mantener obligatorio `prefers-reduced-motion` y ofrecer una experiencia comprensible sin depender del movimiento.
+- La dirección aprobada incluye reveals perceptibles, hover claro, spotlight ambiental en desktop, movimiento leve de la pieza del hero y zoom suave de imágenes en cards.
+- No agregar custom cursor, partículas, scroll secuestrado ni animaciones permanentes sin valor.
+- Estas evoluciones deben implementarse y validarse por alcance; su mención aquí no afirma que ya existan.
 
 ## 9. Dirección visual estable
 
@@ -309,6 +366,31 @@ Revisar:
 
 No resolver mobile como una reducción automática del desktop.
 
+### Estado implementado actual
+
+La navegación vigente utiliza una barra superior tanto en desktop como en tablet y mobile.
+
+### Dirección aprobada pendiente · Layout y navegación
+
+- En desktop, la dirección aprobada es una sidebar o rail izquierda fija y compacta.
+- Tablet y mobile mantienen navegación superior.
+- No usar un único `max-width` estrecho como regla universal para toda la landing.
+- Diferenciar el shell visual amplio del ancho de lectura controlado para textos.
+- Esta dirección todavía no está implementada y no debe documentarse ni tratarse como estado actual.
+
+### Dirección aprobada pendiente · Cards de Proyectos
+
+Esta dirección aplica a Proyectos y no a Laboratorio.
+
+- GeClau y Horas Claras mantienen protagonismo.
+- Las cards futuras usarán el mockup o la cobertura aportada por Nico.
+- El logo se ubicará a la izquierda del nombre.
+- La primera capa mostrará mockup, nombre, descripción breve y acción.
+- No mostrar tecnologías en las cards; pueden permanecer dentro de los detalles de proyecto.
+- No aumentar el tamaño de las cards como solución automática.
+- El hover podrá combinar zoom suave del mockup con una respuesta de profundidad.
+- Estas cards todavía no están implementadas; no inventar assets, dimensiones ni contratos antes de contar con el material y auditar la composición real.
+
 ## 11. Accesibilidad
 
 Mínimo esperado:
@@ -323,6 +405,13 @@ Mínimo esperado:
 - no comunicar estados solo por color;
 - `prefers-reduced-motion` para animaciones relevantes;
 - overlays con manejo correcto de foco cuando se implementen.
+
+### Overlays
+
+- Deben consumir el mismo lenguaje interactivo global que la landing; no deben crear un sistema paralelo de acciones y controles.
+- En desktop, el shell puede ampliarse cuando la multimedia lo necesite.
+- El ancho de lectura textual debe mantenerse controlado aunque el shell visual sea más amplio.
+- Deben conservar accesibilidad, foco visible y administrado, cierre con Escape, bloqueo del fondo y retorno de foco al elemento que los abrió.
 
 ## 12. Performance
 

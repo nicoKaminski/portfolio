@@ -39,6 +39,14 @@
 
   /* Transición de superficie entre secciones */
   --section-divider-color: color-mix(in srgb, var(--color-border) 16%, transparent);
+
+  /* Estados compartidos del sistema Action */
+  --action-secondary-text: var(--color-text);
+  --action-secondary-border: var(--color-border);
+  --action-focus-color: var(--color-accent);
+  --action-disabled-background: color-mix(in srgb, var(--color-border) 20%, transparent);
+  --action-disabled-border: color-mix(in srgb, var(--color-border) 40%, transparent);
+  --action-disabled-text: var(--color-text-secondary);
 }
 
 /* Fallback / Tema Claro (Glaciar) */
@@ -54,6 +62,22 @@
   --color-border: #648a81;
   --color-error: #b91c1c;
   --color-error-surface: rgba(185, 28, 28, 0.08);
+  --action-primary-text: #ffffff;
+  --action-primary-background-start: var(--brand-base-blue);
+  --action-primary-background-end: var(--brand-mid-cyan);
+  --action-primary-shadow-color: color-mix(in srgb, var(--brand-base-blue) 35%, transparent);
+  --action-primary-hover-background-start: color-mix(in srgb, var(--brand-base-blue) 82%, black);
+  --action-primary-hover-background-end: color-mix(in srgb, var(--brand-mid-cyan) 82%, black);
+  --action-primary-hover-border: color-mix(in srgb, var(--brand-base-blue) 72%, transparent);
+  --action-primary-hover-shadow-color: color-mix(in srgb, var(--brand-base-blue) 58%, transparent);
+  --action-primary-active-shadow-color: color-mix(in srgb, var(--brand-base-blue) 40%, transparent);
+  --action-secondary-hover-background-start: color-mix(in srgb, var(--brand-base-blue) 8%, transparent);
+  --action-secondary-hover-background-end: color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent);
+  --action-secondary-hover-border: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
+  --action-secondary-hover-text-start: var(--brand-base-blue);
+  --action-secondary-hover-text-end: var(--brand-mid-cyan);
+  --action-secondary-hover-content: var(--brand-base-blue);
+  --action-secondary-hover-shadow-color: color-mix(in srgb, var(--brand-base-blue) 20%, transparent);
 }
 
 /* Media query fallback si aún no se inicializó data-theme */
@@ -70,6 +94,22 @@
     --color-border: rgba(225, 236, 238, 0.5);
     --color-error: #ff7b72;
     --color-error-surface: rgba(255, 123, 114, 0.12);
+    --action-primary-text: var(--brand-deep);
+    --action-primary-background-start: var(--brand-mid-cyan);
+    --action-primary-background-end: var(--brand-bright-mint);
+    --action-primary-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 35%, transparent);
+    --action-primary-hover-background-start: color-mix(in srgb, var(--brand-mid-cyan) 78%, white);
+    --action-primary-hover-background-end: color-mix(in srgb, var(--brand-bright-mint) 78%, white);
+    --action-primary-hover-border: color-mix(in srgb, var(--brand-bright-mint) 72%, transparent);
+    --action-primary-hover-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 60%, transparent);
+    --action-primary-active-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 40%, transparent);
+    --action-secondary-hover-background-start: color-mix(in srgb, var(--brand-mid-cyan) 12%, transparent);
+    --action-secondary-hover-background-end: color-mix(in srgb, var(--brand-bright-mint) 10%, transparent);
+    --action-secondary-hover-border: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+    --action-secondary-hover-text-start: var(--brand-mid-cyan);
+    --action-secondary-hover-text-end: var(--brand-bright-mint);
+    --action-secondary-hover-content: var(--brand-bright-mint);
+    --action-secondary-hover-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
   }
 }
 
@@ -86,6 +126,22 @@
   --color-border: rgba(225, 236, 238, 0.5);
   --color-error: #ff7b72;
   --color-error-surface: rgba(255, 123, 114, 0.12);
+  --action-primary-text: var(--brand-deep);
+  --action-primary-background-start: var(--brand-mid-cyan);
+  --action-primary-background-end: var(--brand-bright-mint);
+  --action-primary-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 35%, transparent);
+  --action-primary-hover-background-start: color-mix(in srgb, var(--brand-mid-cyan) 78%, white);
+  --action-primary-hover-background-end: color-mix(in srgb, var(--brand-bright-mint) 78%, white);
+  --action-primary-hover-border: color-mix(in srgb, var(--brand-bright-mint) 72%, transparent);
+  --action-primary-hover-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 60%, transparent);
+  --action-primary-active-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 40%, transparent);
+  --action-secondary-hover-background-start: color-mix(in srgb, var(--brand-mid-cyan) 12%, transparent);
+  --action-secondary-hover-background-end: color-mix(in srgb, var(--brand-bright-mint) 10%, transparent);
+  --action-secondary-hover-border: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
+  --action-secondary-hover-text-start: var(--brand-mid-cyan);
+  --action-secondary-hover-text-end: var(--brand-bright-mint);
+  --action-secondary-hover-content: var(--brand-bright-mint);
+  --action-secondary-hover-shadow-color: color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
 }
 
 html {

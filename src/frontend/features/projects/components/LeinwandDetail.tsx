@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./LeinwandDetail.module.css";
 
@@ -23,14 +24,14 @@ export function LeinwandDetail() {
 
         <div className={baseStyles.actionsBlock}>
           <div className={baseStyles.primaryCtas}>
-            <a
+            <ActionLink
               href="https://leinwand-overland.com/"
               target="_blank"
               rel="noopener noreferrer"
-              className={baseStyles.ctaPrimary}
+              variant="primary"
             >
               Ver sitio
-            </a>
+            </ActionLink>
           </div>
         </div>
       </section>
