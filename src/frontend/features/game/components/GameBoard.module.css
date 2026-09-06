@@ -1,0 +1,199 @@
+.board {
+  position: relative;
+  width: 100%;
+  max-width: 320px;
+  aspect-ratio: 1;
+  margin: 0 auto;
+  background-color: color-mix(in srgb, var(--color-surface) 80%, var(--color-bg) 20%);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--color-border) 10%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--color-border) 10%, transparent) 1px, transparent 1px);
+  background-size: 16px 16px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+  border-radius: 14px;
+  box-shadow:
+    inset 0 1px 2px color-mix(in srgb, var(--color-text) 6%, transparent),
+    0 6px 20px -6px color-mix(in srgb, var(--color-text) 10%, transparent);
+  user-select: none;
+  touch-action: manipulation;
+}
+
+.board:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 3px;
+}
+
+.bugButton {
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  min-width: 44px;
+  min-height: 44px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border-radius: 10px;
+  touch-action: manipulation;
+  transform: translate(-50%, -50%);
+  animation: bugSpawn 0.12s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
+  transition: transform var(--transition-interactive);
+}
+
+.bugButton:active {
+  transform: translate(-50%, -50%) scale(0.92);
+}
+
+.bugButton:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+/* Diferenciación visual de bugs y sombras controladas */
+.bugNormal .bugGraphic {
+  filter: drop-shadow(0 2px 5px color-mix(in srgb, var(--color-accent) 30%, transparent));
+}
+
+.bugRapido .bugGraphic {
+  filter: drop-shadow(0 2px 6px color-mix(in srgb, var(--color-accent-secondary) 40%, transparent));
+}
+
+.bugEspecial .bugGraphic {
+  filter: drop-shadow(0 0 8px color-mix(in srgb, var(--color-accent) 50%, transparent));
+}
+
+/* -------------------------------------------------------------
+ * Feedback de captura (+1, +2, +3)
+ * ------------------------------------------------------------- */
+.catchFeedback {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  font-size: 1.25rem;
+  font-weight: 800;
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  padding: 0.25rem 0.55rem;
+  border-radius: 6px;
+  z-index: 10;
+  user-select: none;
+  animation: catchPop 0.5s cubic-bezier(0.2, 0.8, 0.25, 1) forwards;
+}
+
+.feedback_normal {
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-surface) 94%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-accent) 55%, transparent);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-text) 16%, transparent);
+}
+
+.feedback_rapido {
+  color: var(--color-accent-secondary);
+  background-color: color-mix(in srgb, var(--color-surface) 94%, var(--color-bg));
+  border: 1px solid color-mix(in srgb, var(--color-accent-secondary) 60%, transparent);
+  box-shadow: 0 4px 12px color-mix(in srgb, var(--color-accent-secondary) 25%, transparent);
+}
+
+.feedback_especial {
+  color: var(--color-accent);
+  background-color: color-mix(in srgb, var(--color-surface) 96%, var(--color-bg));
+  border: 1.5px solid var(--color-accent);
+  box-shadow:
+    0 4px 14px color-mix(in srgb, var(--color-accent) 45%, transparent),
+    0 0 10px color-mix(in srgb, var(--color-accent) 30%, transparent);
+}
+
+/* -------------------------------------------------------------
+ * Animaciones y motion
+ * ------------------------------------------------------------- */
+@keyframes bugSpawn {
+  from {
+    transform: translate(-50%, -50%) scale(0.7);
+    opacity: 0.5;
+  }
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes catchPop {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -25%) scale(0.7);
+  }
+  20% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.15);
+  }
+  70% {
+    opacity: 1;
+    transform: translate(-50%, -65%) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -85%) scale(0.9);
+  }
+}
+
+@keyframes catchFade {
+  0% {
+    opacity: 0;
+  }
+  20% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bugButton {
+    animation: none !important;
+    transition: none !important;
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .bugButton:active {
+    transform: translate(-50%, -50%) !important;
+  }
+
+  .catchFeedback {
+    animation: catchFade 0.45s ease forwards !important;
+    transform: translate(-50%, -50%) !important;
+  }
+}
+
+/* -------------------------------------------------------------
+ * Responsive móvil
+ * ------------------------------------------------------------- */
+@media (max-width: 480px) {
+  .board {
+    max-width: 280px;
+  }
+
+  .bugGraphic {
+    width: 40px !important;
+    height: 40px !important;
+  }
+}
+
+.srOnly {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+

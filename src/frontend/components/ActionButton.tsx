@@ -12,6 +12,7 @@ export interface ActionButtonProps
   /** Ícono decorativo o funcional ubicado antes de la etiqueta. */
   startIcon?: ReactNode;
   endIcon?: ReactNode;
+  ref?: React.Ref<HTMLButtonElement>;
 }
 
 export function ActionButton({
@@ -24,6 +25,7 @@ export function ActionButton({
   endIcon,
   type = "button",
   disabled,
+  ref,
   ...props
 }: ActionButtonProps) {
   const actionClassName = [
@@ -39,6 +41,7 @@ export function ActionButton({
   return (
     <button
       {...props}
+      ref={ref}
       type={type}
       className={actionClassName}
       disabled={disabled || loading}

@@ -53,6 +53,7 @@
   border-radius: 16px;
   max-width: 820px;
   width: 100%;
+  cursor: pointer;
   background:
     radial-gradient(
       circle at 15% 50%,
@@ -278,7 +279,3 @@
     transform: none;
   }
 }
-
-
-
-

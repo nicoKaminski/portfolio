@@ -1,0 +1,82 @@
+.bugSvg {
+  image-rendering: pixelated;
+  image-rendering: crisp-edges;
+  shape-rendering: crispEdges;
+  display: block;
+  flex-shrink: 0;
+}
+
+/* -------------------------------------------------------------
+ * BUG NORMAL: Escarabajo compacto
+ * ------------------------------------------------------------- */
+.normalBody {
+  fill: var(--color-accent);
+}
+
+.normalAccent {
+  fill: color-mix(in srgb, var(--color-accent) 80%, var(--color-text));
+}
+
+.normalShell {
+  fill: var(--color-accent);
+}
+
+.normalSeam {
+  fill: color-mix(in srgb, var(--color-accent) 35%, var(--color-bg));
+}
+
+.normalEye {
+  fill: var(--color-text);
+}
+
+.normalSheen {
+  fill: color-mix(in srgb, var(--color-accent) 65%, white);
+}
+
+/* -------------------------------------------------------------
+ * BUG RÁPIDO: Insecto alado / silueta ágil
+ * ------------------------------------------------------------- */
+.rapidoHead,
+.rapidoBody {
+  fill: var(--color-text);
+}
+
+.rapidoAccent {
+  fill: var(--color-accent-secondary);
+}
+
+.rapidoWing {
+  fill: var(--color-accent-secondary);
+}
+
+.rapidoWingTip {
+  fill: var(--color-accent);
+}
+
+.rapidoWingInner {
+  fill: color-mix(in srgb, var(--color-accent-secondary) 75%, white);
+}
+
+/* -------------------------------------------------------------
+ * BUG ESPECIAL: Escarabajo ciervo con cuernos y núcleo brillante
+ * ------------------------------------------------------------- */
+.especialHorns {
+  fill: var(--color-accent);
+}
+
+.especialHead {
+  fill: var(--color-text);
+}
+
+.especialEyes {
+  fill: var(--color-accent);
+}
+
+.especialArmor {
+  fill: color-mix(in srgb, var(--color-text) 82%, var(--color-accent));
+}
+
+.especialCore {
+  fill: var(--brand-bright-mint);
+  filter: drop-shadow(0 0 2px var(--brand-bright-mint));
+}

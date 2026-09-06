@@ -1,23 +1,18 @@
+"use client";
+
+import { useState, useRef } from "react";
 import Image from "next/image";
-import { ActionButton } from "@/frontend/components/ActionButton";
+import { GameLauncher } from "@/frontend/features/game";
 import styles from "./About.module.css";
 
-function GameControllerIcon() {
-  return (
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 512 512"
-      fill="currentColor"
-      aria-hidden="true"
-      className={styles.ctaIcon}
-    >
-      <path d="M467.51 248.83c-18.4-83.18-45.69-136.24-89.43-149.17A91.5 91.5 0 00352 96c-26.89 0-48.11 16-96 16s-69.15-16-96-16a99.09 99.09 0 00-27.52 3.84c-43.61 13.06-70.83 66.25-89.13 149.61C24.49 335.6 16 380.44 16 392a56 56 0 0056 56c24 0 41.52-16.29 58.07-32.84l40-40A31.81 31.81 0 01192.54 366h126.92a31.81 31.81 0 0122.47 9.16l40 40C398.48 431.71 416 448 440 448a56 56 0 0056-56c0-11.56-8.49-56.4-28.49-143.17zM200 248h-24v24a8 8 0 01-8 8h-16a8 8 0 01-8-8v-24h-24a8 8 0 01-8-8v-16a8 8 0 018-8h24v-24a8 8 0 018-8h16a8 8 0 018 8v24h24a8 8 0 018 8v16a8 8 0 01-8 8zm136 24a24 24 0 1124-24 24 24 0 01-24 24zm48-48a24 24 0 1124-24 24 24 0 01-24 24z" />
-    </svg>
-  );
-}
-
 export function About() {
+  const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+
+  const handleCardClick = () => {
+    setIsOpen(true);
+  };
+
   return (
     <section
       id="cazador-bugs"
@@ -25,7 +20,11 @@ export function About() {
       aria-label="Cazador de Bugs"
     >
       <div className={styles.container}>
-        <aside className={styles.gameBanner} aria-label="Cazador de Bugs">
+        <aside
+          className={styles.gameBanner}
+          aria-label="Cazador de Bugs"
+          onClick={handleCardClick}
+        >
           {/* Acento pixel art decorativo sutil */}
           <div className={styles.pixelGrid} aria-hidden="true">
             <span className={styles.pixelDot} />
@@ -54,18 +53,14 @@ export function About() {
             </p>
           </div>
 
-          {/* Zona 3: CTA sin Próximamente */}
+          {/* Zona 3: CTA Cazador de Bugs */}
           <div className={styles.ctaZone}>
-            <ActionButton
-              type="button"
-              variant="secondary"
-              size="compact"
-              startIcon={<GameControllerIcon />}
-              disabled
-              aria-disabled="true"
-            >
-              Jugar
-            </ActionButton>
+            <GameLauncher
+              isOpen={isOpen}
+              onOpen={() => setIsOpen(true)}
+              onClose={() => setIsOpen(false)}
+              triggerRef={triggerRef}
+            />
           </div>
         </aside>
       </div>
