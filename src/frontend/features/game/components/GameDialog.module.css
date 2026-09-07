@@ -410,4 +410,28 @@
   .hudValue {
     font-size: 1.2rem;
   }
+
+  .resultView {
+    align-items: center;
+    text-align: center;
+  }
+
+  .resultHeader {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 0.5rem;
+  }
+
+  .resultScore,
+  .resultView .bestScore {
+    text-align: center;
+  }
+
+  .resultView .actions {
+    width: 100%;
+    justify-content: center;
+  }
 }
