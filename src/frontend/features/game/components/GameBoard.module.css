@@ -40,7 +40,6 @@
   user-select: none;
   -webkit-user-select: none;
   touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
   transform: translate(-50%, -50%);
   animation: bugSpawn 0.12s cubic-bezier(0.18, 0.89, 0.32, 1.28) forwards;
   transition: transform var(--transition-interactive);
