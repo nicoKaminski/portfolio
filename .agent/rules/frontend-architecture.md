@@ -184,23 +184,30 @@ Roles de marca:
 - cyan intermedio: `#228DAF`;
 - menta brillante: `#02F1B6`.
 
-#### Tema claro implementado · Glaciar
+#### Tema claro implementado · Caribe
 
 ```text
-#E1ECEE
-#134670
-#10698C
-#648A81
+#E6ECF5
+#F8FBFF
+#1D314A
+#3471A4
+#4E8C94
+#7CB9E2
+#A1E2D6
+#BDE0F5
 ```
 
 Roles semánticos implementados:
 
-- fondo principal: `#E1ECEE`;
-- superficie principal: `#E1ECEE`;
-- texto principal: `#134670`;
-- texto secundario: derivado de `#134670`;
-- acento e interacción: `#10698C`;
-- bordes y detalles: `#648A81`.
+- fondo principal: `#E6ECF5`;
+- superficie elevada: `#F8FBFF`;
+- superficie secundaria: `#BDE0F5`;
+- texto principal: `#1D314A`;
+- texto secundario: derivado de `#1D314A`;
+- acento e interacción: `#3471A4`;
+- acento secundario: `#4E8C94`;
+- detalles decorativos y bordes: `#7CB9E2`;
+- aguamarina de apoyo: `#A1E2D6`.
 
 #### Tema oscuro implementado y aprobado como base · Aurora
 
@@ -227,11 +234,9 @@ La menta Aurora `#02F1B6` no debe utilizarse como color general de texto. Su fun
 
 El modo oscuro actualmente implementado es la base visual aprobada. No debe rediseñarse globalmente sin una instrucción explícita.
 
-El tema claro Glaciar describe el estado implementado actual; no debe confundirse con la próxima evolución aprobada.
+El tema claro Caribe describe el estado implementado actual.
 
-### Dirección aprobada pendiente · Tema claro Caribe
-
-La próxima evolución aprobada para el tema claro es la paleta Caribe:
+### Tema claro Caribe
 
 ```text
 #E6ECF5
@@ -242,9 +247,7 @@ La próxima evolución aprobada para el tema claro es la paleta Caribe:
 #A1E2D6
 ```
 
-Esta paleta todavía no está implementada. Antes de incorporarla deben definirse sus roles semánticos en `src/app/globals.css` y migrarse los consumidores de forma controlada.
-
-También está aprobada una futura superficie elevada casi blanca para el tema claro. Su valor HEX todavía no está decidido y no debe inventarse.
+Esta paleta se implementa mediante roles semánticos en `src/app/globals.css`; los consumidores responden a esos tokens.
 
 Reglas:
 

@@ -16,8 +16,8 @@
   right: 0;
   pointer-events: none;
   z-index: 0;
-  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
-  mask-image: linear-gradient(to bottom, black 0%, black 82%, transparent 100%);
+  -webkit-mask-image: linear-gradient(to bottom, var(--color-neutral-black) 0%, var(--color-neutral-black) 82%, transparent 100%);
+  mask-image: linear-gradient(to bottom, var(--color-neutral-black) 0%, var(--color-neutral-black) 82%, transparent 100%);
   background:
     radial-gradient(
       ellipse 65% 50% at 20% 25%,
@@ -69,8 +69,7 @@
   background: linear-gradient(
     135deg,
     var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 50%,
-    var(--color-border) 100%
+    var(--color-accent-secondary) 100%
   );
   -webkit-background-clip: text;
   background-clip: text;
@@ -130,6 +129,20 @@
 
 .conversationAction:hover .chatIcon {
   transform: scale(1.14);
+}
+
+[data-theme="light"] .heroSection::before {
+  background:
+    radial-gradient(
+      ellipse 65% 50% at 20% 25%,
+      color-mix(in srgb, var(--color-accent-secondary) 14%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      circle 540px at 85% 35%,
+      color-mix(in srgb, var(--brand-bright-mint) 12%, transparent) 0%,
+      transparent 68%
+    );
 }
 
 .chatIcon {

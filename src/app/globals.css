@@ -24,13 +24,13 @@
   --scrollbar-radius: 8px;
   --scrollbar-thumb: color-mix(in srgb, var(--color-border) 55%, transparent);
   --scrollbar-thumb-hover: var(--color-accent);
-  --color-logo-surface: #e1ecee;
-
   /* Tokens de marca (referencia identidad logo NK) */
   --brand-deep: #1d314a;             /* tono profundo */
   --brand-base-blue: #10698c;         /* azul base */
   --brand-mid-cyan: #228daf;          /* cyan intermedio */
   --brand-bright-mint: #02f1b6;       /* menta brillante */
+  --color-neutral-black: #000;
+  --color-neutral-white: #fff;
 
   /* Ritmo vertical y espaciado de secciones (estandarizado) */
   --section-padding-y: clamp(3.5rem, 6.5vw, 5.5rem);
@@ -49,35 +49,41 @@
   --action-disabled-text: var(--color-text-secondary);
 }
 
-/* Fallback / Tema Claro (Glaciar) */
-:root,
-[data-theme="light"] {
-  --color-bg: #e1ecee;
-  --color-surface: #e1ecee;
-  --color-text: #134670;
-  --color-text-secondary: rgba(19, 70, 112, 0.8);
-  --color-accent: var(--brand-base-blue);
-  --color-accent-secondary: var(--brand-mid-cyan);
-  --color-decorative: var(--brand-mid-cyan);
-  --color-border: #648a81;
+/* Fallback / Tema Claro (Caribe) */
+:root {
+  --color-bg: #e6ecf5;
+  --color-surface: #f8fbff;
+  --color-surface-secondary: #bde0f5;
+  --color-text: #1d314a;
+  --color-text-secondary: rgba(29, 49, 74, 0.8);
+  --color-accent: #3471a4;
+  --color-accent-secondary: #4e8c94;
+  --color-decorative: #7cb9e2;
+  --color-border: var(--color-decorative);
   --color-error: #b91c1c;
   --color-error-surface: rgba(185, 28, 28, 0.08);
   --action-primary-text: #ffffff;
-  --action-primary-background-start: var(--brand-base-blue);
-  --action-primary-background-end: var(--brand-mid-cyan);
-  --action-primary-shadow-color: color-mix(in srgb, var(--brand-base-blue) 35%, transparent);
-  --action-primary-hover-background-start: color-mix(in srgb, var(--brand-base-blue) 82%, black);
-  --action-primary-hover-background-end: color-mix(in srgb, var(--brand-mid-cyan) 82%, black);
-  --action-primary-hover-border: color-mix(in srgb, var(--brand-base-blue) 72%, transparent);
-  --action-primary-hover-shadow-color: color-mix(in srgb, var(--brand-base-blue) 58%, transparent);
-  --action-primary-active-shadow-color: color-mix(in srgb, var(--brand-base-blue) 40%, transparent);
-  --action-secondary-hover-background-start: color-mix(in srgb, var(--brand-base-blue) 8%, transparent);
-  --action-secondary-hover-background-end: color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent);
-  --action-secondary-hover-border: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  --action-secondary-hover-text-start: var(--brand-base-blue);
-  --action-secondary-hover-text-end: var(--brand-mid-cyan);
-  --action-secondary-hover-content: var(--brand-base-blue);
-  --action-secondary-hover-shadow-color: color-mix(in srgb, var(--brand-base-blue) 20%, transparent);
+  --action-primary-background-start: var(--color-accent);
+  --action-primary-background-end: var(--color-accent-secondary);
+  --action-primary-shadow-color: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  --action-primary-hover-background-start: color-mix(in srgb, var(--color-accent) 82%, black);
+  --action-primary-hover-background-end: color-mix(in srgb, var(--color-accent-secondary) 82%, black);
+  --action-primary-hover-border: color-mix(in srgb, var(--color-accent) 72%, transparent);
+  --action-primary-hover-shadow-color: color-mix(in srgb, var(--color-accent) 58%, transparent);
+  --action-primary-active-shadow-color: color-mix(in srgb, var(--color-accent) 40%, transparent);
+  --action-secondary-hover-background-start: color-mix(in srgb, var(--color-accent) 8%, transparent);
+  --action-secondary-hover-background-end: color-mix(in srgb, var(--color-accent-secondary) 8%, transparent);
+  --action-secondary-hover-border: color-mix(in srgb, var(--color-accent) 60%, var(--color-accent-secondary));
+  --action-secondary-hover-text-start: var(--color-accent);
+  --action-secondary-hover-text-end: var(--color-accent-secondary);
+  --action-secondary-hover-content: var(--color-accent);
+  --action-secondary-hover-shadow-color: color-mix(in srgb, var(--color-accent) 20%, transparent);
+}
+
+[data-theme="light"] {
+  --brand-base-blue: #3471a4;
+  --brand-mid-cyan: #4e8c94;
+  --brand-bright-mint: #a1e2d6;
 }
 
 /* Media query fallback si aún no se inicializó data-theme */

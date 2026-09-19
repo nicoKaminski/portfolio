@@ -30,7 +30,7 @@
 }
 
 .normalSheen {
-  fill: color-mix(in srgb, var(--color-accent) 65%, white);
+  fill: color-mix(in srgb, var(--color-accent) 65%, var(--color-neutral-white));
 }
 
 /* -------------------------------------------------------------
@@ -54,7 +54,7 @@
 }
 
 .rapidoWingInner {
-  fill: color-mix(in srgb, var(--color-accent-secondary) 75%, white);
+  fill: color-mix(in srgb, var(--color-accent-secondary) 75%, var(--color-neutral-white));
 }
 
 /* -------------------------------------------------------------

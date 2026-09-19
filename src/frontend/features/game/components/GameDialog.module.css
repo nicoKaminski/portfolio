@@ -16,7 +16,7 @@
 }
 
 .dialog::backdrop {
-  background-color: color-mix(in srgb, var(--color-bg) 60%, #000 40%);
+  background-color: color-mix(in srgb, var(--color-bg) 60%, var(--color-neutral-black) 40%);
   -webkit-backdrop-filter: blur(8px);
   backdrop-filter: blur(8px);
   animation: fadeIn 0.2s ease forwards;

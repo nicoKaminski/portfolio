@@ -51,7 +51,8 @@
   transition: var(--transition-interactive);
 }
 
-.brand:hover .brandName {
+.brand:hover .brandName,
+.navLink:hover span {
   background: linear-gradient(
     135deg,
     var(--brand-mid-cyan) 0%,
@@ -62,7 +63,8 @@
   -webkit-text-fill-color: transparent;
 }
 
-[data-theme="light"] .brand:hover .brandName {
+[data-theme="light"] .brand:hover .brandName,
+[data-theme="light"] .navLink:hover span {
   background: linear-gradient(
     135deg,
     var(--brand-base-blue) 0%,
@@ -113,32 +115,6 @@
   border-radius: 6px;
   min-height: 40px;
   transition: var(--transition-interactive);
-}
-
-.navLink:hover {
-  background-color: color-mix(in srgb, var(--color-surface) 60%, transparent);
-}
-
-.navLink:hover span {
-  background: linear-gradient(
-    135deg,
-    var(--brand-mid-cyan) 0%,
-    var(--brand-bright-mint) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-[data-theme="light"] .navLink:hover span {
-  background: linear-gradient(
-    135deg,
-    var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
 }
 
 .navLink:focus-visible {
@@ -275,7 +251,7 @@
     border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
     border-radius: 12px;
     padding: 0.625rem;
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.16);
+    box-shadow: 0 12px 30px color-mix(in srgb, var(--color-neutral-black) 16%, transparent);
     animation: slideDown 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   }
 

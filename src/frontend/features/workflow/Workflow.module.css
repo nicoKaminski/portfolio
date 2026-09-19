@@ -17,8 +17,8 @@
   right: 0;
   pointer-events: none;
   z-index: 0;
-  -webkit-mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
-  mask-image: linear-gradient(to bottom, transparent, black 12%, black 88%, transparent);
+  -webkit-mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
+  mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
   background:
     radial-gradient(
       ellipse 85% 65% at 50% 50%,
@@ -399,4 +399,3 @@
     min-width: 0;
   }
 }
-
