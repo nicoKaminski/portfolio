@@ -2,7 +2,7 @@ import Image from "next/image";
 import type { ComponentType } from "react";
 import { ActionLink } from "@/frontend/components/ActionLink";
 import { DownloadIcon } from "@/frontend/components/DownloadIcon";
-import { CV_URL } from "@/shared/links";
+import { CV_URL, GITHUB_URL, LINKEDIN_URL } from "@/shared/links";
 import styles from "./Footer.module.css";
 
 function LinkedInIcon() {
@@ -44,12 +44,12 @@ interface FooterLinkItem {
 const FOOTER_LINKS: FooterLinkItem[] = [
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/nkaminski-profile/",
+    href: LINKEDIN_URL,
     icon: LinkedInIcon,
   },
   {
     label: "GitHub",
-    href: "https://github.com/nicoKaminski",
+    href: GITHUB_URL,
     icon: GitHubIcon,
   },
 ];

@@ -3,6 +3,8 @@
 import styles from "./ProjectDetailDialog.module.css";
 import { useEffect, useRef } from "react";
 
+type DialogTriggerElement = HTMLAnchorElement | HTMLButtonElement;
+
 interface ProjectDetailDialogProps {
   isOpen: boolean;
   onClose: () => void;
@@ -10,7 +12,7 @@ interface ProjectDetailDialogProps {
   subtitle?: string;
   status?: string;
   closeAriaLabel?: string;
-  triggerRef?: React.RefObject<HTMLButtonElement | null>;
+  triggerRef?: React.RefObject<DialogTriggerElement | null>;
   children: React.ReactNode;
 }
 

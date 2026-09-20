@@ -1,0 +1,20 @@
+# Nico Kaminski
+
+> Portfolio de Nico Kaminski, desarrollador full stack con enfoque en frontend. Desarrollo productos web con React y TypeScript, cuidando especialmente la experiencia de usuario.
+
+## Portfolio
+
+- [Inicio](https://nicokaminski.com/): Portfolio profesional de Nico Kaminski.
+
+## Proyectos
+
+- [GeClAu](https://nicokaminski.com/proyectos/geclau): Un sistema de gestión académica para organizar aulas, horarios y clases, reduciendo errores y superposiciones.
+- [Horas Claras](https://nicokaminski.com/proyectos/horas-claras): Una herramienta para registrar horas de trabajo, controlar pendientes y mantener ordenada la carga en Jira.
+- [BitiCraft](https://nicokaminski.com/proyectos/biticraft): Sitio web para un emprendimiento de papelería personalizada, con foco en UX/UI, presentación de productos y contacto.
+- [TRACAM](https://nicokaminski.com/proyectos/tracam): Un MVP orientado a mejorar la trazabilidad de camiones, la gestión de viajes y la organización de documentación.
+- [Leinwand Overland](https://nicokaminski.com/proyectos/leinwand-overland): E-commerce desarrollado con WordPress y WooCommerce para una empresa de equipamiento overland.
+
+## Perfiles
+
+- [LinkedIn](https://www.linkedin.com/in/nicokaminski/)
+- [GitHub](https://github.com/nicoKaminski)

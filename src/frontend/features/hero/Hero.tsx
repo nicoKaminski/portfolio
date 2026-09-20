@@ -1,4 +1,5 @@
 import { ActionLink } from "@/frontend/components/ActionLink";
+import { GITHUB_URL, LINKEDIN_URL } from "@/shared/links";
 import { AbstractVisual } from "./components/AbstractVisual";
 import styles from "./Hero.module.css";
 
@@ -129,7 +130,7 @@ export function Hero() {
             <span className={styles.socialPrompt}>También podés encontrarme en</span>
             <div className={styles.socialLinks}>
               <a
-                href="https://www.linkedin.com/in/nkaminski-profile/"
+                href={LINKEDIN_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialLink}
@@ -139,7 +140,7 @@ export function Hero() {
                 <span>LinkedIn</span>
               </a>
               <a
-                href="https://github.com/nicoKaminski"
+                href={GITHUB_URL}
                 target="_blank"
                 rel="noopener noreferrer"
                 className={styles.socialLink}

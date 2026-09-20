@@ -6,94 +6,15 @@ import { ActionLink } from "@/frontend/components/ActionLink";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
-import { BitiCraftDetail } from "./components/BitiCraftDetail";
-import { GeClauDetail } from "./components/GeClauDetail";
-import { HorasClarasDetail } from "./components/HorasClarasDetail";
-import { LeinwandDetail } from "./components/LeinwandDetail";
-import { TracamDetail } from "./components/TracamDetail";
+import {
+  projects,
+  type Project,
+  type ProjectSlug,
+} from "./projectCatalog";
 import styles from "./Projects.module.css";
 
-type ActiveProject =
-  | "geclau"
-  | "horas-claras"
-  | "biticraft"
-  | "tracam"
-  | "leinwand";
-
-type Project = {
-  id: ActiveProject;
-  title: string;
-  logo: string;
-  mockup: string;
-  mockupAlt: string;
-  description: string;
-  externalCta: string;
-  externalHref: string;
-};
-
-const featuredProjects: readonly Project[] = [
-  {
-    id: "geclau",
-    title: "GeClAu",
-    logo: "/projects/geclau/logo.png",
-    mockup: "/projects/geclau/mockup.png",
-    mockupAlt: "Vista de la aplicación GeClAu",
-    description:
-      "Un sistema de gestión académica para organizar aulas, horarios y clases, reduciendo errores y superposiciones.",
-    externalCta: "Ver despliegue",
-    externalHref: "https://aulas.mdp.utn.edu.ar/",
-  },
-  {
-    id: "horas-claras",
-    title: "Horas Claras",
-    logo: "/projects/horas-claras/logo.png",
-    mockup: "/projects/horas-claras/mockup.png",
-    mockupAlt: "Vista de la aplicación Horas Claras",
-    description:
-      "Una herramienta para registrar horas de trabajo, controlar pendientes y mantener ordenada la carga en Jira.",
-    externalCta: "Abrir app",
-    externalHref: "https://horas-claras.vercel.app/",
-  },
-];
-
-const secondaryProjects: readonly Project[] = [
-  {
-    id: "biticraft",
-    title: "BitiCraft",
-    logo: "/projects/biticraft/logo.png",
-    mockup: "/projects/biticraft/mockup.png",
-    mockupAlt: "Vista del sitio web de BitiCraft",
-    description:
-      "Sitio web para un emprendimiento de papelería personalizada, con foco en UX/UI, presentación de productos y contacto.",
-    externalCta: "Visitar sitio",
-    externalHref: "https://biticraft.vercel.app/",
-  },
-  {
-    id: "tracam",
-    title: "TRACAM",
-    logo: "/projects/tracam/logo.png",
-    mockup: "/projects/tracam/mockup.png",
-    mockupAlt: "Vista de la aplicación TRACAM",
-    description:
-      "Un MVP orientado a mejorar la trazabilidad de camiones, la gestión de viajes y la organización de documentación.",
-    externalCta: "Abrir app",
-    externalHref: "https://tracam.grupo6s.com/login",
-  },
-  {
-    id: "leinwand",
-    title: "Leinwand Overland",
-    logo: "/projects/leinwand/logo.png",
-    mockup: "/projects/leinwand/captura-01.png",
-    mockupAlt: "Vista de la tienda Leinwand Overland",
-    description:
-      "E-commerce desarrollado con WordPress y WooCommerce para una empresa de equipamiento overland.",
-    externalCta: "Visitar sitio",
-    externalHref: "https://leinwand-overland.com/",
-  },
-];
-
 const PROJECT_DIALOG_CONFIG: Record<
-  ActiveProject,
+  ProjectSlug,
   {
     title: string;
     subtitle: string;
@@ -122,7 +43,7 @@ const PROJECT_DIALOG_CONFIG: Record<
     subtitle: "Gestión operativa y trazabilidad de viajes de camiones",
     closeAriaLabel: "Cerrar detalle de TRACAM",
   },
-  leinwand: {
+  "leinwand-overland": {
     title: "Leinwand Overland",
     subtitle: "E-commerce de equipamiento para aventura y overland",
     status: "Publicado · En uso",
@@ -132,8 +53,8 @@ const PROJECT_DIALOG_CONFIG: Record<
 
 interface ProjectCardProps {
   project: Project;
-  onOpen: (project: ActiveProject) => void;
-  triggerRef: (element: HTMLButtonElement | null) => void;
+  onOpen: (project: ProjectSlug) => void;
+  triggerRef: (element: HTMLAnchorElement | null) => void;
 }
 
 function ProjectCard({
@@ -145,14 +66,28 @@ function ProjectCard({
     <article
       className={styles.projectCard}
       data-card-action
-      data-project={project.id}
+      data-project={project.slug}
     >
-      <button
+      <a
         ref={triggerRef}
-        type="button"
+        href={`/proyectos/${project.slug}`}
         className={styles.cardActionOverlay}
-        onClick={() => onOpen(project.id)}
+        onClick={(event) => {
+          if (
+            event.button !== 0 ||
+            event.metaKey ||
+            event.ctrlKey ||
+            event.shiftKey ||
+            event.altKey
+          ) {
+            return;
+          }
+
+          event.preventDefault();
+          onOpen(project.slug);
+        }}
         aria-label={`Más info sobre ${project.title}`}
+        aria-haspopup="dialog"
         data-card-action-trigger
       />
 
@@ -176,7 +111,7 @@ function ProjectCard({
               fill
               sizes="110px"
               className={`${styles.logo} ${
-                project.id === "leinwand" ? styles.leinwandLogo : ""
+                project.slug === "leinwand-overland" ? styles.leinwandLogo : ""
               }`}
             />
           </div>
@@ -202,16 +137,20 @@ function ProjectCard({
 }
 
 export function Projects() {
-  const [activeProject, setActiveProject] = useState<ActiveProject | null>(null);
+  const [activeProject, setActiveProject] = useState<ProjectSlug | null>(null);
   const triggerRefs = useRef<
-    Partial<Record<ActiveProject, HTMLButtonElement | null>>
+    Partial<Record<ProjectSlug, HTMLAnchorElement | null>>
   >({});
-  const activeTriggerRef = useRef<HTMLButtonElement>(null);
+  const activeTriggerRef = useRef<HTMLAnchorElement | HTMLButtonElement>(null);
   const dialogConfig = activeProject
     ? PROJECT_DIALOG_CONFIG[activeProject]
     : null;
+  const activeProjectData = activeProject
+    ? projects.find(({ slug }) => slug === activeProject)
+    : null;
+  const ActiveDetail = activeProjectData?.Detail;
 
-  const openProject = (project: ActiveProject) => {
+  const openProject = (project: ProjectSlug) => {
     activeTriggerRef.current = triggerRefs.current[project] ?? null;
     setActiveProject(project);
   };
@@ -236,13 +175,13 @@ export function Projects() {
 
         <ScrollReveal className={styles.gridReveal} delay={100}>
           <div className={styles.projectsGrid}>
-            {[...featuredProjects, ...secondaryProjects].map((project) => (
+            {projects.map((project) => (
               <ProjectCard
-                key={project.id}
+                key={project.slug}
                 project={project}
                 onOpen={openProject}
                 triggerRef={(element) => {
-                  triggerRefs.current[project.id] = element;
+                  triggerRefs.current[project.slug] = element;
                 }}
               />
             ))}
@@ -259,11 +198,7 @@ export function Projects() {
         closeAriaLabel={dialogConfig?.closeAriaLabel}
         triggerRef={activeTriggerRef}
       >
-        {activeProject === "geclau" && <GeClauDetail />}
-        {activeProject === "horas-claras" && <HorasClarasDetail />}
-        {activeProject === "biticraft" && <BitiCraftDetail />}
-        {activeProject === "tracam" && <TracamDetail />}
-        {activeProject === "leinwand" && <LeinwandDetail />}
+        {ActiveDetail && <ActiveDetail />}
       </ProjectDetailDialog>
     </section>
   );

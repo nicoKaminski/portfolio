@@ -1,0 +1,43 @@
+.page {
+  min-height: 100vh;
+  padding: var(--section-padding-y) var(--section-padding-x);
+  background:
+    radial-gradient(
+      ellipse 85% 65% at 50% 0%,
+      color-mix(in srgb, var(--color-surface) 24%, transparent) 0%,
+      transparent 80%
+    ),
+    var(--color-bg);
+}
+
+.content {
+  width: min(100%, 1040px);
+  margin: 0 auto;
+}
+
+.header {
+  margin-bottom: clamp(2.5rem, 5vw, 4.5rem);
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  color: var(--color-text);
+}
+
+.title::after {
+  content: "";
+  display: block;
+  width: 3.5rem;
+  height: 3px;
+  margin-top: 0.75rem;
+  border-radius: 3px;
+  background: linear-gradient(
+    90deg,
+    var(--color-accent-secondary) 0%,
+    var(--color-accent) 100%
+  );
+  box-shadow: 0 1px 6px color-mix(in srgb, var(--color-accent) 40%, transparent);
+}
