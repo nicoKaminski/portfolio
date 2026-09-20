@@ -11,30 +11,15 @@
 .projectsSection::before {
   content: "";
   position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  inset: 0;
   pointer-events: none;
   z-index: 0;
   -webkit-mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
   mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
   background:
-    radial-gradient(
-      ellipse 85% 65% at 50% 50%,
-      color-mix(in srgb, var(--color-surface) 24%, transparent) 0%,
-      transparent 80%
-    ),
-    radial-gradient(
-      ellipse 65% 50% at 88% 25%,
-      color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 0%,
-      transparent 75%
-    ),
-    radial-gradient(
-      ellipse 60% 45% at 12% 75%,
-      color-mix(in srgb, var(--brand-bright-mint) 6.5%, transparent) 0%,
-      transparent 72%
-    );
+    radial-gradient(ellipse 85% 65% at 50% 50%, color-mix(in srgb, var(--color-surface) 24%, transparent) 0%, transparent 80%),
+    radial-gradient(ellipse 65% 50% at 88% 25%, color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 0%, transparent 75%),
+    radial-gradient(ellipse 60% 45% at 12% 75%, color-mix(in srgb, var(--brand-bright-mint) 6.5%, transparent) 0%, transparent 72%);
 }
 
 .container {
@@ -42,7 +27,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2.125rem;
   position: relative;
   z-index: 1;
 }
@@ -73,61 +58,39 @@
   width: 3.5rem;
   height: 3px;
   border-radius: 3px;
-  background: linear-gradient(
-    90deg,
-    var(--color-accent) 0%,
-    var(--color-accent-secondary) 100%
-  );
+  background: linear-gradient(90deg, var(--color-accent) 0%, var(--color-accent-secondary) 100%);
   box-shadow: 0 1px 6px color-mix(in srgb, var(--color-accent) 40%, transparent);
 }
 
-/* Grillas */
-.featuredGrid {
+.projectsGrid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1.75rem;
-  align-items: stretch;
-}
-
-.secondaryGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(6, minmax(0, 1fr));
   gap: 1.5rem;
   align-items: stretch;
 }
 
-/* Nivel 1 · Tarjetas Protagonistas */
-.featuredCard {
-  background:
-    radial-gradient(
-      circle at 85% 15%,
-      color-mix(in srgb, var(--color-accent) 9%, transparent) 0%,
-      transparent 45%
-    ),
-    linear-gradient(
-      150deg,
-      color-mix(in srgb, var(--color-surface) 92%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-surface) 72%, var(--color-bg)) 100%
-    );
-  border: 1px solid color-mix(in srgb, var(--color-border) 45%, transparent);
-  border-radius: 16px;
+.projectCard {
+  grid-column: span 2;
+  position: relative;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  box-shadow:
-    0 4px 20px -6px color-mix(in srgb, var(--color-text) 10%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--color-accent) 18%, transparent);
-  transition:
-    border-color var(--transition-interactive),
-    box-shadow var(--transition-interactive),
-    background-color var(--transition-interactive),
-    var(--transition-theme);
-  height: 100%;
-  position: relative;
+  height: 380px;
+  min-width: 0;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--color-border) 42%, transparent);
+  background:
+    radial-gradient(circle at 88% 4%, color-mix(in srgb, var(--color-accent) 9%, transparent) 0%, transparent 34%),
+    linear-gradient(150deg, color-mix(in srgb, var(--color-surface) 92%, var(--color-bg)) 0%, color-mix(in srgb, var(--color-surface) 68%, var(--color-bg)) 100%);
+  transition: border-color var(--transition-interactive), box-shadow var(--transition-interactive), transform var(--transition-interactive), var(--transition-theme);
 }
 
-.interactiveCard {
-  cursor: pointer;
+.projectCard[data-project="geclau"] {
+  grid-column: 2 / span 2;
+}
+
+.projectCard[data-project="horas-claras"] {
+  grid-column: 4 / span 2;
 }
 
 .cardActionOverlay {
@@ -135,428 +98,156 @@
   inset: 0;
   width: 100%;
   height: 100%;
-  border: none;
-  background: transparent;
   padding: 0;
   margin: 0;
+  border: 0;
+  border-radius: inherit;
+  background: transparent;
   cursor: pointer;
   z-index: 2;
-  border-radius: 16px;
 }
 
 .cardActionOverlay:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+  outline: 2px solid var(--action-focus-color);
+  outline-offset: -4px;
 }
 
-.interactiveCard:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
-  background:
-    radial-gradient(
-      circle at 85% 15%,
-      color-mix(in srgb, var(--brand-bright-mint) 12%, transparent) 0%,
-      transparent 50%
-    ),
-    linear-gradient(
-      150deg,
-      color-mix(in srgb, var(--color-surface) 92%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-surface) 72%, var(--color-bg)) 100%
-    );
+.projectCard:hover,
+.projectCard:focus-within {
+  transform: translateY(-3px);
+  border-color: color-mix(in srgb, var(--color-accent) 68%, var(--color-border));
   box-shadow:
-    0 12px 36px -8px color-mix(in srgb, var(--brand-bright-mint) 25%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-bright-mint) 35%, transparent);
+    0 14px 30px -20px color-mix(in srgb, var(--color-accent) 40%, transparent),
+    inset 0 1px 0 color-mix(in srgb, var(--color-accent) 24%, transparent);
 }
 
-.interactiveCard:active {
-  transform: translateY(0);
-}
-
-[data-theme="light"] .interactiveCard:hover {
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  background:
-    radial-gradient(
-      circle at 85% 15%,
-      color-mix(in srgb, var(--brand-base-blue) 10%, transparent) 0%,
-      transparent 50%
-    ),
-    linear-gradient(
-      150deg,
-      color-mix(in srgb, var(--color-surface) 92%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-surface) 72%, var(--color-bg)) 100%
-    );
+.projectCard {
   box-shadow:
-    0 12px 36px -8px color-mix(in srgb, var(--brand-base-blue) 25%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-base-blue) 35%, transparent);
-}
-
-.interactiveCard:has(.cardActionOverlay:focus-visible) {
-  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
-  box-shadow:
-    0 10px 32px -8px color-mix(in srgb, var(--brand-bright-mint) 25%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-bright-mint) 35%, transparent);
-}
-
-[data-theme="light"] .interactiveCard:has(.cardActionOverlay:focus-visible) {
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  box-shadow:
-    0 10px 32px -8px color-mix(in srgb, var(--brand-base-blue) 25%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-base-blue) 35%, transparent);
-}
-
-/* Superficies de logo protagonistas */
-.mediaContainer {
-  width: 100%;
-  height: clamp(170px, 16vw, 200px);
-  background:
-    radial-gradient(
-      ellipse 70% 60% at 50% 50%,
-      color-mix(in srgb, var(--color-accent) 18%, transparent) 0%,
-      transparent 75%
-    ),
-    linear-gradient(
-      180deg,
-      color-mix(in srgb, var(--color-surface) 95%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-surface) 75%, var(--color-bg)) 100%
-    );
-  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
-  position: relative;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition-theme);
-}
-
-.logoSurface {
-  position: relative;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.featuredLogo {
-  object-fit: contain !important;
-  padding: 1.5rem 2.25rem;
-  filter: drop-shadow(0 4px 10px color-mix(in srgb, var(--color-text) 10%, transparent));
-}
-
-.featuredContent {
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
-  padding: 1.5rem;
-  flex-grow: 1;
-}
-
-.featuredTitle {
-  font-size: clamp(1.25rem, 1.8vw, 1.5rem);
-  font-weight: 700;
-  letter-spacing: -0.015em;
-  color: var(--color-text);
-  margin: 0;
-  transition: color var(--transition-interactive);
-}
-
-.interactiveCard:hover .featuredTitle,
-.interactiveCard:has(.cardActionOverlay:focus-visible) .featuredTitle {
-  background: linear-gradient(
-    135deg,
-    var(--brand-mid-cyan) 0%,
-    var(--brand-bright-mint) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-[data-theme="light"] .interactiveCard:hover .featuredTitle,
-[data-theme="light"] .interactiveCard:has(.cardActionOverlay:focus-visible) .featuredTitle {
-  background: linear-gradient(
-    135deg,
-    var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.featuredBody {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1.5rem;
-  flex-grow: 1;
-}
-
-.featuredDescription {
-  font-size: 0.975rem;
-  line-height: 1.6;
-  color: var(--color-text-secondary);
-  margin: 0;
-  flex: 1;
-}
-
-/* Nivel 2 · Tarjetas Secundarias */
-.secondaryCard {
-  background:
-    radial-gradient(
-      circle at 90% 12%,
-      color-mix(in srgb, var(--color-accent) 8%, transparent) 0%,
-      transparent 45%
-    ),
-    linear-gradient(
-      155deg,
-      color-mix(in srgb, var(--color-surface) 80%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-surface) 55%, var(--color-bg)) 100%
-    );
-  border: 1px solid color-mix(in srgb, var(--color-border) 40%, transparent);
-  border-radius: 14px;
-  padding: 1.35rem 1.45rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.875rem;
-  box-shadow:
-    0 3px 14px -4px color-mix(in srgb, var(--color-text) 7%, transparent),
+    0 8px 22px -18px color-mix(in srgb, var(--color-text) 32%, transparent),
     inset 0 1px 0 color-mix(in srgb, var(--color-accent) 12%, transparent);
-  transition:
-    border-color var(--transition-interactive),
-    box-shadow var(--transition-interactive),
-    var(--transition-theme);
-  height: 100%;
+}
+
+.mockupFrame {
   position: relative;
-}
-
-.secondaryInteractiveCard {
-  cursor: pointer;
-}
-
-.secondaryActionOverlay {
-  position: absolute;
-  inset: 0;
   width: 100%;
-  height: 100%;
-  border: none;
-  background: transparent;
-  padding: 0;
-  margin: 0;
-  cursor: pointer;
-  z-index: 2;
-  border-radius: 14px;
+  height: 160px;
+  background: color-mix(in srgb, var(--color-surface) 72%, var(--color-bg));
+  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
 }
 
-.secondaryActionOverlay:focus-visible {
-  outline: 2px solid var(--color-accent);
-  outline-offset: 3px;
+.mockup {
+  object-fit: cover;
+  object-position: center;
 }
 
-.secondaryInteractiveCard:hover {
-  transform: translateY(-2px);
-  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
-  background:
-    radial-gradient(
-      circle at 90% 12%,
-      color-mix(in srgb, var(--brand-bright-mint) 10%, transparent) 0%,
-      transparent 50%
-    ),
-    linear-gradient(
-      155deg,
-      color-mix(in srgb, var(--color-surface) 84%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-surface) 60%, var(--color-bg)) 100%
-    );
-  box-shadow:
-    0 10px 28px -6px color-mix(in srgb, var(--brand-bright-mint) 22%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
+.cardContent {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.secondaryInteractiveCard:active {
-  transform: translateY(0);
+.cardContent {
+  gap: 0.65rem;
+  padding: 0.9rem 1.1rem 1rem;
 }
 
-[data-theme="light"] .secondaryInteractiveCard:hover {
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  background:
-    radial-gradient(
-      circle at 90% 12%,
-      color-mix(in srgb, var(--brand-base-blue) 8%, transparent) 0%,
-      transparent 50%
-    ),
-    linear-gradient(
-      155deg,
-      color-mix(in srgb, var(--color-surface) 84%, var(--color-bg)) 0%,
-      color-mix(in srgb, var(--color-surface) 60%, var(--color-bg)) 100%
-    );
-  box-shadow:
-    0 10px 28px -6px color-mix(in srgb, var(--brand-base-blue) 22%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-base-blue) 25%, transparent);
-}
-
-.secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) {
-  border-color: color-mix(in srgb, var(--brand-mid-cyan) 60%, var(--brand-bright-mint));
-  box-shadow:
-    0 8px 24px -6px color-mix(in srgb, var(--brand-bright-mint) 22%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
-}
-
-[data-theme="light"] .secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) {
-  border-color: color-mix(in srgb, var(--brand-base-blue) 60%, var(--brand-mid-cyan));
-  box-shadow:
-    0 8px 24px -6px color-mix(in srgb, var(--brand-base-blue) 22%, transparent),
-    inset 0 1px 0 color-mix(in srgb, var(--brand-base-blue) 25%, transparent);
-}
-
-.secondaryHeader {
+.projectIdentity {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 0.875rem;
+  width: 100%;
+  gap: 1rem;
+  min-width: 0;
 }
 
-.secondaryTitle {
-  font-size: 1.15rem;
-  font-weight: 600;
-  letter-spacing: -0.01em;
-  color: var(--color-text);
-  margin: 0;
-  transition: color var(--transition-interactive);
-}
-
-.secondaryInteractiveCard:hover .secondaryTitle,
-.secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryTitle {
-  background: linear-gradient(
-    135deg,
-    var(--brand-mid-cyan) 0%,
-    var(--brand-bright-mint) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-[data-theme="light"] .secondaryInteractiveCard:hover .secondaryTitle,
-[data-theme="light"] .secondaryInteractiveCard:has(.secondaryActionOverlay:focus-visible) .secondaryTitle {
-  background: linear-gradient(
-    135deg,
-    var(--brand-base-blue) 0%,
-    var(--brand-mid-cyan) 100%
-  );
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-}
-
-.secondaryLogoContainer {
+.logoFrame {
   position: relative;
+  flex: 0 0 auto;
   width: 110px;
   height: 48px;
-  min-width: 110px;
-  overflow: hidden;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
 }
 
-.secondaryLogo {
-  object-fit: contain !important;
+.logo {
+  object-fit: contain;
 }
 
-.secondaryLogoLeinwand {
+.leinwandLogo {
   transform: scale(1.15);
 }
 
-.secondaryBody {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 1rem;
-  flex-grow: 1;
-}
-
-.secondaryDescription {
-  font-size: 0.925rem;
-  line-height: 1.55;
-  color: var(--color-text-secondary);
+.projectTitle {
   margin: 0;
-  flex: 1;
+  color: var(--color-text);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
 }
 
-/* Responsive */
+.projectTitle {
+  font-size: 1.075rem;
+}
+
+.description {
+  margin: 0;
+  color: var(--color-text-secondary);
+  line-height: 1.55;
+}
+
+.description {
+  margin-top: auto;
+  font-size: 0.875rem;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem;
+  margin-top: 0;
+  padding-top: 0.125rem;
+}
+
+.actions a {
+  position: relative;
+  z-index: 3;
+}
+
 @media (max-width: 1024px) {
-  .secondaryGrid {
-    grid-template-columns: repeat(2, 1fr);
-  }
-}
-
-@media (max-width: 960px) {
-  .projectsSection {
-    padding: 2.5rem 1.25rem 4.5rem;
+  .projectsGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  .container {
-    gap: 2.5rem;
+  .projectCard,
+  .projectCard[data-project="geclau"],
+  .projectCard[data-project="horas-claras"] {
+    grid-column: auto;
   }
 
-  .featuredGrid {
-    grid-template-columns: 1fr;
-    gap: 1.5rem;
-  }
-
-  .mediaContainer {
-    height: 160px;
-  }
-
-  .featuredContent {
-    padding: 1.35rem 1.25rem;
-  }
 }
 
 @media (max-width: 680px) {
-  .secondaryGrid {
+  .projectsGrid {
     grid-template-columns: 1fr;
     gap: 1.25rem;
   }
 
-  .secondaryCard {
-    padding: 1.35rem 1.25rem;
+  .projectCard {
+    height: auto;
+    min-height: 380px;
   }
 
-  .secondaryBody {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.85rem;
-  }
-
-  .featuredBody {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 1rem;
-  }
-}
-
-@media (max-width: 400px) {
-  .secondaryHeader {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 0.75rem;
-  }
-
-  .secondaryLogoContainer {
-    align-self: flex-start;
-    width: 100px;
-    height: 48px;
-    min-width: 100px;
+  .cardContent {
+    padding: 1rem 1.05rem 1.1rem;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .interactiveCard:hover,
-  .interactiveCard:active,
-  .secondaryInteractiveCard:hover,
-  .secondaryInteractiveCard:active {
+  .projectCard {
+    transition: none;
+  }
+
+  .projectCard:hover,
+  .projectCard:focus-within {
     transform: none;
   }
 }

@@ -1,14 +1,15 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useRef } from "react";
+import { useRef, useState } from "react";
+import { ActionLink } from "@/frontend/components/ActionLink";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
+import { BitiCraftDetail } from "./components/BitiCraftDetail";
 import { GeClauDetail } from "./components/GeClauDetail";
 import { HorasClarasDetail } from "./components/HorasClarasDetail";
-import { BitiCraftDetail } from "./components/BitiCraftDetail";
-import { TracamDetail } from "./components/TracamDetail";
 import { LeinwandDetail } from "./components/LeinwandDetail";
+import { TracamDetail } from "./components/TracamDetail";
 import styles from "./Projects.module.css";
 
 type ActiveProject =
@@ -18,46 +19,77 @@ type ActiveProject =
   | "tracam"
   | "leinwand";
 
-const featuredProjects = [
+type Project = {
+  id: ActiveProject;
+  title: string;
+  logo: string;
+  mockup: string;
+  mockupAlt: string;
+  description: string;
+  externalCta: string;
+  externalHref: string;
+};
+
+const featuredProjects: readonly Project[] = [
   {
     id: "geclau",
     title: "GeClAu",
     logo: "/projects/geclau/logo.png",
+    mockup: "/projects/geclau/mockup.png",
+    mockupAlt: "Vista de la aplicación GeClAu",
     description:
-      "Gestión académica pensada para ordenar la complejidad de aulas, horarios y clases.",
+      "Un sistema de gestión académica para organizar aulas, horarios y clases, reduciendo errores y superposiciones.",
+    externalCta: "Ver despliegue",
+    externalHref: "https://aulas.mdp.utn.edu.ar/",
   },
   {
     id: "horas-claras",
     title: "Horas Claras",
     logo: "/projects/horas-claras/logo.png",
+    mockup: "/projects/horas-claras/mockup.png",
+    mockupAlt: "Vista de la aplicación Horas Claras",
     description:
       "Una herramienta para registrar horas de trabajo, controlar pendientes y mantener ordenada la carga en Jira.",
+    externalCta: "Abrir app",
+    externalHref: "https://horas-claras.vercel.app/",
   },
-] as const;
+];
 
-const secondaryProjects = [
+const secondaryProjects: readonly Project[] = [
   {
     id: "biticraft",
     title: "BitiCraft",
     logo: "/projects/biticraft/logo.png",
+    mockup: "/projects/biticraft/mockup.png",
+    mockupAlt: "Vista del sitio web de BitiCraft",
     description:
       "Sitio web para un emprendimiento de papelería personalizada, con foco en UX/UI, presentación de productos y contacto.",
+    externalCta: "Visitar sitio",
+    externalHref: "https://biticraft.vercel.app/",
   },
   {
     id: "tracam",
     title: "TRACAM",
     logo: "/projects/tracam/logo.png",
+    mockup: "/projects/tracam/mockup.png",
+    mockupAlt: "Vista de la aplicación TRACAM",
     description:
       "Un MVP orientado a mejorar la trazabilidad de camiones, la gestión de viajes y la organización de documentación.",
+    externalCta: "Abrir app",
+    externalHref: "https://tracam.grupo6s.com/login",
   },
   {
     id: "leinwand",
     title: "Leinwand Overland",
     logo: "/projects/leinwand/logo.png",
+    mockup: "/projects/leinwand/captura-01.png",
+    mockupAlt: "Vista de la tienda Leinwand Overland",
     description:
       "E-commerce desarrollado con WordPress y WooCommerce para una empresa de equipamiento overland.",
+    externalCta: "Visitar sitio",
+    externalHref: "https://leinwand-overland.com/",
   },
-] as const;
+];
 
 const PROJECT_DIALOG_CONFIG: Record<
   ActiveProject,
@@ -97,6 +129,77 @@ const PROJECT_DIALOG_CONFIG: Record<
   },
 };
 
+interface ProjectCardProps {
+  project: Project;
+  onOpen: (project: ActiveProject) => void;
+  triggerRef: (element: HTMLButtonElement | null) => void;
+}
+
+function ProjectCard({
+  project,
+  onOpen,
+  triggerRef,
+}: ProjectCardProps) {
+  return (
+    <article
+      className={styles.projectCard}
+      data-card-action
+      data-project={project.id}
+    >
+      <button
+        ref={triggerRef}
+        type="button"
+        className={styles.cardActionOverlay}
+        onClick={() => onOpen(project.id)}
+        aria-label={`Más info sobre ${project.title}`}
+        data-card-action-trigger
+      />
+
+      <div className={styles.mockupFrame}>
+        <Image
+          src={project.mockup}
+          alt={project.mockupAlt}
+          fill
+          sizes="(max-width: 680px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className={styles.mockup}
+        />
+      </div>
+
+      <div className={styles.cardContent}>
+        <div className={styles.projectIdentity}>
+          <h3 className={styles.projectTitle}>{project.title}</h3>
+          <div className={styles.logoFrame} aria-hidden="true">
+            <Image
+              src={project.logo}
+              alt=""
+              fill
+              sizes="110px"
+              className={`${styles.logo} ${
+                project.id === "leinwand" ? styles.leinwandLogo : ""
+              }`}
+            />
+          </div>
+        </div>
+
+        <p className={styles.description}>{project.description}</p>
+
+        <div className={styles.actions}>
+          <CardActionLabel label="Más info" size="medium" />
+          <ActionLink
+            href={project.externalHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant="secondary"
+            size="compact"
+          >
+            {project.externalCta}
+          </ActionLink>
+        </div>
+      </div>
+    </article>
+  );
+}
+
 export function Projects() {
   const [activeProject, setActiveProject] = useState<ActiveProject | null>(null);
   const triggerRefs = useRef<
@@ -128,89 +231,16 @@ export function Projects() {
           </div>
         </header>
 
-        {/* Nivel 1 · Protagonistas (2 columnas) */}
-        <div className={styles.featuredGrid}>
-          {featuredProjects.map((project) => (
-            <article
+        <div className={styles.projectsGrid}>
+          {[...featuredProjects, ...secondaryProjects].map((project) => (
+            <ProjectCard
               key={project.id}
-              className={`${styles.featuredCard} ${styles.interactiveCard}`}
-              data-card-action
-            >
-              <button
-                ref={(element) => {
-                  triggerRefs.current[project.id] = element;
-                }}
-                type="button"
-                className={styles.cardActionOverlay}
-                data-card-action-trigger
-                onClick={() => openProject(project.id)}
-                aria-label={`Más info sobre ${project.title}`}
-              />
-
-              <div className={styles.mediaContainer} aria-hidden="true">
-                <div className={styles.logoSurface}>
-                  <Image
-                    src={project.logo}
-                    alt=""
-                    fill
-                    sizes="(max-width: 960px) 100vw, 560px"
-                    className={styles.featuredLogo}
-                  />
-                </div>
-              </div>
-              <div className={styles.featuredContent}>
-                <h3 className={styles.featuredTitle}>{project.title}</h3>
-                <div className={styles.featuredBody}>
-                  <p className={styles.featuredDescription}>
-                    {project.description}
-                  </p>
-                  <CardActionLabel label="Más info" size="large" />
-                </div>
-              </div>
-            </article>
-          ))}
-        </div>
-
-        {/* Nivel 2 · Secundarios (3 columnas) */}
-        <div className={styles.secondaryGrid}>
-          {secondaryProjects.map((project) => (
-            <article
-              key={project.id}
-              className={`${styles.secondaryCard} ${styles.secondaryInteractiveCard}`}
-              data-card-action
-            >
-              <button
-                ref={(element) => {
-                  triggerRefs.current[project.id] = element;
-                }}
-                type="button"
-                className={styles.secondaryActionOverlay}
-                data-card-action-trigger
-                onClick={() => openProject(project.id)}
-                aria-label={`Más info sobre ${project.title}`}
-              />
-              <div className={styles.secondaryHeader}>
-                <h3 className={styles.secondaryTitle}>{project.title}</h3>
-                <div
-                  className={styles.secondaryLogoContainer}
-                  aria-hidden="true"
-                >
-                  <Image
-                    src={project.logo}
-                    alt=""
-                    fill
-                    sizes="110px"
-                    className={`${styles.secondaryLogo} ${project.id === "leinwand" ? styles.secondaryLogoLeinwand : ""}`}
-                  />
-                </div>
-              </div>
-              <div className={styles.secondaryBody}>
-                <p className={styles.secondaryDescription}>
-                  {project.description}
-                </p>
-                <CardActionLabel label="Más info" size="medium" />
-              </div>
-            </article>
+              project={project}
+              onOpen={openProject}
+              triggerRef={(element) => {
+                triggerRefs.current[project.id] = element;
+              }}
+            />
           ))}
         </div>
       </div>
