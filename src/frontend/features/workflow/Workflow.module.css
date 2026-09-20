@@ -54,6 +54,11 @@
   width: 100%;
 }
 
+.headerReveal,
+.trackReveal {
+  width: 100%;
+}
+
 .titleWrapper {
   display: inline-flex;
   flex-direction: column;
@@ -81,6 +86,17 @@
     var(--color-accent-secondary) 100%
   );
   box-shadow: 0 1px 6px color-mix(in srgb, var(--color-accent) 40%, transparent);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+}
+
+.headerReveal[data-reveal-enabled="true"] .titleAccent {
+  transform: scaleX(0);
+}
+
+.headerReveal[data-reveal-visible="true"] .titleAccent {
+  transform: scaleX(1);
 }
 
 .intro {
@@ -118,16 +134,18 @@
   flex-direction: column;
   gap: 1.25rem;
   position: relative;
-  /* Entrance animation variables */
-  opacity: 0;
-  transform: translateY(18px);
-  transition:
-    opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-  transition-delay: calc(var(--step-index, 0) * 85ms);
 }
 
-.revealed .stepItem {
+.trackReveal[data-reveal-enabled="true"] .stepItem {
+  opacity: 0;
+  transform: translateY(var(--motion-reveal-distance));
+  transition:
+    opacity var(--motion-reveal-duration) var(--motion-reveal-easing),
+    transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+  transition-delay: calc(var(--step-index, 0) * 78ms);
+}
+
+.trackReveal[data-reveal-visible="true"] .stepItem {
   opacity: 1;
   transform: translateY(0);
 }
@@ -153,9 +171,20 @@
     color-mix(in srgb, var(--color-accent) 55%, var(--color-border)) 0%,
     color-mix(in srgb, var(--color-accent-secondary) 50%, var(--color-border)) 100%
   );
-  transform: translateY(-50%);
+  transform: translateY(-50%) scaleX(1);
+  transform-origin: left;
+  transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+  transition-delay: calc(var(--step-index, 0) * 78ms);
   z-index: 1;
   opacity: 0.85;
+}
+
+.trackReveal[data-reveal-enabled="true"] .stepItem:not(:last-child) .indicatorWrapper::after {
+  transform: translateY(-50%) scaleX(0);
+}
+
+.trackReveal[data-reveal-visible="true"] .stepItem:not(:last-child) .indicatorWrapper::after {
+  transform: translateY(-50%) scaleX(1);
 }
 
 .indicator {
@@ -317,16 +346,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .stepItem {
-    opacity: 1 !important;
-    transform: none !important;
-    transition: none !important;
+  .trackReveal .stepItem,
+  .stepItem:not(:last-child) .indicatorWrapper::after,
+  .timeline::before {
+    transition: none;
   }
 
-  .stepItem:hover .stepIconBox {
-    transform: none;
-  }
-
+  .stepItem:hover .stepIconBox,
   .stepCard:hover,
   .stepCard:active {
     transform: none;
@@ -368,6 +394,17 @@
     );
     z-index: 0;
     opacity: 0.85;
+    transform: scaleY(1);
+    transform-origin: top;
+    transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+  }
+
+  .trackReveal[data-reveal-enabled="true"] .timeline::before {
+    transform: scaleY(0);
+  }
+
+  .trackReveal[data-reveal-visible="true"] .timeline::before {
+    transform: scaleY(1);
   }
 
   .stepItem:not(:last-child) .indicatorWrapper::after {

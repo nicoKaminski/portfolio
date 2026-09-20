@@ -53,6 +53,11 @@
   gap: 0.5rem;
 }
 
+.headerReveal,
+.gridReveal {
+  width: 100%;
+}
+
 .title {
   font-size: clamp(1.35rem, 2.5vw, 1.75rem);
   font-weight: 700;

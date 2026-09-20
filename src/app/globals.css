@@ -20,6 +20,9 @@
     border-color 0.2s ease,
     box-shadow 0.2s ease,
     transform 0.2s ease;
+  --motion-reveal-duration: 600ms;
+  --motion-reveal-easing: cubic-bezier(0.16, 1, 0.3, 1);
+  --motion-reveal-distance: 14px;
   --scrollbar-size: 6px;
   --scrollbar-radius: 8px;
   --scrollbar-thumb: color-mix(in srgb, var(--color-border) 55%, transparent);

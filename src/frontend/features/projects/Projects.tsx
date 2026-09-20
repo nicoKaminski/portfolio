@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { ActionLink } from "@/frontend/components/ActionLink";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
+import { ScrollReveal } from "@/frontend/components/ScrollReveal";
 import { BitiCraftDetail } from "./components/BitiCraftDetail";
 import { GeClauDetail } from "./components/GeClauDetail";
 import { HorasClarasDetail } from "./components/HorasClarasDetail";
@@ -222,27 +223,31 @@ export function Projects() {
       aria-labelledby="projects-title"
     >
       <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.titleWrapper}>
-            <h2 id="projects-title" className={styles.title}>
-              Proyectos
-            </h2>
-            <span className={styles.titleAccent} aria-hidden="true" />
-          </div>
-        </header>
+        <ScrollReveal className={styles.headerReveal}>
+          <header className={styles.header}>
+            <div className={styles.titleWrapper}>
+              <h2 id="projects-title" className={styles.title}>
+                Proyectos
+              </h2>
+              <span className={styles.titleAccent} aria-hidden="true" />
+            </div>
+          </header>
+        </ScrollReveal>
 
-        <div className={styles.projectsGrid}>
-          {[...featuredProjects, ...secondaryProjects].map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onOpen={openProject}
-              triggerRef={(element) => {
-                triggerRefs.current[project.id] = element;
-              }}
-            />
-          ))}
-        </div>
+        <ScrollReveal className={styles.gridReveal} delay={100}>
+          <div className={styles.projectsGrid}>
+            {[...featuredProjects, ...secondaryProjects].map((project) => (
+              <ProjectCard
+                key={project.id}
+                project={project}
+                onOpen={openProject}
+                triggerRef={(element) => {
+                  triggerRefs.current[project.id] = element;
+                }}
+              />
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
 
       <ProjectDetailDialog

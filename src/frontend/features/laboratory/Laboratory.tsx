@@ -4,6 +4,7 @@ import Image from "next/image";
 import { useState, useRef } from "react";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
+import { ScrollReveal } from "@/frontend/components/ScrollReveal";
 import { MemoWarsDetail } from "./components/MemoWarsDetail";
 import { MemoPotterDetail } from "./components/MemoPotterDetail";
 import { QueComoDetail } from "./components/QueComoDetail";
@@ -126,55 +127,59 @@ export function Laboratory() {
       aria-labelledby="laboratory-title"
     >
       <div className={styles.container}>
-        <header className={styles.header}>
-          <h2 id="laboratory-title" className={styles.title}>
-            Laboratorio
-          </h2>
-          <p className={styles.intro}>
-            Proyectos de práctica y aprendizaje en la universidad.
-          </p>
-        </header>
+        <ScrollReveal className={styles.headerReveal}>
+          <header className={styles.header}>
+            <h2 id="laboratory-title" className={styles.title}>
+              Laboratorio
+            </h2>
+            <p className={styles.intro}>
+              Proyectos de práctica y aprendizaje en la universidad.
+            </p>
+          </header>
+        </ScrollReveal>
 
-        <div className={styles.grid}>
-          {laboratoryProjects.map((project) => (
-            <button
-              key={project.name}
-              ref={(element) => {
-                triggerRefs.current[project.id] = element;
-              }}
-              type="button"
-              className={styles.card}
-              onClick={() => openProject(project.id)}
-              aria-haspopup="dialog"
-              data-card-action
-            >
-              <div className={styles.cardImageWrapper}>
-                <Image
-                  src={project.previewSrc}
-                  alt=""
-                  width={400}
-                  height={225}
-                  className={styles.cardImage}
-                />
-              </div>
-              <div className={styles.cardContent}>
-                <div className={styles.cardHeader}>
-                  <span className={styles.projectName}>{project.name}</span>
-                </div>
-                <p className={styles.projectDescription}>
-                  {project.description}
-                </p>
-                <div className={styles.cardFooter}>
-                  <CardActionLabel
-                    label="Ver más"
-                    size="small"
-                    appearance="plain"
+        <ScrollReveal className={styles.gridReveal} delay={100}>
+          <div className={styles.grid}>
+            {laboratoryProjects.map((project) => (
+              <button
+                key={project.name}
+                ref={(element) => {
+                  triggerRefs.current[project.id] = element;
+                }}
+                type="button"
+                className={styles.card}
+                onClick={() => openProject(project.id)}
+                aria-haspopup="dialog"
+                data-card-action
+              >
+                <div className={styles.cardImageWrapper}>
+                  <Image
+                    src={project.previewSrc}
+                    alt=""
+                    width={400}
+                    height={225}
+                    className={styles.cardImage}
                   />
                 </div>
-              </div>
-            </button>
-          ))}
-        </div>
+                <div className={styles.cardContent}>
+                  <div className={styles.cardHeader}>
+                    <span className={styles.projectName}>{project.name}</span>
+                  </div>
+                  <p className={styles.projectDescription}>
+                    {project.description}
+                  </p>
+                  <div className={styles.cardFooter}>
+                    <CardActionLabel
+                      label="Ver más"
+                      size="small"
+                      appearance="plain"
+                    />
+                  </div>
+                </div>
+              </button>
+            ))}
+          </div>
+        </ScrollReveal>
       </div>
 
       <ProjectDetailDialog

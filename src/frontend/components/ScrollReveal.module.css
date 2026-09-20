@@ -1,0 +1,22 @@
+.reveal {
+  transition:
+    opacity var(--motion-reveal-duration) var(--motion-reveal-easing),
+    transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+  transition-delay: var(--scroll-reveal-delay, 0ms);
+}
+
+.reveal[data-reveal-enabled="true"][data-reveal-visible="false"] {
+  opacity: 0;
+  transform: translateY(var(--motion-reveal-distance));
+}
+
+.reveal[data-reveal-visible="true"] {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    transition: none;
+  }
+}

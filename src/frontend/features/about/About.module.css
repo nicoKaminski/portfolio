@@ -41,6 +41,10 @@
   z-index: 1;
 }
 
+.gameReveal {
+  width: 100%;
+}
+
 /* Banner horizontal con lenguaje visual de cards de proyectos */
 .gameBanner {
   position: relative;
@@ -87,10 +91,6 @@
     inset 0 1px 1px color-mix(in srgb, var(--color-accent) 24%, transparent);
 }
 
-.gameBanner:hover .gameLogo {
-  transform: scale(1.035);
-}
-
 /* Detalle pixel art sutil en esquina */
 .pixelGrid {
   position: absolute;
@@ -125,6 +125,31 @@
   image-rendering: crisp-edges;
   filter: drop-shadow(0 6px 12px color-mix(in srgb, var(--color-text) 18%, transparent));
   transition: transform 0.2s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .gameBanner:hover .gameLogo {
+    animation: bugHunterRun 520ms cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+}
+
+@keyframes bugHunterRun {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+
+  25% {
+    transform: translate3d(3px, -2px, 0) rotate(-0.8deg);
+  }
+
+  50% {
+    transform: translate3d(5px, 1px, 0) rotate(0.6deg);
+  }
+
+  75% {
+    transform: translate3d(2px, -2px, 0) rotate(-0.6deg);
+  }
 }
 
 /* Zona 2: Contenido Textual */
@@ -276,6 +301,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .gameBanner:hover .gameLogo {
+    animation: none;
     transform: none;
   }
 }

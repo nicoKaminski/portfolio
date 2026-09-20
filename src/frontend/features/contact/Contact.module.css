@@ -56,6 +56,11 @@
   padding-top: 0.5rem;
 }
 
+.headerReveal,
+.formReveal {
+  width: 100%;
+}
+
 .titleWrapper {
   display: inline-flex;
   flex-direction: column;
@@ -84,6 +89,17 @@
     var(--color-accent-secondary) 100%
   );
   box-shadow: 0 1px 6px color-mix(in srgb, var(--color-accent) 40%, transparent);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+}
+
+.headerReveal[data-reveal-enabled="true"] .titleAccent {
+  transform: scaleX(0);
+}
+
+.headerReveal[data-reveal-visible="true"] .titleAccent {
+  transform: scaleX(1);
 }
 
 .introGroup {

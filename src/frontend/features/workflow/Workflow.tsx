@@ -1,6 +1,5 @@
-"use client";
-
-import { useEffect, useRef, useState } from "react";
+import type { CSSProperties } from "react";
+import { ScrollReveal } from "@/frontend/components/ScrollReveal";
 import styles from "./Workflow.module.css";
 
 function PencilIcon() {
@@ -174,103 +173,71 @@ const steps = [
 ];
 
 export function Workflow() {
-  const [isVisible, setIsVisible] = useState(() => {
-    if (typeof window === "undefined") return false;
-    return (
-      !("IntersectionObserver" in window) ||
-      window.matchMedia("(prefers-reduced-motion: reduce)").matches
-    );
-  });
-  const sectionRef = useRef<HTMLElement | null>(null);
-
-  useEffect(() => {
-    if (isVisible) return;
-
-    const target = sectionRef.current;
-    if (!target) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.disconnect();
-        }
-      },
-      {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px",
-      }
-    );
-
-    observer.observe(target);
-
-    return () => {
-      observer.disconnect();
-    };
-  }, [isVisible]);
-
   return (
     <section
-      ref={sectionRef}
       id="como-trabajo"
-      className={`${styles.workflowSection} ${isVisible ? styles.revealed : ""}`}
+      className={styles.workflowSection}
       aria-labelledby="workflow-title"
     >
       <div className={styles.container}>
-        <header className={styles.header}>
-          <div className={styles.titleWrapper}>
-            <h2 id="workflow-title" className={styles.title}>
-              Cómo trabajo
-            </h2>
-            <span className={styles.titleAccent} aria-hidden="true" />
-          </div>
-          <div className={styles.intro}>
-            <p>
-              No empiezo por el código. Primero busco entender bien el problema,
-              discutir alternativas y elegir la solución que mejor se adapta al
-              contexto. A partir de ahí defino el alcance, el orden de
-              implementación y los criterios con los que voy a evaluar el
-              resultado.
-            </p>
-            <p>
-              La IA forma parte de ese proceso como herramienta de apoyo para
-              investigar, planificar, implementar y revisar, sin delegar el
-              criterio técnico o funcional. Avanzo por etapas, probando y
-              auditando cada una antes de seguir, para detectar desvíos temprano y
-              validar que la solución final funcione como fue pensada.
-            </p>
-          </div>
-        </header>
+        <ScrollReveal className={styles.headerReveal}>
+          <header className={styles.header}>
+            <div className={styles.titleWrapper}>
+              <h2 id="workflow-title" className={styles.title}>
+                Cómo trabajo
+              </h2>
+              <span className={styles.titleAccent} aria-hidden="true" />
+            </div>
+            <div className={styles.intro}>
+              <p>
+                No empiezo por el código. Primero busco entender bien el problema,
+                discutir alternativas y elegir la solución que mejor se adapta al
+                contexto. A partir de ahí defino el alcance, el orden de
+                implementación y los criterios con los que voy a evaluar el
+                resultado.
+              </p>
+              <p>
+                La IA forma parte de ese proceso como herramienta de apoyo para
+                investigar, planificar, implementar y revisar, sin delegar el
+                criterio técnico o funcional. Avanzo por etapas, probando y
+                auditando cada una antes de seguir, para detectar desvíos temprano y
+                validar que la solución final funcione como fue pensada.
+              </p>
+            </div>
+          </header>
+        </ScrollReveal>
 
-        <div className={styles.trackWrapper}>
-          <ol className={styles.timeline}>
-            {steps.map((step, index) => {
-              const Icon = step.icon;
-              return (
-                <li
-                  key={step.id}
-                  className={styles.stepItem}
-                  style={{ "--step-index": index } as React.CSSProperties}
-                >
-                  <div className={styles.indicatorWrapper}>
-                    <div className={styles.indicator} aria-hidden="true">
-                      <div className={styles.stepIconBox}>
-                        <Icon />
+        <ScrollReveal className={styles.trackReveal} delay={100}>
+          <div className={styles.trackWrapper}>
+            <ol className={styles.timeline}>
+              {steps.map((step, index) => {
+                const Icon = step.icon;
+                return (
+                  <li
+                    key={step.id}
+                    className={styles.stepItem}
+                    style={{ "--step-index": index } as CSSProperties}
+                  >
+                    <div className={styles.indicatorWrapper}>
+                      <div className={styles.indicator} aria-hidden="true">
+                        <div className={styles.stepIconBox}>
+                          <Icon />
+                        </div>
                       </div>
                     </div>
-                  </div>
-                  <div className={styles.stepCard}>
-                    <h3 className={styles.stepTitle}>
-                      <span className={styles.stepNumber}>{step.number}</span>
-                      <span className={styles.stepName}>{step.name}</span>
-                    </h3>
-                    <p className={styles.stepDescription}>{step.description}</p>
-                  </div>
-                </li>
-              );
-            })}
-          </ol>
-        </div>
+                    <div className={styles.stepCard}>
+                      <h3 className={styles.stepTitle}>
+                        <span className={styles.stepNumber}>{step.number}</span>
+                        <span className={styles.stepName}>{step.name}</span>
+                      </h3>
+                      <p className={styles.stepDescription}>{step.description}</p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </div>
+        </ScrollReveal>
       </div>
     </section>
   );
