@@ -1,19 +1,38 @@
 "use client";
 
 import styles from "./ProjectDetailDialog.module.css";
-import { useEffect, useRef, useCallback, useState } from "react";
+import {
+  useEffect,
+  useRef,
+  useCallback,
+  useState,
+  type ReactNode,
+  type RefObject,
+} from "react";
 
 type DialogTriggerElement = HTMLAnchorElement | HTMLButtonElement;
 
-interface ProjectDetailDialogProps {
+export type DialogPhase = "open" | "closing" | "closed";
+
+export interface ProjectDetailDialogProps {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   subtitle?: string;
   status?: string;
   closeAriaLabel?: string;
-  triggerRef?: React.RefObject<DialogTriggerElement | null>;
-  children: React.ReactNode;
+  triggerRef?: RefObject<DialogTriggerElement | null>;
+  children: ReactNode;
+  projectId?: string;
+}
+
+interface RetainedDialogContent {
+  projectId?: string;
+  title: string;
+  subtitle?: string;
+  status?: string;
+  closeAriaLabel?: string;
+  children: ReactNode;
 }
 
 /** Returns true if the user prefers reduced motion. */
@@ -31,97 +50,280 @@ export function ProjectDetailDialog({
   closeAriaLabel,
   triggerRef,
   children,
+  projectId,
 }: ProjectDetailDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
+  const dialogCardRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const topBarRef = useRef<HTMLElement>(null);
 
-  // Retiene los children renderizados durante la animación de cierre (patrón oficial de React para sincronizar estado al renderizar)
-  const [renderedChildren, setRenderedChildren] = useState<React.ReactNode>(() => (isOpen ? children : null));
-  const [prevChildren, setPrevChildren] = useState<React.ReactNode>(children);
+  // ─── 2.A — Fases explícitas: "open" | "closing" | "closed" ────────────────
+  const [phase, setPhase] = useState<DialogPhase>(() =>
+    isOpen ? "open" : "closed"
+  );
+  const phaseRef = useRef<DialogPhase>(phase);
 
-  if (isOpen && children !== prevChildren) {
-    setPrevChildren(children);
-    setRenderedChildren(children);
+  // Sincronizar phaseRef fuera del render
+  useEffect(() => {
+    phaseRef.current = phase;
+  }, [phase]);
+
+  // Retiene el último detalle completo durante la animación de salida
+  const [retained, setRetained] = useState<RetainedDialogContent | null>(() =>
+    isOpen
+      ? {
+          projectId,
+          title,
+          subtitle,
+          status,
+          closeAriaLabel,
+          children,
+        }
+      : null
+  );
+
+  // Referencias para cancelación de cierre y temporizador de respaldo
+  const isFinalizingRef = useRef(false);
+  const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const animationEndCleanupRef = useRef<(() => void) | null>(null);
+  const motionQueryCleanupRef = useRef<(() => void) | null>(null);
+
+  // Registro de elementos de reveal para limpieza precisa y frames de dirección
+  const observedElementsRef = useRef<HTMLElement[]>([]);
+  const activeRevealRafsRef = useRef<Set<number>>(new Set());
+
+  // ─── Sincronización de props con contenido retenido y fases ───────────────
+  const [prevProps, setPrevProps] = useState({
+    isOpen,
+    projectId,
+    title,
+    subtitle,
+    status,
+    closeAriaLabel,
+    children,
+  });
+
+  if (isOpen) {
+    const hasPropsChanged =
+      !prevProps.isOpen ||
+      prevProps.projectId !== projectId ||
+      prevProps.title !== title ||
+      prevProps.subtitle !== subtitle ||
+      prevProps.status !== status ||
+      prevProps.closeAriaLabel !== closeAriaLabel ||
+      prevProps.children !== children;
+
+    if (hasPropsChanged) {
+      setPrevProps({
+        isOpen,
+        projectId,
+        title,
+        subtitle,
+        status,
+        closeAriaLabel,
+        children,
+      });
+      setRetained({
+        projectId,
+        title,
+        subtitle,
+        status,
+        closeAriaLabel,
+        children,
+      });
+      if (phase !== "open") {
+        setPhase("open");
+      }
+    }
+  } else if (prevProps.isOpen) {
+    // Transición de isOpen a false (incluso si el padre limpió activeProject de inmediato)
+    setPrevProps({
+      isOpen,
+      projectId,
+      title,
+      subtitle,
+      status,
+      closeAriaLabel,
+      children,
+    });
+    if (phase === "open") {
+      setPhase("closing");
+    }
   }
 
-  // ─── 4.A — Cierre animado ──────────────────────────────────────────────────
-  /**
-   * Ejecuta la animación de salida en dialogCard (slideDown) y backdrop (fadeOut),
-   * y una vez finalizada invoca el cierre real (dialog.close()) y retorna el foco.
-   * Con prefers-reduced-motion, cierra inmediatamente.
-   */
-  const animatedClose = useCallback(() => {
+  // ─── Finalización única de cierre ─────────────────────────────────────────
+  const finalizeClose = useCallback(() => {
+    if (isFinalizingRef.current || phaseRef.current === "closed") {
+      return;
+    }
+    isFinalizingRef.current = true;
+    phaseRef.current = "closed";
+
+    // 1. Cancelar temporizador de respaldo y listeners de animación / motion
+    if (fallbackTimerRef.current !== null) {
+      clearTimeout(fallbackTimerRef.current);
+      fallbackTimerRef.current = null;
+    }
+    if (animationEndCleanupRef.current) {
+      animationEndCleanupRef.current();
+      animationEndCleanupRef.current = null;
+    }
+    if (motionQueryCleanupRef.current) {
+      motionQueryCleanupRef.current();
+      motionQueryCleanupRef.current = null;
+    }
+
+    // 2. Invocar dialog.close()
     const dialog = dialogRef.current;
-    if (!dialog || !dialog.open) return;
-
-    const cleanupAfterClose = () => {
-      dialog.classList.remove(styles.isClosing);
-      if (dialog.open) {
-        dialog.close();
-      }
-      setRenderedChildren(null);
-      document.documentElement.classList.remove("scroll-locked");
-      document.body.classList.remove("scroll-locked");
-      if (scrollContentRef.current) {
-        scrollContentRef.current.scrollTop = 0;
-      }
-      triggerRef?.current?.focus();
-    };
-
-    if (prefersReducedMotion()) {
-      cleanupAfterClose();
-      return;
+    if (dialog && dialog.open) {
+      dialog.close();
     }
 
-    dialog.classList.add(styles.isClosing);
+    // 3. Liberar scroll-locked ÚNICAMENTE cuando el modal queda efectivamente "closed"
+    document.documentElement.classList.remove("scroll-locked");
+    document.body.classList.remove("scroll-locked");
 
-    const dialogCard = dialog.querySelector<HTMLElement>(`.${styles.dialogCard}`);
-    if (!dialogCard) {
-      cleanupAfterClose();
-      return;
+    // 4. Limpiar clases de reveal exactamente en los elementos observados
+    observedElementsRef.current.forEach((el) => {
+      el.classList.remove(
+        styles.revealHidden,
+        styles.revealVisible,
+        styles.revealFromAbove
+      );
+    });
+    observedElementsRef.current = [];
+
+    // 5. Cancelar frames pendientes de reveals
+    activeRevealRafsRef.current.forEach((id) => cancelAnimationFrame(id));
+    activeRevealRafsRef.current.clear();
+
+    // 6. Resetear posición de scroll y barra de progreso
+    if (scrollContentRef.current) {
+      scrollContentRef.current.scrollTop = 0;
+    }
+    if (topBarRef.current) {
+      topBarRef.current.style.removeProperty("--read-progress");
     }
 
-    let closed = false;
-    const handleAnimationEnd = () => {
-      if (closed) return;
-      closed = true;
-      clearTimeout(fallbackTimer);
-      cleanupAfterClose();
-    };
+    // 7. Retornar foco a triggerRef
+    triggerRef?.current?.focus();
 
-    // Timer de seguridad por si animationend es cancelado
-    const fallbackTimer = setTimeout(handleAnimationEnd, 300);
-    dialogCard.addEventListener("animationend", handleAnimationEnd, { once: true });
+    // 8. Limpiar contenido retenido y finalizar fase
+    setRetained(null);
+    setPhase("closed");
+    isFinalizingRef.current = false;
   }, [triggerRef]);
 
-  // ─── Ciclo de vida apertura / cierre ───────────────────────────────────────
+  // ─── Circuito centralizado de solicitud de cierre ─────────────────────────
+  const handleCloseTrigger = useCallback(() => {
+    if (phaseRef.current === "closing" || phaseRef.current === "closed") {
+      return;
+    }
+    phaseRef.current = "closing";
+
+    // Con prefers-reduced-motion, finalizar inmediatamente sin esperar animación
+    if (prefersReducedMotion()) {
+      onClose();
+      finalizeClose();
+      return;
+    }
+
+    setPhase("closing");
+    onClose();
+  }, [onClose, finalizeClose]);
+
+  // ─── Ciclo de vida cuando phase === "closing" ──────────────────────────────
   useEffect(() => {
+    if (phase !== "closing") return;
+
+    if (prefersReducedMotion()) {
+      finalizeClose();
+      return;
+    }
+
+    const dialogCard = dialogCardRef.current;
+    if (!dialogCard) {
+      finalizeClose();
+      return;
+    }
+
+    // Filtrar animationend: verificar event.target === dialogCard y animationName === "slideDown"
+    const handleAnimationEnd = (event: AnimationEvent) => {
+      if (event.target !== dialogCard) return;
+      if (event.animationName !== "slideDown") return;
+      finalizeClose();
+    };
+
+    dialogCard.addEventListener("animationend", handleAnimationEnd);
+    animationEndCleanupRef.current = () => {
+      dialogCard.removeEventListener("animationend", handleAnimationEnd);
+    };
+
+    // Si prefers-reduced-motion se activa durante la salida, finalizar inmediatamente
+    let mediaQuery: MediaQueryList | null = null;
+    let handleMotionChange: ((event: MediaQueryListEvent) => void) | null = null;
+    if (typeof window !== "undefined") {
+      mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+      handleMotionChange = (event: MediaQueryListEvent) => {
+        if (event.matches) {
+          finalizeClose();
+        }
+      };
+      mediaQuery.addEventListener("change", handleMotionChange);
+      motionQueryCleanupRef.current = () => {
+        if (mediaQuery && handleMotionChange) {
+          mediaQuery.removeEventListener("change", handleMotionChange);
+        }
+      };
+    }
+
+    // Timeout de respaldo (350ms)
+    fallbackTimerRef.current = setTimeout(() => {
+      fallbackTimerRef.current = null;
+      finalizeClose();
+    }, 350);
+
+    return () => {
+      if (fallbackTimerRef.current !== null) {
+        clearTimeout(fallbackTimerRef.current);
+        fallbackTimerRef.current = null;
+      }
+      if (animationEndCleanupRef.current) {
+        animationEndCleanupRef.current();
+        animationEndCleanupRef.current = null;
+      }
+      if (motionQueryCleanupRef.current) {
+        motionQueryCleanupRef.current();
+        motionQueryCleanupRef.current = null;
+      }
+    };
+  }, [phase, finalizeClose]);
+
+  // ─── Ciclo de vida cuando phase === "open" ────────────────────────────────
+  useEffect(() => {
+    if (phase !== "open") return;
+
     const dialog = dialogRef.current;
     if (!dialog) return;
 
-    if (isOpen) {
-      if (!dialog.open) {
-        dialog.showModal();
-      }
-      document.documentElement.classList.add("scroll-locked");
-      document.body.classList.add("scroll-locked");
-      if (scrollContentRef.current) {
-        scrollContentRef.current.scrollTop = 0;
-      }
-      closeButtonRef.current?.focus();
-    } else {
-      if (dialog.open) {
-        animatedClose();
-      }
+    if (!dialog.open) {
+      dialog.showModal();
     }
 
-    return () => {
-      document.documentElement.classList.remove("scroll-locked");
-      document.body.classList.remove("scroll-locked");
-    };
-  }, [isOpen, animatedClose]);
+    // Mantener scroll-locked en documentElement y body durante "open" y "closing"
+    document.documentElement.classList.add("scroll-locked");
+    document.body.classList.add("scroll-locked");
+
+    closeButtonRef.current?.focus();
+  }, [phase]);
+
+  // Si cambia de proyecto mientras sigue abierto, resetear scroll
+  useEffect(() => {
+    if (phase === "open" && scrollContentRef.current) {
+      scrollContentRef.current.scrollTop = 0;
+    }
+  }, [projectId, phase]);
 
   // ─── Escape / Cancel nativo ───────────────────────────────────────────────
   useEffect(() => {
@@ -130,14 +332,25 @@ export function ProjectDetailDialog({
 
     const handleCancel = (event: Event) => {
       event.preventDefault();
-      onClose();
+      handleCloseTrigger();
     };
 
     dialog.addEventListener("cancel", handleCancel);
     return () => {
       dialog.removeEventListener("cancel", handleCancel);
     };
-  }, [onClose]);
+  }, [handleCloseTrigger]);
+
+  // ─── Limpieza ante desmontaje ──────────────────────────────────────────────
+  useEffect(() => {
+    return () => {
+      document.documentElement.classList.remove("scroll-locked");
+      document.body.classList.remove("scroll-locked");
+      if (fallbackTimerRef.current !== null) {
+        clearTimeout(fallbackTimerRef.current);
+      }
+    };
+  }, []);
 
   // ─── Click en backdrop ────────────────────────────────────────────────────
   const handleBackdropClick = (event: React.MouseEvent<HTMLDialogElement>) => {
@@ -152,17 +365,13 @@ export function ProjectDetailDialog({
       event.clientY > rect.bottom;
 
     if (isOutside || event.target === dialog) {
-      onClose();
+      handleCloseTrigger();
     }
   };
 
-  // ─── 4.B — Barra de progreso de lectura ───────────────────────────────────
-  /**
-   * Actualiza la variable CSS --read-progress en el topBar mediante rAF y scroll pasivo.
-   * Sin re-renderizar React en cada píxel de scroll.
-   */
+  // ─── 2.C — Progreso de lectura ─────────────────────────────────────────────
   useEffect(() => {
-    if (!isOpen) return;
+    if (phase !== "open") return;
 
     const scrollEl = scrollContentRef.current;
     const topBar = topBarRef.current;
@@ -174,52 +383,85 @@ export function ProjectDetailDialog({
       rafId = null;
       const { scrollTop, scrollHeight, clientHeight } = scrollEl;
       const scrollable = scrollHeight - clientHeight;
-      // Si el contenido no tiene scroll real, 0% para no mostrar un progreso engañoso
-      const pct = scrollable > 0 ? Math.min(100, (scrollTop / scrollable) * 100) : 0;
+      // Sin scroll real (scrollHeight <= clientHeight), mostrar 0% (no engañoso)
+      const pct =
+        scrollable > 0
+          ? Math.min(100, Math.max(0, (scrollTop / scrollable) * 100))
+          : 0;
       topBar.style.setProperty("--read-progress", `${pct}%`);
     };
 
-    const onScroll = () => {
+    const scheduleUpdate = () => {
       if (rafId === null) {
         rafId = requestAnimationFrame(updateProgress);
       }
     };
 
-    // Valor inicial
-    updateProgress();
+    // 1. Recalcular al abrir
+    scheduleUpdate();
 
-    scrollEl.addEventListener("scroll", onScroll, { passive: true });
+    // 2. Recalcular al scrollear
+    scrollEl.addEventListener("scroll", scheduleUpdate, { passive: true });
+
+    // 3. Recalcular al redimensionar ventana
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+
+    // 4. ResizeObserver sobre scrollEl y su contenido (dimensiones / multimedia)
+    let resizeObserver: ResizeObserver | null = null;
+    if (typeof ResizeObserver !== "undefined") {
+      resizeObserver = new ResizeObserver(() => {
+        scheduleUpdate();
+      });
+      resizeObserver.observe(scrollEl);
+      if (scrollEl.firstElementChild) {
+        resizeObserver.observe(scrollEl.firstElementChild);
+      }
+    }
 
     return () => {
-      scrollEl.removeEventListener("scroll", onScroll);
+      scrollEl.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      if (resizeObserver) {
+        resizeObserver.disconnect();
+      }
       if (rafId !== null) {
         cancelAnimationFrame(rafId);
+        rafId = null;
       }
-      topBar.style.removeProperty("--read-progress");
     };
-  }, [isOpen]);
+  }, [phase, projectId]);
 
-  // ─── 4.C — Reveals internos (bidireccionales) ──────────────────────────────
-  /**
-   * Observa los bloques semánticos hijos directos de <article> dentro de scrollContent.
-   * root = scrollContent (no el viewport general).
-   * Al bajar dentro del modal: secciones entran desde abajo (.revealVisible).
-   * Al subir dentro del modal: secciones vuelven a entrar desde arriba (.revealFromAbove → .revealVisible).
-   */
+  // ─── 2.B — Reveals internos (bidireccionales) ─────────────────────────────
   useEffect(() => {
-    if (!isOpen) return;
+    if (phase !== "open") return;
     if (prefersReducedMotion()) return;
 
     const scrollEl = scrollContentRef.current;
     if (!scrollEl) return;
 
     let observer: IntersectionObserver | null = null;
-    let rafId: number | null = null;
-    let directionRafs: number[] = [];
+    let initRafId: number | null = null;
+    const activeRevealRafs = activeRevealRafsRef.current;
 
-    rafId = requestAnimationFrame(() => {
-      rafId = null;
+    // Seguimiento en tiempo real de la dirección de scroll dentro de scrollEl
+    let lastScrollTop = scrollEl.scrollTop;
+    let scrollDirection: "down" | "up" = "down";
 
+    const handleScroll = () => {
+      const currentScrollTop = scrollEl.scrollTop;
+      if (currentScrollTop > lastScrollTop) {
+        scrollDirection = "down";
+      } else if (currentScrollTop < lastScrollTop) {
+        scrollDirection = "up";
+      }
+      lastScrollTop = currentScrollTop;
+    };
+    scrollEl.addEventListener("scroll", handleScroll, { passive: true });
+
+    initRafId = requestAnimationFrame(() => {
+      initRafId = null;
+
+      // Entradas por bloques conceptuales (hijos directos de <article> dentro del modal)
       const article = scrollEl.querySelector("article");
       const sections = article
         ? (Array.from(article.children) as HTMLElement[])
@@ -227,41 +469,71 @@ export function ProjectDetailDialog({
 
       if (sections.length === 0) return;
 
-      const lastY = new Map<Element, number>();
+      // Limpiar clases previas si cambiamos de proyecto mientras el diálogo seguía abierto
+      observedElementsRef.current.forEach((el) => {
+        el.classList.remove(
+          styles.revealHidden,
+          styles.revealVisible,
+          styles.revealFromAbove
+        );
+      });
+
+      // Registrar los nodos realmente observados para limpieza exacta
+      observedElementsRef.current = sections;
 
       // Inicializa secciones como ocultas
       sections.forEach((el) => {
         el.classList.add(styles.revealHidden);
-        lastY.set(el, el.getBoundingClientRect().top);
       });
 
       observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
             const el = entry.target as HTMLElement;
-            const prevY = lastY.get(el) ?? 0;
-            const currentY = entry.boundingClientRect.top;
-            lastY.set(el, currentY);
+            const rootBounds = entry.rootBounds;
 
-            if (entry.isIntersecting) {
-              const scrollingDown = currentY <= prevY;
+            const isAbove = rootBounds
+              ? entry.boundingClientRect.bottom <= rootBounds.top
+              : entry.boundingClientRect.bottom <= 0;
+            const isBelow = rootBounds
+              ? entry.boundingClientRect.top >= rootBounds.bottom
+              : false;
+            const isCompletelyOutside =
+              (!entry.isIntersecting || entry.intersectionRatio === 0) &&
+              (isAbove || isBelow);
 
-              if (scrollingDown) {
-                // Entrada desde abajo
-                el.classList.remove(styles.revealHidden, styles.revealFromAbove);
-                el.classList.add(styles.revealVisible);
-              } else {
-                // Entrada desde arriba al regresar
+            if (entry.isIntersecting && entry.intersectionRatio > 0) {
+              if (el.classList.contains(styles.revealVisible)) {
+                return;
+              }
+
+              // Entrada según dirección de scroll (down o up)
+              const enteringFromAbove =
+                scrollDirection === "up" ||
+                (rootBounds !== null &&
+                  entry.boundingClientRect.bottom <
+                    rootBounds.top + rootBounds.height / 2);
+
+              if (enteringFromAbove) {
                 el.classList.remove(styles.revealHidden, styles.revealVisible);
                 el.classList.add(styles.revealFromAbove);
-                const id = requestAnimationFrame(() => {
+
+                const frameId = requestAnimationFrame(() => {
+                  activeRevealRafs.delete(frameId);
                   el.classList.remove(styles.revealFromAbove);
                   el.classList.add(styles.revealVisible);
                 });
-                directionRafs.push(id);
+                activeRevealRafs.add(frameId);
+              } else {
+                el.classList.remove(styles.revealHidden, styles.revealFromAbove);
+                el.classList.add(styles.revealVisible);
               }
-            } else {
-              // Salió de la zona visible: queda preparado para volver a animarse
+            } else if (isCompletelyOutside) {
+              if (el.contains(document.activeElement)) {
+                return;
+              }
+
+              // Rearmar solo tras salir completamente de la zona visible
               el.classList.remove(styles.revealVisible, styles.revealFromAbove);
               el.classList.add(styles.revealHidden);
             }
@@ -270,61 +542,87 @@ export function ProjectDetailDialog({
         {
           root: scrollEl,
           rootMargin: "0px 0px -5% 0px",
-          threshold: 0.05,
+          threshold: [0, 0.05],
         }
       );
 
       sections.forEach((el) => observer!.observe(el));
     });
 
-    return () => {
-      if (rafId !== null) cancelAnimationFrame(rafId);
-      directionRafs.forEach((id) => cancelAnimationFrame(id));
-      directionRafs = [];
-
-      if (observer) observer.disconnect();
-
-      if (scrollEl) {
-        const article = scrollEl.querySelector("article");
-        const sections = article
-          ? (Array.from(article.children) as HTMLElement[])
-          : (Array.from(scrollEl.children) as HTMLElement[]);
-        sections.forEach((el) => {
-          el.classList.remove(styles.revealHidden, styles.revealVisible, styles.revealFromAbove);
+    // Escucha cambios en prefers-reduced-motion durante la visualización
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const handleMotionChange = (event: MediaQueryListEvent) => {
+      if (event.matches) {
+        observedElementsRef.current.forEach((el) => {
+          el.classList.remove(styles.revealHidden, styles.revealFromAbove);
+          el.classList.add(styles.revealVisible);
         });
       }
     };
-  }, [isOpen, children]);
+    mediaQuery.addEventListener("change", handleMotionChange);
+
+    return () => {
+      if (initRafId !== null) {
+        cancelAnimationFrame(initRafId);
+      }
+      scrollEl.removeEventListener("scroll", handleScroll);
+      mediaQuery.removeEventListener("change", handleMotionChange);
+
+      if (observer) {
+        observer.disconnect();
+      }
+
+      // Cancelar frames activos y vaciar el Set
+      activeRevealRafs.forEach((id) => cancelAnimationFrame(id));
+      activeRevealRafs.clear();
+
+      // NOTA: NO retirar estilos de reveal durante la animación de cierre.
+      // Las clases se conservan mientras phase === "closing" y son limpiadas
+      // en finalizeClose() una vez que el modal queda efectivamente "closed".
+    };
+  }, [phase, projectId]);
+
+  // Contenido a renderizar: retiene el detalle completo durante "closing"
+  const displayTitle = retained?.title ?? title;
+  const displaySubtitle = retained?.subtitle ?? subtitle;
+  const displayStatus = retained?.status ?? status;
+  const displayCloseAriaLabel =
+    retained?.closeAriaLabel ?? closeAriaLabel ?? `Cerrar detalle de ${displayTitle}`;
+  const displayChildren = retained?.children ?? children;
 
   return (
     <dialog
       ref={dialogRef}
-      className={styles.dialog}
-      aria-label={title}
+      className={`${styles.dialog} ${phase === "closing" ? styles.isClosing : ""}`}
+      aria-label={displayTitle}
       onClick={handleBackdropClick}
     >
-      <div className={styles.dialogCard}>
+      <div ref={dialogCardRef} className={styles.dialogCard}>
         <header ref={topBarRef} className={styles.topBar}>
           <div className={styles.headerInfo}>
             <div className={styles.titleGroup}>
-              <h2 className={styles.headerTitle}>{title}</h2>
-              {status && <span className={styles.headerStatus}>{status}</span>}
+              <h2 className={styles.headerTitle}>{displayTitle}</h2>
+              {displayStatus && (
+                <span className={styles.headerStatus}>{displayStatus}</span>
+              )}
             </div>
-            {subtitle && <p className={styles.headerSubtitle}>{subtitle}</p>}
+            {displaySubtitle && (
+              <p className={styles.headerSubtitle}>{displaySubtitle}</p>
+            )}
           </div>
 
           <button
             ref={closeButtonRef}
             type="button"
             className={styles.closeButton}
-            onClick={onClose}
-            aria-label={closeAriaLabel ?? `Cerrar detalle de ${title}`}
+            onClick={handleCloseTrigger}
+            aria-label={displayCloseAriaLabel}
           >
             <span aria-hidden="true" className={styles.closeIcon}>✕</span>
           </button>
         </header>
         <div ref={scrollContentRef} className={styles.scrollContent}>
-          {renderedChildren}
+          {displayChildren}
         </div>
       </div>
     </dialog>

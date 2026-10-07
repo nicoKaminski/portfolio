@@ -185,6 +185,7 @@ export function Laboratory() {
       </div>
 
       <ProjectDetailDialog
+        projectId={activeProject ?? undefined}
         isOpen={activeProject !== null}
         onClose={() => setActiveProject(null)}
         title={dialogConfig?.title ?? ""}
@@ -194,12 +195,12 @@ export function Laboratory() {
       >
         {activeProject === "memo-wars" && (
           <MemoWarsDetail
-            onNavigateToMemoPotter={() => setActiveProject("memo-potter")}
+            onNavigateToMemoPotter={() => openProject("memo-potter")}
           />
         )}
         {activeProject === "memo-potter" && (
           <MemoPotterDetail
-            onNavigateToMemoWars={() => setActiveProject("memo-wars")}
+            onNavigateToMemoWars={() => openProject("memo-wars")}
           />
         )}
         {activeProject === "que-como" && <QueComoDetail />}

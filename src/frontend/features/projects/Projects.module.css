@@ -136,6 +136,15 @@
   animation: travelingBorder 3s linear infinite;
 }
 
+@keyframes travelingBorder {
+  from {
+    --border-angle: 0deg;
+  }
+  to {
+    --border-angle: 360deg;
+  }
+}
+
 .projectCard[data-project="geclau"] {
   grid-column: 2 / span 2;
 }

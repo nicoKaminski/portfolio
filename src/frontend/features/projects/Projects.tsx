@@ -192,6 +192,7 @@ export function Projects() {
       </div>
 
       <ProjectDetailDialog
+        projectId={activeProject ?? undefined}
         isOpen={activeProject !== null}
         onClose={() => setActiveProject(null)}
         title={dialogConfig?.title ?? ""}
