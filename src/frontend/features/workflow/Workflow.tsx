@@ -1,4 +1,5 @@
 import type { CSSProperties } from "react";
+import { AmbientLayer } from "@/frontend/components/AmbientLayer";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
 import styles from "./Workflow.module.css";
 
@@ -179,6 +180,7 @@ export function Workflow() {
       className={styles.workflowSection}
       aria-labelledby="workflow-title"
     >
+      <AmbientLayer />
       <div className={styles.container}>
         <ScrollReveal className={styles.headerReveal}>
           <header className={styles.header}>

@@ -3,6 +3,7 @@
 import Image from "next/image";
 import { useRef, useState } from "react";
 import { ActionLink } from "@/frontend/components/ActionLink";
+import { AmbientLayer } from "@/frontend/components/AmbientLayer";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
@@ -161,6 +162,7 @@ export function Projects() {
       className={styles.projectsSection}
       aria-labelledby="projects-title"
     >
+      <AmbientLayer />
       <div className={styles.container}>
         <ScrollReveal className={styles.headerReveal}>
           <header className={styles.header}>
@@ -190,6 +192,7 @@ export function Projects() {
       </div>
 
       <ProjectDetailDialog
+        projectId={activeProject ?? undefined}
         isOpen={activeProject !== null}
         onClose={() => setActiveProject(null)}
         title={dialogConfig?.title ?? ""}

@@ -6,6 +6,7 @@
   justify-content: center;
   position: relative;
   background: transparent;
+  overflow: hidden;
 }
 
 .workflowSection::before {
@@ -35,6 +36,8 @@
       color-mix(in srgb, var(--brand-bright-mint) 6%, transparent) 0%,
       transparent 72%
     );
+  will-change: transform;
+  transform: translateY(var(--ambient-offset, 0px));
 }
 
 .container {
@@ -91,7 +94,7 @@
   transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
 }
 
-.headerReveal[data-reveal-enabled="true"] .titleAccent {
+.headerReveal[data-reveal-enabled="true"][data-reveal-visible="false"] .titleAccent {
   transform: scaleX(0);
 }
 
@@ -136,18 +139,27 @@
   position: relative;
 }
 
-.trackReveal[data-reveal-enabled="true"] .stepItem {
+.trackReveal[data-reveal-enabled="true"][data-reveal-visible="false"] .stepItem {
+  transition: none;
+}
+
+.trackReveal[data-reveal-enabled="true"][data-reveal-visible="false"][data-reveal-direction="down"] .stepItem {
   opacity: 0;
   transform: translateY(var(--motion-reveal-distance));
-  transition:
-    opacity var(--motion-reveal-duration) var(--motion-reveal-easing),
-    transform var(--motion-reveal-duration) var(--motion-reveal-easing);
-  transition-delay: calc(var(--step-index, 0) * 78ms);
+}
+
+.trackReveal[data-reveal-enabled="true"][data-reveal-visible="false"][data-reveal-direction="up"] .stepItem {
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--motion-reveal-distance)));
 }
 
 .trackReveal[data-reveal-visible="true"] .stepItem {
   opacity: 1;
   transform: translateY(0);
+  transition:
+    opacity var(--motion-reveal-duration) var(--motion-reveal-easing),
+    transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+  transition-delay: calc(var(--step-index, 0) * 78ms);
 }
 
 .indicatorWrapper {
@@ -179,12 +191,15 @@
   opacity: 0.85;
 }
 
-.trackReveal[data-reveal-enabled="true"] .stepItem:not(:last-child) .indicatorWrapper::after {
+.trackReveal[data-reveal-enabled="true"][data-reveal-visible="false"] .stepItem:not(:last-child) .indicatorWrapper::after {
   transform: translateY(-50%) scaleX(0);
+  transition: none;
 }
 
 .trackReveal[data-reveal-visible="true"] .stepItem:not(:last-child) .indicatorWrapper::after {
   transform: translateY(-50%) scaleX(1);
+  transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+  transition-delay: calc(var(--step-index, 0) * 78ms);
 }
 
 .indicator {
@@ -346,10 +361,19 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .workflowSection::before {
+    transform: none !important;
+  }
+
+  .headerReveal .titleAccent,
+  .titleAccent,
   .trackReveal .stepItem,
+  .stepItem,
   .stepItem:not(:last-child) .indicatorWrapper::after,
   .timeline::before {
-    transition: none;
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 
   .stepItem:hover .stepIconBox,
@@ -399,12 +423,14 @@
     transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
   }
 
-  .trackReveal[data-reveal-enabled="true"] .timeline::before {
+  .trackReveal[data-reveal-enabled="true"][data-reveal-visible="false"] .timeline::before {
     transform: scaleY(0);
+    transition: none;
   }
 
   .trackReveal[data-reveal-visible="true"] .timeline::before {
     transform: scaleY(1);
+    transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
   }
 
   .stepItem:not(:last-child) .indicatorWrapper::after {

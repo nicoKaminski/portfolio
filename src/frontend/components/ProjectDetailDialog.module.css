@@ -22,6 +22,11 @@
   animation: fadeIn 0.2s ease forwards;
 }
 
+/* 4.A — Closing animation: applied by JS via .isClosing class */
+.dialog.isClosing::backdrop {
+  animation: fadeOut 0.18s ease forwards;
+}
+
 .dialogCard {
   background-color: var(--color-surface);
   color: var(--color-text);
@@ -32,6 +37,11 @@
   flex-direction: column;
   overflow: hidden;
   animation: slideUp 0.22s ease forwards;
+}
+
+/* 4.A — Closing animation on dialogCard */
+.dialog.isClosing .dialogCard {
+  animation: slideDown 0.18s ease forwards;
 }
 
 /* Header sticky */
@@ -49,6 +59,25 @@
   top: 0;
   z-index: 10;
   flex-shrink: 0;
+  /* 4.B — Progress bar rendered as pseudo-element driven by CSS custom prop */
+  --read-progress: 0%;
+}
+
+/* 4.B — Reading progress bar: thin line at bottom of topBar */
+.topBar::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: var(--read-progress);
+  height: 2px;
+  background: linear-gradient(
+    to right,
+    var(--color-accent),
+    var(--color-accent-secondary)
+  );
+  pointer-events: none;
+  transition: none; /* updated via rAF, no CSS transition needed */
 }
 
 .headerInfo {
@@ -130,12 +159,51 @@
   -webkit-overflow-scrolling: touch;
 }
 
+/* ─── 4.C — Internal reveals ─────────────────────────────────────────── */
+
+/*
+ * Sections start hidden and animate in.
+ * JS adds .revealHidden on mount and .revealVisible / .revealFromAbove
+ * when the IntersectionObserver fires.
+ */
+.revealHidden {
+  opacity: 0;
+  transform: translateY(var(--motion-reveal-distance));
+  /* No transition here; animation is triggered by adding the visible class */
+}
+
+.revealVisible {
+  opacity: 1;
+  transform: translateY(0);
+  transition:
+    opacity var(--motion-reveal-duration) var(--motion-reveal-easing),
+    transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+}
+
+/* Entering from above (scrolling back up) */
+.revealFromAbove {
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--motion-reveal-distance)));
+  transition: none;
+}
+
+/* ─── Keyframe animations ────────────────────────────────────────────── */
+
 @keyframes fadeIn {
   from {
     opacity: 0;
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
@@ -150,15 +218,42 @@
   }
 }
 
-@media (prefers-reduced-motion: reduce) {
-  .dialog::backdrop,
-  .dialogCard {
-    animation: none !important;
-    transform: none !important;
+/* 4.A — Slide down keyframe for closing */
+@keyframes slideDown {
+  from {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(12px) scale(0.99);
   }
 }
 
-/* Mobile */
+/* ─── Reduced motion ─────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  /* 4.A: disable open/close animations entirely */
+  .dialog::backdrop,
+  .dialog.isClosing::backdrop,
+  .dialogCard,
+  .dialog.isClosing .dialogCard {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* 4.C: always show sections, no reveal transitions */
+  .revealHidden,
+  .revealVisible,
+  .revealFromAbove {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* ─── Mobile ─────────────────────────────────────────────────────────── */
+
 @media (max-width: 768px) {
   .dialog {
     width: 100vw;

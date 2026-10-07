@@ -6,6 +6,7 @@
   justify-content: center;
   position: relative;
   background: transparent;
+  overflow: hidden;
 }
 
 .laboratorySection::before {
@@ -35,6 +36,8 @@
       color-mix(in srgb, var(--brand-bright-mint) 6.5%, transparent) 0%,
       transparent 72%
     );
+  will-change: transform;
+  transform: translateY(var(--ambient-offset, 0px));
 }
 
 .container {
@@ -138,6 +141,47 @@
     inset 0 1px 0 color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
 }
 
+/* Borde viajero animado (~2px de grosor sobre el perímetro) */
+.card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 2px;
+  background: conic-gradient(
+    from var(--border-angle, 0deg),
+    transparent 0deg,
+    transparent 310deg,
+    color-mix(in srgb, var(--color-accent) 65%, transparent) 335deg,
+    var(--color-accent) 350deg,
+    color-mix(in srgb, var(--color-accent) 65%, transparent) 360deg
+  );
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.card:hover::before,
+.card:focus-visible::before {
+  opacity: 1;
+  animation: travelingBorder 3s linear infinite;
+}
+
+@keyframes travelingBorder {
+  from {
+    --border-angle: 0deg;
+  }
+  to {
+    --border-angle: 360deg;
+  }
+}
+
 .card:active {
   transform: translateY(0);
 }
@@ -201,6 +245,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .laboratorySection::before {
+    transform: none !important;
+  }
+
   .cardImage {
     transition: none;
   }
@@ -210,6 +258,9 @@
   .card:hover,
   .card:active {
     transform: none;
+  }
+  .card::before {
+    display: none !important;
   }
 }
 
@@ -342,4 +393,3 @@
     display: none;
   }
 }
-

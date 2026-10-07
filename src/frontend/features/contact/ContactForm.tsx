@@ -185,17 +185,19 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
             <label htmlFor="nombre" className={styles.label}>
               Nombre
             </label>
-            <input
-              type="text"
-              id="nombre"
-              name="nombre"
-              className={styles.input}
-              maxLength={NOMBRE_MAX_LENGTH}
-              disabled={isPending || !siteKey}
-              aria-invalid={isNombreInvalid ? "true" : undefined}
-              aria-describedby={isNombreInvalid ? "nombre-error" : undefined}
-              onChange={() => handleFieldChange("nombre")}
-            />
+            <div className={styles.fieldWrapper}>
+              <input
+                type="text"
+                id="nombre"
+                name="nombre"
+                className={styles.input}
+                maxLength={NOMBRE_MAX_LENGTH}
+                disabled={isPending || !siteKey}
+                aria-invalid={isNombreInvalid ? "true" : undefined}
+                aria-describedby={isNombreInvalid ? "nombre-error" : undefined}
+                onChange={() => handleFieldChange("nombre")}
+              />
+            </div>
             {isNombreInvalid && (
               <span id="nombre-error" className={styles.fieldError}>
                 {nombreError}
@@ -207,17 +209,19 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
             <label htmlFor="email" className={styles.label}>
               Email
             </label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              className={styles.input}
-              maxLength={EMAIL_MAX_LENGTH}
-              disabled={isPending || !siteKey}
-              aria-invalid={isEmailInvalid ? "true" : undefined}
-              aria-describedby={isEmailInvalid ? "email-error" : undefined}
-              onChange={() => handleFieldChange("email")}
-            />
+            <div className={styles.fieldWrapper}>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                className={styles.input}
+                maxLength={EMAIL_MAX_LENGTH}
+                disabled={isPending || !siteKey}
+                aria-invalid={isEmailInvalid ? "true" : undefined}
+                aria-describedby={isEmailInvalid ? "email-error" : undefined}
+                onChange={() => handleFieldChange("email")}
+              />
+            </div>
             {isEmailInvalid && (
               <span id="email-error" className={styles.fieldError}>
                 {emailError}
@@ -229,17 +233,19 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
             <label htmlFor="mensaje" className={styles.label}>
               Mensaje
             </label>
-            <textarea
-              id="mensaje"
-              name="mensaje"
-              rows={5}
-              className={styles.textarea}
-              maxLength={MENSAJE_MAX_LENGTH}
-              disabled={isPending || !siteKey}
-              aria-invalid={isMensajeInvalid ? "true" : undefined}
-              aria-describedby={isMensajeInvalid ? "mensaje-error" : undefined}
-              onChange={() => handleFieldChange("mensaje")}
-            />
+            <div className={styles.fieldWrapper}>
+              <textarea
+                id="mensaje"
+                name="mensaje"
+                rows={5}
+                className={styles.textarea}
+                maxLength={MENSAJE_MAX_LENGTH}
+                disabled={isPending || !siteKey}
+                aria-invalid={isMensajeInvalid ? "true" : undefined}
+                aria-describedby={isMensajeInvalid ? "mensaje-error" : undefined}
+                onChange={() => handleFieldChange("mensaje")}
+              />
+            </div>
             {isMensajeInvalid && (
               <span id="mensaje-error" className={styles.fieldError}>
                 {mensajeError}

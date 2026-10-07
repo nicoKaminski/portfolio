@@ -1,22 +1,40 @@
 .reveal {
+  opacity: 1;
+  transform: none;
   transition:
     opacity var(--motion-reveal-duration) var(--motion-reveal-easing),
     transform var(--motion-reveal-duration) var(--motion-reveal-easing);
   transition-delay: var(--scroll-reveal-delay, 0ms);
 }
 
+/* While hidden, disable transition to snap direction instantly without intermediate visual jumps */
 .reveal[data-reveal-enabled="true"][data-reveal-visible="false"] {
+  transition: none;
+}
+
+/* Hidden state: from below when scrolling down (default) */
+.reveal[data-reveal-enabled="true"][data-reveal-visible="false"][data-reveal-direction="down"] {
   opacity: 0;
   transform: translateY(var(--motion-reveal-distance));
 }
 
+/* Hidden state: from above when scrolling up */
+.reveal[data-reveal-enabled="true"][data-reveal-visible="false"][data-reveal-direction="up"] {
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--motion-reveal-distance)));
+}
+
+/* Visible state: always centered */
 .reveal[data-reveal-visible="true"] {
   opacity: 1;
   transform: translateY(0);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .reveal {
-    transition: none;
+  .reveal,
+  .reveal[data-reveal-enabled="true"] {
+    transition: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }
