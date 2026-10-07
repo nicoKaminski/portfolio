@@ -195,12 +195,12 @@ export function Laboratory() {
       >
         {activeProject === "memo-wars" && (
           <MemoWarsDetail
-            onNavigateToMemoPotter={() => openProject("memo-potter")}
+            onNavigateToMemoPotter={() => setActiveProject("memo-potter")}
           />
         )}
         {activeProject === "memo-potter" && (
           <MemoPotterDetail
-            onNavigateToMemoWars={() => openProject("memo-wars")}
+            onNavigateToMemoWars={() => setActiveProject("memo-wars")}
           />
         )}
         {activeProject === "que-como" && <QueComoDetail />}

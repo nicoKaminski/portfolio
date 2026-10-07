@@ -248,10 +248,9 @@ export function ProjectDetailDialog({
       return;
     }
 
-    // Filtrar animationend: verificar event.target === dialogCard y animationName === "slideDown"
+    // Filtrar animationend: verificar event.target === dialogCard para su animación de salida
     const handleAnimationEnd = (event: AnimationEvent) => {
       if (event.target !== dialogCard) return;
-      if (event.animationName !== "slideDown") return;
       finalizeClose();
     };
 
