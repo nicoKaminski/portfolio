@@ -2,6 +2,7 @@
 
 import Image from "next/image";
 import { useState, useRef } from "react";
+import { AmbientLayer } from "@/frontend/components/AmbientLayer";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
@@ -126,6 +127,7 @@ export function Laboratory() {
       className={styles.laboratorySection}
       aria-labelledby="laboratory-title"
     >
+      <AmbientLayer />
       <div className={styles.container}>
         <ScrollReveal className={styles.headerReveal}>
           <header className={styles.header}>

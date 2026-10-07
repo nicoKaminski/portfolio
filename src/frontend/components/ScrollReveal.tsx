@@ -1,6 +1,12 @@
 "use client";
 
-import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+  type ReactNode,
+} from "react";
 import styles from "./ScrollReveal.module.css";
 
 interface ScrollRevealProps {
@@ -16,7 +22,10 @@ export function ScrollReveal({
 }: ScrollRevealProps) {
   const [isEnabled, setIsEnabled] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
+  const [direction, setDirection] = useState<"down" | "up">("down");
   const elementRef = useRef<HTMLDivElement>(null);
+  // Track previous scroll position to determine direction
+  const prevScrollY = useRef(0);
 
   useEffect(() => {
     if (
@@ -33,14 +42,24 @@ export function ScrollReveal({
 
     const observer = new IntersectionObserver(
       ([entry]) => {
+        const currentScrollY = window.scrollY;
+        const scrollingDown = currentScrollY >= prevScrollY.current;
+        prevScrollY.current = currentScrollY;
+
         if (entry.isIntersecting) {
+          // Entering: direction tells us from which side it arrives
+          setDirection(scrollingDown ? "down" : "up");
           setIsVisible(true);
-          observer.disconnect();
+        } else {
+          // Leaving viewport: reset so it can animate again on re-entry
+          setIsVisible(false);
+          // Direction for next entry is the opposite of current exit direction
+          setDirection(scrollingDown ? "down" : "up");
         }
       },
       {
-        threshold: 0.15,
-        rootMargin: "0px 0px -50px 0px",
+        threshold: 0.1,
+        rootMargin: "0px 0px -40px 0px",
       }
     );
 
@@ -62,6 +81,7 @@ export function ScrollReveal({
       className={revealClassName}
       data-reveal-enabled={isEnabled}
       data-reveal-visible={isVisible}
+      data-reveal-direction={direction}
       style={revealStyle}
     >
       {children}

@@ -5,11 +5,19 @@
   transition-delay: var(--scroll-reveal-delay, 0ms);
 }
 
-.reveal[data-reveal-enabled="true"][data-reveal-visible="false"] {
+/* Hidden state: from below when scrolling down (default) */
+.reveal[data-reveal-enabled="true"][data-reveal-visible="false"][data-reveal-direction="down"] {
   opacity: 0;
   transform: translateY(var(--motion-reveal-distance));
 }
 
+/* Hidden state: from above when scrolling up */
+.reveal[data-reveal-enabled="true"][data-reveal-visible="false"][data-reveal-direction="up"] {
+  opacity: 0;
+  transform: translateY(calc(-1 * var(--motion-reveal-distance)));
+}
+
+/* Visible state: always centered */
 .reveal[data-reveal-visible="true"] {
   opacity: 1;
   transform: translateY(0);

@@ -1,4 +1,5 @@
 import { sendContactMessage } from "@/backend/contact/actions";
+import { AmbientLayer } from "@/frontend/components/AmbientLayer";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
 import { ContactForm } from "./ContactForm";
 import styles from "./Contact.module.css";
@@ -12,6 +13,7 @@ export function Contact() {
       className={styles.contactSection}
       aria-labelledby="contact-title"
     >
+      <AmbientLayer />
       <div className={styles.container}>
         <ScrollReveal className={styles.headerReveal}>
           <header className={styles.header}>

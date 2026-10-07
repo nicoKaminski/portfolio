@@ -50,6 +50,22 @@
   --action-disabled-text: var(--color-text-secondary);
 }
 
+/* Mecánica compartida del borde viajero animado */
+@property --border-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+@keyframes travelingBorder {
+  from {
+    --border-angle: 0deg;
+  }
+  to {
+    --border-angle: 360deg;
+  }
+}
+
 /* Fallback / Tema Claro (Caribe) */
 :root {
   --color-bg: #e6ecf5;
