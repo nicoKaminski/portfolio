@@ -9,6 +9,7 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
+import { useScrollLock, getPrefersReducedMotion } from "@/frontend/hooks";
 
 type DialogTriggerElement = HTMLAnchorElement | HTMLButtonElement;
 
@@ -33,12 +34,6 @@ interface RetainedDialogContent {
   status?: string;
   closeAriaLabel?: string;
   children: ReactNode;
-}
-
-/** Returns true if the user prefers reduced motion. */
-function prefersReducedMotion(): boolean {
-  if (typeof window === "undefined") return false;
-  return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 }
 
 export function ProjectDetailDialog({
@@ -68,6 +63,9 @@ export function ProjectDetailDialog({
   useEffect(() => {
     phaseRef.current = phase;
   }, [phase]);
+
+  // Mantener scroll bloqueado durante "open" y "closing", liberando solo al pasar a "closed"
+  useScrollLock(phase !== "closed");
 
   // Retiene el último detalle completo durante la animación de salida
   const [retained, setRetained] = useState<RetainedDialogContent | null>(() =>
@@ -180,11 +178,7 @@ export function ProjectDetailDialog({
       dialog.close();
     }
 
-    // 3. Liberar scroll-locked ÚNICAMENTE cuando el modal queda efectivamente "closed"
-    document.documentElement.classList.remove("scroll-locked");
-    document.body.classList.remove("scroll-locked");
-
-    // 4. Limpiar clases de reveal exactamente en los elementos observados
+    // 3. Limpiar clases de reveal exactamente en los elementos observados
     observedElementsRef.current.forEach((el) => {
       el.classList.remove(
         styles.revealHidden,
@@ -194,11 +188,11 @@ export function ProjectDetailDialog({
     });
     observedElementsRef.current = [];
 
-    // 5. Cancelar frames pendientes de reveals
+    // 4. Cancelar frames pendientes de reveals
     activeRevealRafsRef.current.forEach((id) => cancelAnimationFrame(id));
     activeRevealRafsRef.current.clear();
 
-    // 6. Resetear posición de scroll y barra de progreso
+    // 5. Resetear posición de scroll y barra de progreso
     if (scrollContentRef.current) {
       scrollContentRef.current.scrollTop = 0;
     }
@@ -206,10 +200,10 @@ export function ProjectDetailDialog({
       topBarRef.current.style.removeProperty("--read-progress");
     }
 
-    // 7. Retornar foco a triggerRef
+    // 6. Retornar foco a triggerRef
     triggerRef?.current?.focus();
 
-    // 8. Limpiar contenido retenido y finalizar fase
+    // 7. Limpiar contenido retenido y finalizar fase
     setRetained(null);
     setPhase("closed");
     isFinalizingRef.current = false;
@@ -223,7 +217,7 @@ export function ProjectDetailDialog({
     phaseRef.current = "closing";
 
     // Con prefers-reduced-motion, finalizar inmediatamente sin esperar animación
-    if (prefersReducedMotion()) {
+    if (getPrefersReducedMotion()) {
       onClose();
       finalizeClose();
       return;
@@ -237,7 +231,7 @@ export function ProjectDetailDialog({
   useEffect(() => {
     if (phase !== "closing") return;
 
-    if (prefersReducedMotion()) {
+    if (getPrefersReducedMotion()) {
       finalizeClose();
       return;
     }
@@ -310,10 +304,6 @@ export function ProjectDetailDialog({
       dialog.showModal();
     }
 
-    // Mantener scroll-locked en documentElement y body durante "open" y "closing"
-    document.documentElement.classList.add("scroll-locked");
-    document.body.classList.add("scroll-locked");
-
     closeButtonRef.current?.focus();
   }, [phase]);
 
@@ -343,8 +333,6 @@ export function ProjectDetailDialog({
   // ─── Limpieza ante desmontaje ──────────────────────────────────────────────
   useEffect(() => {
     return () => {
-      document.documentElement.classList.remove("scroll-locked");
-      document.body.classList.remove("scroll-locked");
       if (fallbackTimerRef.current !== null) {
         clearTimeout(fallbackTimerRef.current);
       }
@@ -433,7 +421,7 @@ export function ProjectDetailDialog({
   // ─── 2.B — Reveals internos (bidireccionales) ─────────────────────────────
   useEffect(() => {
     if (phase !== "open") return;
-    if (prefersReducedMotion()) return;
+    if (getPrefersReducedMotion()) return;
 
     const scrollEl = scrollContentRef.current;
     if (!scrollEl) return;

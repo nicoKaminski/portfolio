@@ -6,6 +6,7 @@ import { ActionLink } from "@/frontend/components/ActionLink";
 import { DownloadIcon } from "@/frontend/components/DownloadIcon";
 import { ThemeToggle } from "@/frontend/features/theme";
 import { CV_URL } from "@/shared/links";
+import { useActiveSection } from "./hooks/useActiveSection";
 import { BackToTop } from "./components/BackToTop";
 import styles from "./Navbar.module.css";
 
@@ -65,9 +66,21 @@ const navItems: NavItem[] = [
   { key: "contacto", href: "#contacto", label: "Contacto" },
 ];
 
+const sectionToNavKey: Record<string, NavKey> = {
+  inicio: "inicio",
+  "cazador-bugs": "inicio",
+  "como-trabajo": "como-trabajo",
+  proyectos: "proyectos",
+  laboratorio: "proyectos",
+  contacto: "contacto",
+};
+
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<NavKey>("inicio");
+  const activeSection = useActiveSection<NavKey>({
+    sectionMap: sectionToNavKey,
+    initialSection: "inicio",
+  });
 
   const closeMenu = () => setIsMenuOpen(false);
 
@@ -81,67 +94,6 @@ export function Navbar() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [isMenuOpen]);
-
-  useEffect(() => {
-    const sectionToNavKey: Record<string, NavKey> = {
-      inicio: "inicio",
-      "cazador-bugs": "inicio",
-      "como-trabajo": "como-trabajo",
-      proyectos: "proyectos",
-      laboratorio: "proyectos",
-      contacto: "contacto",
-    };
-
-    const sectionIds = Object.keys(sectionToNavKey);
-    const visibleSections = new Map<string, number>();
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            visibleSections.set(entry.target.id, entry.intersectionRatio);
-          } else {
-            visibleSections.delete(entry.target.id);
-          }
-        });
-
-        if (visibleSections.size === 0) {
-          return;
-        }
-
-        // Elegir la sección visible que tenga mayor ratio de intersección o la primera visible en orden DOM
-        let bestSectionId = "";
-        let maxRatio = -1;
-
-        for (const id of sectionIds) {
-          const ratio = visibleSections.get(id);
-          if (ratio !== undefined && ratio > maxRatio) {
-            maxRatio = ratio;
-            bestSectionId = id;
-          }
-        }
-
-        if (bestSectionId && sectionToNavKey[bestSectionId]) {
-          setActiveSection(sectionToNavKey[bestSectionId]);
-        }
-      },
-      {
-        rootMargin: "-15% 0px -40% 0px",
-        threshold: [0, 0.1, 0.25, 0.5, 0.75, 1],
-      },
-    );
-
-    sectionIds.forEach((id) => {
-      const el = document.getElementById(id);
-      if (el) {
-        observer.observe(el);
-      }
-    });
-
-    return () => {
-      observer.disconnect();
-    };
-  }, []);
 
   return (
     <>

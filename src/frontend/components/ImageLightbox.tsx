@@ -3,6 +3,7 @@
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { useScrollLock } from "@/frontend/hooks";
 import styles from "./ImageLightbox.module.css";
 
 interface ImageLightboxProps {
@@ -28,6 +29,8 @@ export function ImageLightbox({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
 
+  useScrollLock(isOpen);
+
   const closeLightbox = useCallback(() => {
     setIsOpen(false);
     triggerRef.current?.focus();
@@ -36,11 +39,6 @@ export function ImageLightbox({
   useEffect(() => {
     if (!isOpen) return;
 
-    const rootWasLocked = document.documentElement.classList.contains("scroll-locked");
-    const bodyWasLocked = document.body.classList.contains("scroll-locked");
-
-    document.documentElement.classList.add("scroll-locked");
-    document.body.classList.add("scroll-locked");
     closeButtonRef.current?.focus();
 
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -55,13 +53,6 @@ export function ImageLightbox({
 
     return () => {
       window.removeEventListener("keydown", handleKeyDown, { capture: true });
-
-      if (!rootWasLocked) {
-        document.documentElement.classList.remove("scroll-locked");
-      }
-      if (!bodyWasLocked) {
-        document.body.classList.remove("scroll-locked");
-      }
     };
   }, [closeLightbox, isOpen]);
 
