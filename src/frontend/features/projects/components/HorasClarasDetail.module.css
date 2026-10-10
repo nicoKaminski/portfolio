@@ -67,6 +67,9 @@
     var(--color-accent) 100%
   );
   box-shadow: 0 1px 6px color-mix(in srgb, var(--color-accent) 40%, transparent);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
 }
 
 /* Proceso: De tres lugares a un solo flujo */

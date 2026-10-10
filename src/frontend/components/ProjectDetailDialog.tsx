@@ -52,7 +52,16 @@ export function ProjectDetailDialog({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const topBarRef = useRef<HTMLElement>(null);
-  const [isModalBackToTopVisible, setIsModalBackToTopVisible] = useState(false);
+  const modalBackToTopRef = useRef<HTMLButtonElement>(null);
+
+  const syncModalBackToTopVisibility = useCallback((visible: boolean) => {
+    const button = modalBackToTopRef.current;
+    if (!button) return;
+
+    button.classList.toggle(styles.modalBackToTopVisible, visible);
+    button.setAttribute("aria-hidden", visible ? "false" : "true");
+    button.tabIndex = visible ? 0 : -1;
+  }, []);
 
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -194,7 +203,7 @@ export function ProjectDetailDialog({
     if (scrollContentRef.current) {
       scrollContentRef.current.scrollTop = 0;
     }
-    setIsModalBackToTopVisible(false);
+    syncModalBackToTopVisibility(false);
     if (topBarRef.current) {
       topBarRef.current.style.removeProperty("--read-progress");
     }
@@ -206,7 +215,7 @@ export function ProjectDetailDialog({
     setRetained(null);
     setPhase("closed");
     isFinalizingRef.current = false;
-  }, [triggerRef]);
+  }, [triggerRef, syncModalBackToTopVisibility]);
 
   // ─── Circuito centralizado de solicitud de cierre ─────────────────────────
   const handleCloseTrigger = useCallback(() => {
@@ -214,7 +223,7 @@ export function ProjectDetailDialog({
       return;
     }
     phaseRef.current = "closing";
-    setIsModalBackToTopVisible(false);
+    syncModalBackToTopVisibility(false);
 
     // Con prefers-reduced-motion, finalizar inmediatamente sin esperar animación
     if (prefersReducedMotion) {
@@ -225,7 +234,7 @@ export function ProjectDetailDialog({
 
     setPhase("closing");
     onClose();
-  }, [onClose, finalizeClose, prefersReducedMotion]);
+  }, [onClose, finalizeClose, prefersReducedMotion, syncModalBackToTopVisibility]);
 
   // ─── Ciclo de vida cuando phase === "closing" ──────────────────────────────
   useEffect(() => {
@@ -290,18 +299,18 @@ export function ProjectDetailDialog({
     if (phase === "open" && scrollContentRef.current) {
       scrollContentRef.current.scrollTop = 0;
     }
-    setIsModalBackToTopVisible(false);
-  }, [projectId, phase]);
+    syncModalBackToTopVisibility(false);
+  }, [projectId, phase, syncModalBackToTopVisibility]);
 
   useEffect(() => {
     const scrollEl = scrollContentRef.current;
     if (phase !== "open" || !scrollEl) {
-      setIsModalBackToTopVisible(false);
+      syncModalBackToTopVisibility(false);
       return;
     }
 
     const updateVisibility = () => {
-      setIsModalBackToTopVisible(scrollEl.scrollTop > 300);
+      syncModalBackToTopVisibility(scrollEl.scrollTop > 300);
     };
 
     updateVisibility();
@@ -310,7 +319,7 @@ export function ProjectDetailDialog({
     return () => {
       scrollEl.removeEventListener("scroll", updateVisibility);
     };
-  }, [phase, projectId]);
+  }, [phase, projectId, syncModalBackToTopVisibility]);
 
   // ─── Escape / Cancel nativo ───────────────────────────────────────────────
   useEffect(() => {
@@ -616,7 +625,8 @@ export function ProjectDetailDialog({
         </div>
         <button
           type="button"
-          className={`${styles.modalBackToTop} ${isModalBackToTopVisible ? styles.modalBackToTopVisible : ""}`}
+          ref={modalBackToTopRef}
+          className={styles.modalBackToTop}
           onClick={() => {
             scrollContentRef.current?.scrollTo({
               top: 0,
@@ -624,8 +634,8 @@ export function ProjectDetailDialog({
             });
           }}
           aria-label="Volver al inicio del detalle"
-          aria-hidden={!isModalBackToTopVisible}
-          tabIndex={isModalBackToTopVisible ? 0 : -1}
+          aria-hidden="true"
+          tabIndex={-1}
         >
           <svg
             width="20"

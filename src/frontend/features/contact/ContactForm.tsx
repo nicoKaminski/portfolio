@@ -24,8 +24,8 @@ interface TurnstileWindow extends Window {
         theme: "auto";
         language: "es";
         size: "normal" | "compact";
-        responseField: true;
-        responseFieldName: "turnstileToken";
+        "response-field": true;
+        "response-field-name": "turnstileToken";
       }
     ) => string;
     reset: (widgetId?: string) => void;
@@ -116,8 +116,8 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
       theme: "auto",
       language: "es",
       size: turnstileSize,
-      responseField: true,
-      responseFieldName: "turnstileToken",
+      "response-field": true,
+      "response-field-name": "turnstileToken",
     });
     turnstileWidgetIdRef.current = widgetId;
 

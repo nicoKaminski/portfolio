@@ -41,7 +41,9 @@ export function WorkflowTimeline({
 
       if (!verticalLayout.matches || reducedMotion.matches) return;
 
-      const steps = Array.from(timeline.querySelectorAll(":scope > li"));
+      const steps = Array.from(
+        timeline.querySelectorAll<HTMLLIElement>(":scope > li")
+      );
       if (steps.length === 0) return;
 
       timeline.setAttribute("data-progressive-reveal", "true");
@@ -57,6 +59,8 @@ export function WorkflowTimeline({
             if (!entry.isIntersecting || entry.intersectionRatio <= 0) return;
 
             const step = entry.target;
+            if (!(step instanceof HTMLLIElement)) return;
+
             step.setAttribute("data-step-visible", "true");
 
             const indicator = step.querySelector<HTMLElement>(
