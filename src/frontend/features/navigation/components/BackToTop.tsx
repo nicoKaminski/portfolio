@@ -1,5 +1,6 @@
 "use client";
 
+import { getPrefersReducedMotion } from "@/frontend/hooks";
 import styles from "./BackToTop.module.css";
 
 interface BackToTopProps {
@@ -9,9 +10,7 @@ interface BackToTopProps {
 export function BackToTop({ isVisible }: BackToTopProps) {
   const handleClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
     e.preventDefault();
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
+    const prefersReducedMotion = getPrefersReducedMotion();
 
     const target = document.getElementById("inicio");
     if (target) {

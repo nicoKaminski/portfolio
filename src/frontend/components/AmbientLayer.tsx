@@ -16,6 +16,7 @@
  */
 
 import { useEffect, useRef } from "react";
+import { usePrefersReducedMotion } from "@/frontend/hooks";
 
 interface AmbientLayerProps {
   /** Amplitud máxima en px del desplazamiento ambiental. Default: 10 */
@@ -29,6 +30,7 @@ export function AmbientLayer({
   sectionSelector = "section",
 }: AmbientLayerProps) {
   const anchorRef = useRef<HTMLSpanElement>(null);
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -38,7 +40,10 @@ export function AmbientLayer({
     const section = anchor.closest<HTMLElement>(sectionSelector);
     if (!section) return;
 
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (prefersReducedMotion) {
+      section.style.removeProperty("--ambient-offset");
+      return;
+    }
 
     let rafId: number | null = null;
     let isVisible = false;
@@ -82,61 +87,37 @@ export function AmbientLayer({
       section.style.removeProperty("--ambient-offset");
     };
 
-    const startTracking = () => {
-      if (mediaQuery.matches) {
-        stopTracking();
-        return;
-      }
-
-      observer = new IntersectionObserver(
-        (entries) => {
-          for (const entry of entries) {
-            isVisible = entry.isIntersecting;
+    observer = new IntersectionObserver(
+      (entries) => {
+        for (const entry of entries) {
+          isVisible = entry.isIntersecting;
+        }
+        if (isVisible) {
+          updateOffset();
+          if (!isListeningScroll) {
+            window.addEventListener("scroll", onScroll, { passive: true });
+            isListeningScroll = true;
           }
-          if (isVisible) {
-            updateOffset();
-            if (!isListeningScroll) {
-              window.addEventListener("scroll", onScroll, { passive: true });
-              isListeningScroll = true;
-            }
-          } else {
-            if (isListeningScroll) {
-              window.removeEventListener("scroll", onScroll);
-              isListeningScroll = false;
-            }
-            if (rafId !== null) {
-              cancelAnimationFrame(rafId);
-              rafId = null;
-            }
+        } else {
+          if (isListeningScroll) {
+            window.removeEventListener("scroll", onScroll);
+            isListeningScroll = false;
           }
-        },
-        { rootMargin: "150px 0px 150px 0px", threshold: 0 }
-      );
+          if (rafId !== null) {
+            cancelAnimationFrame(rafId);
+            rafId = null;
+          }
+        }
+      },
+      { rootMargin: "150px 0px 150px 0px", threshold: 0 }
+    );
 
-      observer.observe(section);
-    };
-
-    // Iniciar seguimiento si el usuario no tiene movimiento reducido activo
-    if (!mediaQuery.matches) {
-      startTracking();
-    }
-
-    // Escuchar cambios reactivos en prefers-reduced-motion
-    const handleMotionChange = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        stopTracking();
-      } else {
-        startTracking();
-      }
-    };
-
-    mediaQuery.addEventListener("change", handleMotionChange);
+    observer.observe(section);
 
     return () => {
-      mediaQuery.removeEventListener("change", handleMotionChange);
       stopTracking();
     };
-  }, [amplitude, sectionSelector]);
+  }, [amplitude, sectionSelector, prefersReducedMotion]);
 
   return <span ref={anchorRef} aria-hidden="true" style={{ display: "none" }} />;
 }

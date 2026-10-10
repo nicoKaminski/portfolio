@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { ActionButton } from "@/frontend/components/ActionButton";
+import { useScrollLock } from "@/frontend/hooks";
 import { GAME_DURATION_SECONDS } from "../constants";
 import { useBugHunter } from "../hooks/useBugHunter";
 import { GameBoard } from "./GameBoard";
@@ -18,6 +19,8 @@ export function GameDialog({ isOpen, onClose, triggerRef }: GameDialogProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const restartButtonRef = useRef<HTMLButtonElement>(null);
+
+  useScrollLock(isOpen);
 
   const {
     status,
@@ -37,22 +40,13 @@ export function GameDialog({ isOpen, onClose, triggerRef }: GameDialogProps) {
       if (!dialog.open) {
         dialog.showModal();
       }
-      document.documentElement.classList.add("scroll-locked");
-      document.body.classList.add("scroll-locked");
       closeButtonRef.current?.focus();
     } else {
       if (dialog.open) {
         dialog.close();
         triggerRef?.current?.focus();
       }
-      document.documentElement.classList.remove("scroll-locked");
-      document.body.classList.remove("scroll-locked");
     }
-
-    return () => {
-      document.documentElement.classList.remove("scroll-locked");
-      document.body.classList.remove("scroll-locked");
-    };
   }, [isOpen, triggerRef]);
 
   useEffect(() => {

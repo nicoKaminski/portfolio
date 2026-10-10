@@ -51,24 +51,32 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
   const showSuccess =
     state.status === "success" && state !== dismissedSuccessState;
 
+  // Auto-dismiss del overlay de éxito tras 7 segundos
   useEffect(() => {
-    if (state.status === "success" && state !== dismissedSuccessState) {
-      const timer = setTimeout(() => {
-        setDismissedSuccessState(state);
-        setClientErrors({ nombre: "", email: "", mensaje: "" });
-        formRef.current?.reset();
-        const turnstileWindow = window as TurnstileWindow;
-        turnstileWindow.turnstile?.reset();
-      }, 7000);
+    if (state.status !== "success" || state === dismissedSuccessState) {
+      return;
+    }
 
-      return () => {
-        clearTimeout(timer);
-      };
-    } else if (state.status === "error" && state.invalidFields.length === 0) {
+    const timer = setTimeout(() => {
+      setDismissedSuccessState(state);
+      setClientErrors({ nombre: "", email: "", mensaje: "" });
+      formRef.current?.reset();
+      const turnstileWindow = window as TurnstileWindow;
+      turnstileWindow.turnstile?.reset();
+    }, 7000);
+
+    return () => {
+      clearTimeout(timer);
+    };
+  }, [state, dismissedSuccessState]);
+
+  // Reseteo del widget de Turnstile ante error general del servidor
+  useEffect(() => {
+    if (state.status === "error" && state.invalidFields.length === 0) {
       const turnstileWindow = window as TurnstileWindow;
       turnstileWindow.turnstile?.reset();
     }
-  }, [state, dismissedSuccessState]);
+  }, [state]);
 
   const handleFieldChange = (field: ContactField) => {
     if (clientErrors[field]) {
