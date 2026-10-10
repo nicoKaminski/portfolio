@@ -52,6 +52,7 @@ export function ProjectDetailDialog({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const topBarRef = useRef<HTMLElement>(null);
+  const [isModalBackToTopVisible, setIsModalBackToTopVisible] = useState(false);
 
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -193,6 +194,7 @@ export function ProjectDetailDialog({
     if (scrollContentRef.current) {
       scrollContentRef.current.scrollTop = 0;
     }
+    setIsModalBackToTopVisible(false);
     if (topBarRef.current) {
       topBarRef.current.style.removeProperty("--read-progress");
     }
@@ -212,6 +214,7 @@ export function ProjectDetailDialog({
       return;
     }
     phaseRef.current = "closing";
+    setIsModalBackToTopVisible(false);
 
     // Con prefers-reduced-motion, finalizar inmediatamente sin esperar animación
     if (prefersReducedMotion) {
@@ -287,7 +290,27 @@ export function ProjectDetailDialog({
     if (phase === "open" && scrollContentRef.current) {
       scrollContentRef.current.scrollTop = 0;
     }
+    setIsModalBackToTopVisible(false);
   }, [projectId, phase]);
+
+  useEffect(() => {
+    const scrollEl = scrollContentRef.current;
+    if (phase !== "open" || !scrollEl) {
+      setIsModalBackToTopVisible(false);
+      return;
+    }
+
+    const updateVisibility = () => {
+      setIsModalBackToTopVisible(scrollEl.scrollTop > 300);
+    };
+
+    updateVisibility();
+    scrollEl.addEventListener("scroll", updateVisibility, { passive: true });
+
+    return () => {
+      scrollEl.removeEventListener("scroll", updateVisibility);
+    };
+  }, [phase, projectId]);
 
   // ─── Escape / Cancel nativo ───────────────────────────────────────────────
   useEffect(() => {
@@ -406,6 +429,18 @@ export function ProjectDetailDialog({
 
     const scrollEl = scrollContentRef.current;
     if (!scrollEl) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      observedElementsRef.current.forEach((el) => {
+        el.classList.remove(
+          styles.revealHidden,
+          styles.revealVisible,
+          styles.revealFromAbove
+        );
+      });
+      observedElementsRef.current = [];
+      return;
+    }
 
     let observer: IntersectionObserver | null = null;
     let initRafId: number | null = null;
@@ -579,6 +614,34 @@ export function ProjectDetailDialog({
         <div ref={scrollContentRef} className={styles.scrollContent}>
           {displayChildren}
         </div>
+        <button
+          type="button"
+          className={`${styles.modalBackToTop} ${isModalBackToTopVisible ? styles.modalBackToTopVisible : ""}`}
+          onClick={() => {
+            scrollContentRef.current?.scrollTo({
+              top: 0,
+              behavior: prefersReducedMotion ? "auto" : "smooth",
+            });
+          }}
+          aria-label="Volver al inicio del detalle"
+          aria-hidden={!isModalBackToTopVisible}
+          tabIndex={isModalBackToTopVisible ? 0 : -1}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className={styles.modalBackToTopIcon}
+          >
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
       </div>
     </dialog>
   );

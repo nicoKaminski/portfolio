@@ -63,6 +63,9 @@
     var(--color-accent) 100%
   );
   box-shadow: 0 1px 6px color-mix(in srgb, var(--color-accent) 40%, transparent);
+  transform: scaleX(1);
+  transform-origin: left;
+  transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
 }
 
 .paragraph {
@@ -145,6 +148,13 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .sectionTitle::after,
+  .statusTitle::after,
+  .techTitle::after {
+    transform: none !important;
+    transition: none !important;
+  }
+
   .techTag {
     transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
   }

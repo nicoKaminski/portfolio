@@ -13,6 +13,10 @@
   transition: var(--transition-theme);
 }
 
+.readingProgress {
+  display: none;
+}
+
 .container {
   max-width: 1200px;
   width: 100%;
@@ -182,6 +186,32 @@
 
   .container {
     gap: 0.75rem;
+  }
+
+  .readingProgress {
+    display: block;
+    position: absolute;
+    z-index: 1;
+    right: 0;
+    bottom: -2px;
+    left: 0;
+    height: 2px;
+    overflow: hidden;
+    background-color: color-mix(in srgb, var(--color-border) 30%, transparent);
+    pointer-events: none;
+  }
+
+  .readingProgress::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to right,
+      var(--color-accent),
+      var(--color-accent-secondary)
+    );
+    transform: scaleX(var(--landing-read-progress, 0));
+    transform-origin: left center;
   }
 
   .brand {

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { ActionLink } from "@/frontend/components/ActionLink";
 import { DownloadIcon } from "@/frontend/components/DownloadIcon";
 import { ThemeToggle } from "@/frontend/features/theme";
@@ -77,12 +77,56 @@ const sectionToNavKey: Record<string, NavKey> = {
 
 export function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const readingProgressRef = useRef<HTMLDivElement>(null);
   const activeSection = useActiveSection<NavKey>({
     sectionMap: sectionToNavKey,
     initialSection: "inicio",
   });
 
   const closeMenu = () => setIsMenuOpen(false);
+
+  useEffect(() => {
+    const progressElement = readingProgressRef.current;
+    if (!progressElement) return;
+
+    let frameId: number | null = null;
+
+    const updateProgress = () => {
+      frameId = null;
+      const documentElement = document.documentElement;
+      const scrollableHeight = documentElement.scrollHeight - window.innerHeight;
+      const progress =
+        scrollableHeight > 0
+          ? Math.min(1, Math.max(0, window.scrollY / scrollableHeight))
+          : 0;
+
+      progressElement.style.setProperty("--landing-read-progress", `${progress}`);
+    };
+
+    const scheduleUpdate = () => {
+      if (frameId === null) {
+        frameId = window.requestAnimationFrame(updateProgress);
+      }
+    };
+
+    scheduleUpdate();
+    window.addEventListener("scroll", scheduleUpdate, { passive: true });
+    window.addEventListener("resize", scheduleUpdate, { passive: true });
+
+    const resizeObserver =
+      typeof ResizeObserver !== "undefined"
+        ? new ResizeObserver(scheduleUpdate)
+        : null;
+    resizeObserver?.observe(document.documentElement);
+    if (document.body) resizeObserver?.observe(document.body);
+
+    return () => {
+      window.removeEventListener("scroll", scheduleUpdate);
+      window.removeEventListener("resize", scheduleUpdate);
+      resizeObserver?.disconnect();
+      if (frameId !== null) window.cancelAnimationFrame(frameId);
+    };
+  }, []);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -214,6 +258,11 @@ export function Navbar() {
             </ul>
           </nav>
         )}
+        <div
+          ref={readingProgressRef}
+          className={styles.readingProgress}
+          aria-hidden="true"
+        />
       </header>
 
       <BackToTop isVisible={activeSection !== "inicio"} />
