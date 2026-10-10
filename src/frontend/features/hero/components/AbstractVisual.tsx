@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePrefersReducedMotion } from "@/frontend/hooks";
 import styles from "./AbstractVisual.module.css";
 
 export function AbstractVisual() {
@@ -8,21 +9,30 @@ export function AbstractVisual() {
   const parallaxLayerRef = useRef<HTMLDivElement>(null);
   const frameRef = useRef<number | null>(null);
   const offsetRef = useRef({ x: 0, y: 0 });
+  const prefersReducedMotion = usePrefersReducedMotion();
 
   useEffect(() => {
-    const supportsFinePointer = window.matchMedia(
-      "(hover: hover) and (pointer: fine)"
-    ).matches;
-    const prefersReducedMotion = window.matchMedia(
-      "(prefers-reduced-motion: reduce)"
-    ).matches;
-    const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-    if (!supportsFinePointer || prefersReducedMotion || isMobile) return;
-
     const stage = stageRef.current;
     const parallaxLayer = parallaxLayerRef.current;
     if (!stage || !parallaxLayer) return;
+
+    if (prefersReducedMotion) {
+      if (frameRef.current !== null) {
+        window.cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
+      }
+      offsetRef.current = { x: 0, y: 0 };
+      parallaxLayer.style.removeProperty("--parallax-x");
+      parallaxLayer.style.removeProperty("--parallax-y");
+      return;
+    }
+
+    const supportsFinePointer = window.matchMedia(
+      "(hover: hover) and (pointer: fine)"
+    ).matches;
+    const isMobile = window.matchMedia("(max-width: 768px)").matches;
+
+    if (!supportsFinePointer || isMobile) return;
 
     const applyParallax = () => {
       const { x, y } = offsetRef.current;
@@ -68,9 +78,14 @@ export function AbstractVisual() {
 
       if (frameRef.current !== null) {
         window.cancelAnimationFrame(frameRef.current);
+        frameRef.current = null;
       }
+
+      offsetRef.current = { x: 0, y: 0 };
+      parallaxLayer.style.removeProperty("--parallax-x");
+      parallaxLayer.style.removeProperty("--parallax-y");
     };
-  }, []);
+  }, [prefersReducedMotion]);
 
   return (
     <div ref={stageRef} className={styles.stage} aria-hidden="true">

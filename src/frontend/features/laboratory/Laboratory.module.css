@@ -98,7 +98,7 @@
       color-mix(in srgb, var(--color-surface) 85%, var(--color-bg)) 0%,
       color-mix(in srgb, var(--color-bg) 92%, var(--color-surface)) 100%
     );
-  border: 1px solid color-mix(in srgb, var(--color-border) 35%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--color-border) 35%, transparent);
   border-radius: 12px;
   overflow: hidden;
   display: flex;
@@ -141,13 +141,13 @@
     inset 0 1px 0 color-mix(in srgb, var(--brand-bright-mint) 25%, transparent);
 }
 
-/* Borde viajero animado (~2px de grosor sobre el perímetro) */
+/* Borde viajero animado (~3px de grosor sobre el perímetro) */
 .card::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 2px;
+  padding: 3px;
   background: conic-gradient(
     from var(--border-angle, 0deg),
     transparent 0deg,

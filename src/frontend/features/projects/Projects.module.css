@@ -97,20 +97,20 @@
   height: 380px;
   min-width: 0;
   border-radius: 14px;
-  border: 1px solid color-mix(in srgb, var(--color-border) 42%, transparent);
+  border: 1.5px solid color-mix(in srgb, var(--color-border) 42%, transparent);
   background:
     radial-gradient(circle at 88% 4%, color-mix(in srgb, var(--color-accent) 9%, transparent) 0%, transparent 34%),
     linear-gradient(150deg, color-mix(in srgb, var(--color-surface) 92%, var(--color-bg)) 0%, color-mix(in srgb, var(--color-surface) 68%, var(--color-bg)) 100%);
   transition: border-color var(--transition-interactive), box-shadow var(--transition-interactive), transform var(--transition-interactive), var(--transition-theme);
 }
 
-/* Borde viajero animado (~2px de grosor sobre el perímetro) */
+/* Borde viajero animado (~3px de grosor sobre el perímetro) */
 .projectCard::before {
   content: "";
   position: absolute;
   inset: 0;
   border-radius: inherit;
-  padding: 2px;
+  padding: 3px;
   background: conic-gradient(
     from var(--border-angle, 0deg),
     transparent 0deg,
