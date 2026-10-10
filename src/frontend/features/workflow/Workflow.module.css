@@ -433,6 +433,14 @@
     transition: transform var(--motion-reveal-duration) var(--motion-reveal-easing);
   }
 
+  .trackReveal[data-reveal-visible="true"] .timeline[data-progressive-reveal="true"]::before {
+    bottom: auto;
+    height: var(--workflow-line-progress, 0px);
+    transition:
+      transform var(--motion-reveal-duration) var(--motion-reveal-easing),
+      height var(--motion-reveal-duration) var(--motion-reveal-easing);
+  }
+
   .stepItem:not(:last-child) .indicatorWrapper::after {
     display: none;
   }
@@ -442,6 +450,21 @@
     align-items: stretch;
     gap: 1.25rem;
     position: relative;
+  }
+
+  .timeline[data-progressive-reveal="true"] .stepItem[data-step-visible="false"] {
+    opacity: 0;
+    transform: translateY(var(--motion-reveal-distance));
+    transition: none;
+  }
+
+  .timeline[data-progressive-reveal="true"] .stepItem[data-step-visible="true"] {
+    opacity: 1;
+    transform: translateY(0);
+    transition:
+      opacity var(--motion-reveal-duration) var(--motion-reveal-easing),
+      transform var(--motion-reveal-duration) var(--motion-reveal-easing);
+    transition-delay: 0ms;
   }
 
   .indicatorWrapper {

@@ -52,6 +52,16 @@ export function ProjectDetailDialog({
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const topBarRef = useRef<HTMLElement>(null);
+  const modalBackToTopRef = useRef<HTMLButtonElement>(null);
+
+  const syncModalBackToTopVisibility = useCallback((visible: boolean) => {
+    const button = modalBackToTopRef.current;
+    if (!button) return;
+
+    button.classList.toggle(styles.modalBackToTopVisible, visible);
+    button.setAttribute("aria-hidden", visible ? "false" : "true");
+    button.tabIndex = visible ? 0 : -1;
+  }, []);
 
   const prefersReducedMotion = usePrefersReducedMotion();
 
@@ -193,6 +203,7 @@ export function ProjectDetailDialog({
     if (scrollContentRef.current) {
       scrollContentRef.current.scrollTop = 0;
     }
+    syncModalBackToTopVisibility(false);
     if (topBarRef.current) {
       topBarRef.current.style.removeProperty("--read-progress");
     }
@@ -204,7 +215,7 @@ export function ProjectDetailDialog({
     setRetained(null);
     setPhase("closed");
     isFinalizingRef.current = false;
-  }, [triggerRef]);
+  }, [triggerRef, syncModalBackToTopVisibility]);
 
   // ─── Circuito centralizado de solicitud de cierre ─────────────────────────
   const handleCloseTrigger = useCallback(() => {
@@ -212,6 +223,7 @@ export function ProjectDetailDialog({
       return;
     }
     phaseRef.current = "closing";
+    syncModalBackToTopVisibility(false);
 
     // Con prefers-reduced-motion, finalizar inmediatamente sin esperar animación
     if (prefersReducedMotion) {
@@ -222,7 +234,7 @@ export function ProjectDetailDialog({
 
     setPhase("closing");
     onClose();
-  }, [onClose, finalizeClose, prefersReducedMotion]);
+  }, [onClose, finalizeClose, prefersReducedMotion, syncModalBackToTopVisibility]);
 
   // ─── Ciclo de vida cuando phase === "closing" ──────────────────────────────
   useEffect(() => {
@@ -287,7 +299,27 @@ export function ProjectDetailDialog({
     if (phase === "open" && scrollContentRef.current) {
       scrollContentRef.current.scrollTop = 0;
     }
-  }, [projectId, phase]);
+    syncModalBackToTopVisibility(false);
+  }, [projectId, phase, syncModalBackToTopVisibility]);
+
+  useEffect(() => {
+    const scrollEl = scrollContentRef.current;
+    if (phase !== "open" || !scrollEl) {
+      syncModalBackToTopVisibility(false);
+      return;
+    }
+
+    const updateVisibility = () => {
+      syncModalBackToTopVisibility(scrollEl.scrollTop > 300);
+    };
+
+    updateVisibility();
+    scrollEl.addEventListener("scroll", updateVisibility, { passive: true });
+
+    return () => {
+      scrollEl.removeEventListener("scroll", updateVisibility);
+    };
+  }, [phase, projectId, syncModalBackToTopVisibility]);
 
   // ─── Escape / Cancel nativo ───────────────────────────────────────────────
   useEffect(() => {
@@ -406,6 +438,18 @@ export function ProjectDetailDialog({
 
     const scrollEl = scrollContentRef.current;
     if (!scrollEl) return;
+
+    if (typeof IntersectionObserver === "undefined") {
+      observedElementsRef.current.forEach((el) => {
+        el.classList.remove(
+          styles.revealHidden,
+          styles.revealVisible,
+          styles.revealFromAbove
+        );
+      });
+      observedElementsRef.current = [];
+      return;
+    }
 
     let observer: IntersectionObserver | null = null;
     let initRafId: number | null = null;
@@ -579,6 +623,35 @@ export function ProjectDetailDialog({
         <div ref={scrollContentRef} className={styles.scrollContent}>
           {displayChildren}
         </div>
+        <button
+          type="button"
+          ref={modalBackToTopRef}
+          className={styles.modalBackToTop}
+          onClick={() => {
+            scrollContentRef.current?.scrollTo({
+              top: 0,
+              behavior: prefersReducedMotion ? "auto" : "smooth",
+            });
+          }}
+          aria-label="Volver al inicio del detalle"
+          aria-hidden="true"
+          tabIndex={-1}
+        >
+          <svg
+            width="20"
+            height="20"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            aria-hidden="true"
+            className={styles.modalBackToTopIcon}
+          >
+            <polyline points="18 15 12 9 6 15" />
+          </svg>
+        </button>
       </div>
     </dialog>
   );

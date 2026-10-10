@@ -1,6 +1,7 @@
 import type { CSSProperties } from "react";
 import { AmbientLayer } from "@/frontend/components/AmbientLayer";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
+import { WorkflowTimeline } from "./WorkflowTimeline";
 import styles from "./Workflow.module.css";
 
 function PencilIcon() {
@@ -210,35 +211,40 @@ export function Workflow() {
         </ScrollReveal>
 
         <ScrollReveal className={styles.trackReveal} delay={100}>
-          <div className={styles.trackWrapper}>
-            <ol className={styles.timeline}>
-              {steps.map((step, index) => {
-                const Icon = step.icon;
-                return (
-                  <li
-                    key={step.id}
-                    className={styles.stepItem}
-                    style={{ "--step-index": index } as CSSProperties}
-                  >
-                    <div className={styles.indicatorWrapper}>
-                      <div className={styles.indicator} aria-hidden="true">
-                        <div className={styles.stepIconBox}>
-                          <Icon />
-                        </div>
+          <WorkflowTimeline
+            className={styles.trackWrapper}
+            timelineClassName={styles.timeline}
+          >
+            {steps.map((step, index) => {
+              const Icon = step.icon;
+              return (
+                <li
+                  key={step.id}
+                  className={styles.stepItem}
+                  style={{ "--step-index": index } as CSSProperties}
+                >
+                  <div className={styles.indicatorWrapper}>
+                    <div
+                      className={styles.indicator}
+                      data-workflow-indicator="true"
+                      aria-hidden="true"
+                    >
+                      <div className={styles.stepIconBox}>
+                        <Icon />
                       </div>
                     </div>
-                    <div className={styles.stepCard}>
-                      <h3 className={styles.stepTitle}>
-                        <span className={styles.stepNumber}>{step.number}</span>
-                        <span className={styles.stepName}>{step.name}</span>
-                      </h3>
-                      <p className={styles.stepDescription}>{step.description}</p>
-                    </div>
-                  </li>
-                );
-              })}
-            </ol>
-          </div>
+                  </div>
+                  <div className={styles.stepCard}>
+                    <h3 className={styles.stepTitle}>
+                      <span className={styles.stepNumber}>{step.number}</span>
+                      <span className={styles.stepName}>{step.name}</span>
+                    </h3>
+                    <p className={styles.stepDescription}>{step.description}</p>
+                  </div>
+                </li>
+              );
+            })}
+          </WorkflowTimeline>
         </ScrollReveal>
       </div>
     </section>

@@ -17,7 +17,19 @@ import styles from "./Contact.module.css";
 
 interface TurnstileWindow extends Window {
   turnstile?: {
-    reset: () => void;
+    render: (
+      container: HTMLElement,
+      options: {
+        sitekey: string;
+        theme: "auto";
+        language: "es";
+        size: "normal" | "compact";
+        "response-field": true;
+        "response-field-name": "turnstileToken";
+      }
+    ) => string;
+    reset: (widgetId?: string) => void;
+    remove: (widgetId: string) => void;
   };
 }
 
@@ -47,9 +59,75 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
     mensaje: "",
   });
   const formRef = useRef<HTMLFormElement>(null);
+  const turnstileContainerRef = useRef<HTMLDivElement>(null);
+  const turnstileWidgetIdRef = useRef<string | null>(null);
+  const [turnstileReady, setTurnstileReady] = useState(false);
+  const [turnstileSize, setTurnstileSize] = useState<
+    "normal" | "compact" | null
+  >(null);
 
   const showSuccess =
     state.status === "success" && state !== dismissedSuccessState;
+
+  useEffect(() => {
+    const container = turnstileContainerRef.current;
+
+    if (!container) {
+      return;
+    }
+
+    const updateSize = () => {
+      const nextSize =
+        container.getBoundingClientRect().width < 300 ? "compact" : "normal";
+      setTurnstileSize((currentSize) =>
+        currentSize === nextSize ? currentSize : nextSize
+      );
+    };
+
+    updateSize();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const observer = new ResizeObserver(updateSize);
+      observer.observe(container);
+      return () => observer.disconnect();
+    }
+
+    window.addEventListener("resize", updateSize);
+    return () => window.removeEventListener("resize", updateSize);
+  }, [siteKey]);
+
+  useEffect(() => {
+    const container = turnstileContainerRef.current;
+    const turnstileWindow = window as TurnstileWindow;
+    const turnstile = turnstileWindow.turnstile;
+
+    if (
+      !container ||
+      !siteKey ||
+      !turnstileReady ||
+      !turnstileSize ||
+      !turnstile
+    ) {
+      return;
+    }
+
+    const widgetId = turnstile.render(container, {
+      sitekey: siteKey,
+      theme: "auto",
+      language: "es",
+      size: turnstileSize,
+      "response-field": true,
+      "response-field-name": "turnstileToken",
+    });
+    turnstileWidgetIdRef.current = widgetId;
+
+    return () => {
+      turnstile.remove(widgetId);
+      if (turnstileWidgetIdRef.current === widgetId) {
+        turnstileWidgetIdRef.current = null;
+      }
+    };
+  }, [siteKey, turnstileReady, turnstileSize]);
 
   // Auto-dismiss del overlay de éxito tras 7 segundos
   useEffect(() => {
@@ -62,7 +140,9 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
       setClientErrors({ nombre: "", email: "", mensaje: "" });
       formRef.current?.reset();
       const turnstileWindow = window as TurnstileWindow;
-      turnstileWindow.turnstile?.reset();
+      turnstileWindow.turnstile?.reset(
+        turnstileWidgetIdRef.current ?? undefined
+      );
     }, 7000);
 
     return () => {
@@ -74,7 +154,9 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
   useEffect(() => {
     if (state.status === "error" && state.invalidFields.length === 0) {
       const turnstileWindow = window as TurnstileWindow;
-      turnstileWindow.turnstile?.reset();
+      turnstileWindow.turnstile?.reset(
+        turnstileWidgetIdRef.current ?? undefined
+      );
     }
   }, [state]);
 
@@ -156,8 +238,9 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
     <>
       {siteKey && (
         <Script
-          src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+          src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="afterInteractive"
+          onReady={() => setTurnstileReady(true)}
         />
       )}
 
@@ -264,11 +347,8 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
           <div className={styles.actions}>
             {siteKey ? (
               <div
-                className={`cf-turnstile ${styles.turnstile}`}
-                data-sitekey={siteKey}
-                data-response-field-name="turnstileToken"
-                data-theme="auto"
-                data-language="es"
+                ref={turnstileContainerRef}
+                className={styles.turnstile}
               />
             ) : (
               <p className={styles.unavailableMessage} role="alert">

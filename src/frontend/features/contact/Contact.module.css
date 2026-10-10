@@ -397,6 +397,9 @@
   min-height: 65px;
   display: flex;
   align-items: center;
+  flex: 1 1 300px;
+  min-width: 0;
+  width: min(100%, 300px);
 }
 
 .srOnly {
@@ -494,6 +497,8 @@
   }
 
   .turnstile {
+    flex: 0 1 auto;
     justify-content: flex-start;
+    width: 100%;
   }
 }

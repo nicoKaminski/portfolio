@@ -111,5 +111,7 @@
 
   .closeButton {
     top: -2.5rem;
+    width: 44px;
+    height: 44px;
   }
 }
