@@ -9,7 +9,7 @@ import {
   type ReactNode,
   type RefObject,
 } from "react";
-import { useScrollLock, getPrefersReducedMotion } from "@/frontend/hooks";
+import { useScrollLock, usePrefersReducedMotion } from "@/frontend/hooks";
 
 type DialogTriggerElement = HTMLAnchorElement | HTMLButtonElement;
 
@@ -53,6 +53,8 @@ export function ProjectDetailDialog({
   const scrollContentRef = useRef<HTMLDivElement>(null);
   const topBarRef = useRef<HTMLElement>(null);
 
+  const prefersReducedMotion = usePrefersReducedMotion();
+
   // ─── 2.A — Fases explícitas: "open" | "closing" | "closed" ────────────────
   const [phase, setPhase] = useState<DialogPhase>(() =>
     isOpen ? "open" : "closed"
@@ -85,7 +87,6 @@ export function ProjectDetailDialog({
   const isFinalizingRef = useRef(false);
   const fallbackTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const animationEndCleanupRef = useRef<(() => void) | null>(null);
-  const motionQueryCleanupRef = useRef<(() => void) | null>(null);
 
   // Registro de elementos de reveal para limpieza precisa y frames de dirección
   const observedElementsRef = useRef<HTMLElement[]>([]);
@@ -158,7 +159,7 @@ export function ProjectDetailDialog({
     isFinalizingRef.current = true;
     phaseRef.current = "closed";
 
-    // 1. Cancelar temporizador de respaldo y listeners de animación / motion
+    // 1. Cancelar temporizador de respaldo y listeners de animación
     if (fallbackTimerRef.current !== null) {
       clearTimeout(fallbackTimerRef.current);
       fallbackTimerRef.current = null;
@@ -166,10 +167,6 @@ export function ProjectDetailDialog({
     if (animationEndCleanupRef.current) {
       animationEndCleanupRef.current();
       animationEndCleanupRef.current = null;
-    }
-    if (motionQueryCleanupRef.current) {
-      motionQueryCleanupRef.current();
-      motionQueryCleanupRef.current = null;
     }
 
     // 2. Invocar dialog.close()
@@ -217,7 +214,7 @@ export function ProjectDetailDialog({
     phaseRef.current = "closing";
 
     // Con prefers-reduced-motion, finalizar inmediatamente sin esperar animación
-    if (getPrefersReducedMotion()) {
+    if (prefersReducedMotion) {
       onClose();
       finalizeClose();
       return;
@@ -225,13 +222,13 @@ export function ProjectDetailDialog({
 
     setPhase("closing");
     onClose();
-  }, [onClose, finalizeClose]);
+  }, [onClose, finalizeClose, prefersReducedMotion]);
 
   // ─── Ciclo de vida cuando phase === "closing" ──────────────────────────────
   useEffect(() => {
     if (phase !== "closing") return;
 
-    if (getPrefersReducedMotion()) {
+    if (prefersReducedMotion) {
       finalizeClose();
       return;
     }
@@ -253,24 +250,6 @@ export function ProjectDetailDialog({
       dialogCard.removeEventListener("animationend", handleAnimationEnd);
     };
 
-    // Si prefers-reduced-motion se activa durante la salida, finalizar inmediatamente
-    let mediaQuery: MediaQueryList | null = null;
-    let handleMotionChange: ((event: MediaQueryListEvent) => void) | null = null;
-    if (typeof window !== "undefined") {
-      mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-      handleMotionChange = (event: MediaQueryListEvent) => {
-        if (event.matches) {
-          finalizeClose();
-        }
-      };
-      mediaQuery.addEventListener("change", handleMotionChange);
-      motionQueryCleanupRef.current = () => {
-        if (mediaQuery && handleMotionChange) {
-          mediaQuery.removeEventListener("change", handleMotionChange);
-        }
-      };
-    }
-
     // Timeout de respaldo (350ms)
     fallbackTimerRef.current = setTimeout(() => {
       fallbackTimerRef.current = null;
@@ -286,12 +265,8 @@ export function ProjectDetailDialog({
         animationEndCleanupRef.current();
         animationEndCleanupRef.current = null;
       }
-      if (motionQueryCleanupRef.current) {
-        motionQueryCleanupRef.current();
-        motionQueryCleanupRef.current = null;
-      }
     };
-  }, [phase, finalizeClose]);
+  }, [phase, finalizeClose, prefersReducedMotion]);
 
   // ─── Ciclo de vida cuando phase === "open" ────────────────────────────────
   useEffect(() => {
@@ -421,7 +396,13 @@ export function ProjectDetailDialog({
   // ─── 2.B — Reveals internos (bidireccionales) ─────────────────────────────
   useEffect(() => {
     if (phase !== "open") return;
-    if (getPrefersReducedMotion()) return;
+    if (prefersReducedMotion) {
+      observedElementsRef.current.forEach((el) => {
+        el.classList.remove(styles.revealHidden, styles.revealFromAbove);
+        el.classList.add(styles.revealVisible);
+      });
+      return;
+    }
 
     const scrollEl = scrollContentRef.current;
     if (!scrollEl) return;
@@ -536,24 +517,11 @@ export function ProjectDetailDialog({
       sections.forEach((el) => observer!.observe(el));
     });
 
-    // Escucha cambios en prefers-reduced-motion durante la visualización
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const handleMotionChange = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        observedElementsRef.current.forEach((el) => {
-          el.classList.remove(styles.revealHidden, styles.revealFromAbove);
-          el.classList.add(styles.revealVisible);
-        });
-      }
-    };
-    mediaQuery.addEventListener("change", handleMotionChange);
-
     return () => {
       if (initRafId !== null) {
         cancelAnimationFrame(initRafId);
       }
       scrollEl.removeEventListener("scroll", handleScroll);
-      mediaQuery.removeEventListener("change", handleMotionChange);
 
       if (observer) {
         observer.disconnect();
@@ -567,7 +535,7 @@ export function ProjectDetailDialog({
       // Las clases se conservan mientras phase === "closing" y son limpiadas
       // en finalizeClose() una vez que el modal queda efectivamente "closed".
     };
-  }, [phase, projectId]);
+  }, [phase, projectId, prefersReducedMotion]);
 
   // Contenido a renderizar: retiene el detalle completo durante "closing"
   const displayTitle = retained?.title ?? title;

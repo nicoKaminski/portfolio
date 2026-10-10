@@ -2,6 +2,9 @@
 
 import { useEffect, useState } from "react";
 
+const DEFAULT_ROOT_MARGIN = "-15% 0px -40% 0px";
+const DEFAULT_THRESHOLD: number[] = [0, 0.1, 0.25, 0.5, 0.75, 1];
+
 export interface UseActiveSectionOptions<T extends string> {
   sectionMap: Record<string, T>;
   initialSection: T;
@@ -18,8 +21,8 @@ export interface UseActiveSectionOptions<T extends string> {
 export function useActiveSection<T extends string>({
   sectionMap,
   initialSection,
-  rootMargin = "-15% 0px -40% 0px",
-  threshold = [0, 0.1, 0.25, 0.5, 0.75, 1],
+  rootMargin = DEFAULT_ROOT_MARGIN,
+  threshold = DEFAULT_THRESHOLD,
 }: UseActiveSectionOptions<T>): T {
   const [activeSection, setActiveSection] = useState<T>(initialSection);
 
