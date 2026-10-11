@@ -25,7 +25,7 @@ Cuando varias capas deban cambiar juntas, explicar por qué forman parte del mí
 Antes de editar:
 
 - identificar el objetivo exacto;
-- confirmar la rama mediante inspección si resulta relevante;
+- confirmar la rama autorizada definida en `AGENTS.md`; nunca cambiar de rama por cuenta propia;
 - revisar el estado del árbol de trabajo cuando pueda afectar la tarea;
 - identificar archivos y consumidores relacionados;
 - revisar `package.json` si la tarea depende de scripts o dependencias;
@@ -111,7 +111,7 @@ git remote -v
 
 1. revisar `package.json`;
 2. confirmar que el script existe;
-3. ejecutar solo lo relevante para la tarea;
+3. ejecutar la secuencia obligatoria de la sección 10 cuando haya cambios de código o configuración;
 4. reportar el resultado real.
 
 `npm run dev` se reserva para tareas que necesiten validación visual o funcional en runtime. Si se inicia, detener el proceso al finalizar.
@@ -178,17 +178,33 @@ No convertir documentación en inventarios de archivos que el agente puede inspe
 
 ## 10. Validación
 
-Distinguir siempre:
+### Cambios de código o configuración
+
+Después de la última modificación relevante y sobre el estado final del árbol, ejecutar en este orden y sin simultanearlos:
 
 ```text
-Implementado.
+git diff --check
+npm run lint
+npm run typecheck
+npm run build
 ```
 
-```text
-Implementado y validado con: <comandos/evidencia>.
-```
+Antes de ejecutarlos, confirmar en `package.json` que los scripts npm existen. Ejecutar cada comando después del anterior para evitar interferencias entre herramientas y archivos generados. Informar el resultado real y, si está disponible, su código de salida.
 
-Una validación exitosa no demuestra por sí sola que todos los casos estén cubiertos.
+### Cambios exclusivamente documentales
+
+Ejecutar `git diff --check` y revisar el diff completo. No se requieren `lint`, `typecheck` ni `build` si el cambio es únicamente documental y no modifica código o configuración.
+
+### Estado que se informa
+
+Usar evidencia para distinguir claramente:
+
+- **Validado:** todas las comprobaciones requeridas para el tipo de cambio se ejecutaron y finalizaron correctamente.
+- **No validado:** una o más comprobaciones requeridas no se ejecutaron, fueron interrumpidas o fallaron.
+- **Validación bloqueada:** una comprobación requerida no pudo ejecutarse por una limitación del entorno; informar cuál y el motivo.
+- **Fallo preexistente:** hay evidencia de que una comprobación falla por una causa previa y ajena a los cambios; describirla, pero el estado sigue siendo no validado.
+
+Un comando no ejecutado, bloqueado, interrumpido o fallido nunca se informa como exitoso. Una validación exitosa no demuestra por sí sola que todos los casos estén cubiertos.
 
 Para cambios visuales, si no se realizó revisión en runtime, informar explícitamente que la validación visual queda pendiente.
 

@@ -12,17 +12,6 @@ AGENTS.md
 
 Este índice no describe el estado puntual de una rama ni duplica reglas de producto. Su función es indicar qué documento consultar según la tarea.
 
-## Estructura
-
-```text
-.agent/
-├── README.md
-└── rules/
-    ├── workflow.md
-    ├── frontend-architecture.md
-    └── security.md
-```
-
 No crear skills, reglas adicionales o documentación de agente por anticipación. Agregar un documento solo cuando exista una responsabilidad estable y recurrente que no esté cubierta por los actuales.
 
 ## Selección de reglas
