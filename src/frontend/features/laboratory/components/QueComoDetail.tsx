@@ -323,8 +323,7 @@ export function QueComoDetail() {
                       ? styles.viewerImage
                       : styles.preparedViewerImage
                   }
-                  priority={page === 1 && slot === 0 && currentPage === 1}
-                  loading={slot === activeSlot ? undefined : "eager"}
+                  loading={slot === activeSlot && !isViewerNear ? "lazy" : "eager"}
                   aria-hidden={slot !== activeSlot}
                   onLoad={() =>
                     handleSlotLoad(slot, page, slotRequests[slot])

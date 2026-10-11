@@ -140,3 +140,14 @@
     transition: none;
   }
 }
+
+@media (max-width: 768px) and (pointer: coarse) {
+  .parallaxLayer {
+    will-change: auto;
+  }
+
+  .halo,
+  .mineralFacet {
+    animation: none;
+  }
+}
