@@ -2,11 +2,13 @@
 
 Portfolio profesional personal de **Nico Kaminski**, desarrollado para presentar proyectos, criterio de producto, trabajo Front-End y una forma de construir software centrada en experiencia de usuario, mantenibilidad y validación.
 
+**Sitio web:** [nicokaminski.com](https://nicokaminski.com/)
+
 ## Estado
 
-Proyecto en desarrollo.
+Portfolio publicado y en evolución.
 
-La primera versión se está construyendo de forma incremental, con especial atención a arquitectura modular, accesibilidad, responsive, performance y seguridad para un repositorio público.
+El proyecto continúa evolucionando de forma incremental, con especial atención a arquitectura modular, accesibilidad, responsive, performance y seguridad para un repositorio público.
 
 ## Stack
 
@@ -61,6 +63,8 @@ npm run build
 
 `package.json` es la fuente de verdad sobre los scripts disponibles. No se documentan comandos de test mientras no exista un script correspondiente.
 
+El repositorio también cuenta con validaciones automáticas mediante GitHub Actions, ejecutadas en pushes y pull requests sobre `dev` y `main`.
+
 ## Seguridad y privacidad
 
 Este repositorio es público.
@@ -79,3 +83,10 @@ AGENTS.md
 ```
 
 Esa documentación define límites de alcance, arquitectura, seguridad, comandos permitidos y criterios de cierre para intervenciones asistidas por IA.
+
+## Contacto
+
+Si querés conocer el Portfolio o conversar sobre desarrollo de software, podés encontrarme en:
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-w?logo=inspire&logoColor=white&labelColor=007AB5&color=007AB5)](https://www.linkedin.com/in/nicokaminski/) [![Contacto](https://img.shields.io/badge/Contacto-w?logo=gmail&logoColor=white&labelColor=%23EA4335&color=%23EA4335)](https://nicokaminski.com/#contacto) [![Portfolio](https://img.shields.io/badge/Portfolio-134670?logo=ntfy&logoColor=white)](https://nicokaminski.com/)
+
