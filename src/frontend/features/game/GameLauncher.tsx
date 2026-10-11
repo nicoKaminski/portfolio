@@ -1,9 +1,22 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import dynamic from "next/dynamic";
 import { ActionButton } from "@/frontend/components/ActionButton";
-import { GameDialog } from "./components/GameDialog";
 import styles from "./GameLauncher.module.css";
+
+const GameDialog = dynamic(
+  () =>
+    import("./components/GameDialog").then((module) => module.GameDialog),
+  {
+    ssr: false,
+    loading: () => (
+      <span className={styles.visuallyHidden} role="status">
+        Cargando juego…
+      </span>
+    ),
+  }
+);
 
 function GameControllerIcon() {
   return (
@@ -39,6 +52,15 @@ export function GameLauncher({
   const isControlled = externalIsOpen !== undefined;
   const isOpen = isControlled ? externalIsOpen : internalIsOpen;
   const triggerRef = externalTriggerRef ?? internalTriggerRef;
+  const wasOpenRef = useRef(isOpen);
+
+  useEffect(() => {
+    if (wasOpenRef.current && !isOpen) {
+      triggerRef.current?.focus();
+    }
+
+    wasOpenRef.current = isOpen;
+  }, [isOpen, triggerRef]);
 
   const handleOpen = () => {
     if (externalOnOpen) {
@@ -69,11 +91,13 @@ export function GameLauncher({
       >
         Jugar
       </ActionButton>
-      <GameDialog
-        isOpen={isOpen}
-        onClose={handleClose}
-        triggerRef={triggerRef}
-      />
+      {isOpen && (
+        <GameDialog
+          isOpen={isOpen}
+          onClose={handleClose}
+          triggerRef={triggerRef}
+        />
+      )}
     </>
   );
 }
