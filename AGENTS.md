@@ -150,6 +150,12 @@ Antes de proponer una dependencia nueva, informar:
 
 ## Comandos
 
+### Rama autorizada
+
+Antes de editar cualquier archivo, confirmar la rama actual con `git branch --show-current`. La rama indicada expresamente por la persona usuaria para la tarea es la autorizada; si no indicó otra, la rama de trabajo predeterminada es `dev`.
+
+No cambiar de rama por cuenta propia. Si la rama actual no coincide con la autorizada, detener las modificaciones e informar la rama actual y la esperada. Nunca asumir que `main` es la rama de trabajo.
+
 El agente puede ejecutar automáticamente validaciones no destructivas que existan realmente en `package.json`. `package.json` es la única fuente de verdad sobre los scripts disponibles; no mantener aquí una lista que pueda quedar desactualizada.
 
 `npm run dev` puede utilizarse únicamente cuando la tarea requiera validación de comportamiento o visual en runtime. No debe dejar procesos abiertos al finalizar.
@@ -222,6 +228,8 @@ Para una tarea con cambios, la entrega debe informar como mínimo:
 Para un análisis, diagnóstico o consulta sin cambios, usar un cierre breve con objetivo, hallazgos o respuesta, evidencia revisada, limitaciones relevantes y confirmación de que el árbol no fue modificado. No incluir apartados vacíos por rutina.
 
 No declarar una tarea “lista”, “resuelta” o “sin errores” si falta evidencia necesaria o existe una validación pendiente relevante.
+
+Para cambios de código o configuración, aplicar los comandos y criterios obligatorios de `.agent/rules/workflow.md`. Las tareas exclusivamente documentales admiten la validación proporcional definida allí; no presentarlas como validadas con comprobaciones que no se ejecutaron.
 
 <!-- BEGIN:nextjs-agent-rules -->
 
