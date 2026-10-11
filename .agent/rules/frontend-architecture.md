@@ -427,11 +427,9 @@ Mínimo esperado:
 
 ## 13. Cazador de Bugs
 
-La presencia de assets del minijuego no implica que su feature esté implementada. Antes de trabajar sobre él, comprobar el estado real del código.
+Cazador de Bugs está implementado e integrado en la landing mediante `GameLauncher` desde `src/frontend/features/about/About.tsx`. La interfaz de acceso y el diálogo están en `src/frontend/features/game/GameLauncher.tsx` y `src/frontend/features/game/components/GameDialog.tsx`; la lógica de partida está en `src/frontend/features/game/hooks/useBugHunter.ts`.
 
-Cuando se implemente, debe vivir dentro del mismo repositorio como feature aislada, mantener su lógica separada de las secciones del Portfolio y no contaminar la composición principal.
-
-La mecánica exacta debe venir definida por su tarea correspondiente. No crear infraestructura del juego por anticipación.
+El minijuego debe conservarse como una feature aislada dentro del repositorio, con su lógica separada de las demás secciones del Portfolio. Cualquier evolución funcional requiere una tarea expresamente autorizada.
 
 ## 14. Criterio final
 
