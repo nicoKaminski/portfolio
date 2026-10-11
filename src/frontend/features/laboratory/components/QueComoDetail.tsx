@@ -135,9 +135,16 @@ export function QueComoDetail() {
 
     loadedPagesRef.current[slot] = page;
     failedPagesRef.current[slot] = null;
-    setLoadError(false);
 
-    if (pendingPageRef.current === page) promotePage(slot, page);
+    if (pendingPageRef.current === page) {
+      setLoadError(false);
+      promotePage(slot, page);
+      return;
+    }
+
+    if (slot === activeSlot && page === currentPage) {
+      setLoadError(false);
+    }
   };
 
   const handleSlotError = (slot: number, page: number, request: number) => {
@@ -147,11 +154,14 @@ export function QueComoDetail() {
     ) return;
 
     failedPagesRef.current[slot] = page;
-    setLoadError(true);
     if (pendingPageRef.current === page) {
+      setLoadError(true);
       pendingPageRef.current = null;
       setPendingPage(null);
+      return;
     }
+
+    if (slot === activeSlot && page === currentPage) setLoadError(true);
   };
 
   const moveToPage = (page: number) => {
@@ -186,12 +196,13 @@ export function QueComoDetail() {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (pendingPageRef.current !== null) return;
     if (e.key === "ArrowLeft") {
       e.preventDefault();
+      if (pendingPageRef.current !== null) return;
       handlePrevPage();
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
+      if (pendingPageRef.current !== null) return;
       handleNextPage();
     }
   };
