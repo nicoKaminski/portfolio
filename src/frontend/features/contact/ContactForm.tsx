@@ -61,6 +61,7 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
   const formRef = useRef<HTMLFormElement>(null);
   const turnstileContainerRef = useRef<HTMLDivElement>(null);
   const turnstileWidgetIdRef = useRef<string | null>(null);
+  const [turnstileLoadEnabled, setTurnstileLoadEnabled] = useState(false);
   const [turnstileReady, setTurnstileReady] = useState(false);
   const [turnstileSize, setTurnstileSize] = useState<
     "normal" | "compact" | null
@@ -68,6 +69,30 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
 
   const showSuccess =
     state.status === "success" && state !== dismissedSuccessState;
+
+  useEffect(() => {
+    const form = formRef.current;
+
+    if (!form || typeof IntersectionObserver === "undefined") {
+      setTurnstileLoadEnabled(true);
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (!entries.some((entry) => entry.isIntersecting)) {
+          return;
+        }
+
+        setTurnstileLoadEnabled(true);
+        observer.disconnect();
+      },
+      { rootMargin: "600px 0px", threshold: 0 }
+    );
+
+    observer.observe(form);
+    return () => observer.disconnect();
+  }, []);
 
   useEffect(() => {
     const container = turnstileContainerRef.current;
@@ -236,7 +261,7 @@ export function ContactForm({ action, siteKey }: ContactFormProps) {
 
   return (
     <>
-      {siteKey && (
+      {siteKey && turnstileLoadEnabled && (
         <Script
           src="https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit"
           strategy="afterInteractive"

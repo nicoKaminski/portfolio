@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ActionLink } from "@/frontend/components/ActionLink";
 import labStyles from "./LaboratoryDetail.module.css";
 import styles from "./QueComoDetail.module.css";
@@ -54,21 +54,155 @@ const FIGMA_PROTOTYPE_URL =
 
 export function QueComoDetail() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isViewerNear, setIsViewerNear] = useState(false);
+  const [activeSlot, setActiveSlot] = useState(0);
+  const [slotPages, setSlotPages] = useState<[number | null, number | null]>([
+    1,
+    null,
+  ]);
+  const [slotRequests, setSlotRequests] = useState<[number, number]>([0, 0]);
+  const [pendingPage, setPendingPage] = useState<number | null>(null);
+  const [loadError, setLoadError] = useState(false);
+  const viewerRef = useRef<HTMLDivElement>(null);
+  const slotPagesRef = useRef<[number | null, number | null]>([1, null]);
+  const slotRequestRefs = useRef<[number, number]>([0, 0]);
+  const loadedPagesRef = useRef<[number | null, number | null]>([null, null]);
+  const pendingPageRef = useRef<number | null>(null);
+  const failedPagesRef = useRef<[number | null, number | null]>([null, null]);
+
+  const setSlotPage = (slot: number, page: number | null) => {
+    const nextPages: [number | null, number | null] = [...slotPagesRef.current];
+    nextPages[slot] = page;
+    slotPagesRef.current = nextPages;
+    loadedPagesRef.current[slot] = null;
+    failedPagesRef.current[slot] = null;
+
+    const nextRequests: [number, number] = [...slotRequestRefs.current];
+    nextRequests[slot] += 1;
+    slotRequestRefs.current = nextRequests;
+    setSlotPages(nextPages);
+    setSlotRequests(nextRequests);
+  };
+
+  useEffect(() => {
+    const viewer = viewerRef.current;
+    if (!viewer) return;
+
+    if (typeof IntersectionObserver === "undefined") return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry?.isIntersecting) return;
+        setIsViewerNear(true);
+        observer.disconnect();
+      },
+      { rootMargin: "200px 0px" }
+    );
+
+    observer.observe(viewer);
+    return () => observer.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (!isViewerNear) return;
+    const inactiveSlot = 1 - activeSlot;
+    const nextPage = currentPage < TOTAL_PAGES ? currentPage + 1 : null;
+    if (
+      nextPage !== null &&
+      slotPagesRef.current[inactiveSlot] === null
+    ) {
+      setSlotPage(inactiveSlot, nextPage);
+    }
+  }, [activeSlot, currentPage, isViewerNear]);
+
+  const promotePage = (slot: number, page: number) => {
+    const previousSlot = activeSlot;
+    pendingPageRef.current = null;
+    setPendingPage(null);
+    setCurrentPage(page);
+    setActiveSlot(slot);
+    setSlotPage(
+      previousSlot,
+      isViewerNear && page < TOTAL_PAGES ? page + 1 : null
+    );
+  };
+
+  const handleSlotLoad = (slot: number, page: number, request: number) => {
+    if (
+      slotPagesRef.current[slot] !== page ||
+      slotRequestRefs.current[slot] !== request
+    ) return;
+
+    loadedPagesRef.current[slot] = page;
+    failedPagesRef.current[slot] = null;
+
+    if (pendingPageRef.current === page) {
+      setLoadError(false);
+      promotePage(slot, page);
+      return;
+    }
+
+    if (slot === activeSlot && page === currentPage) {
+      setLoadError(false);
+    }
+  };
+
+  const handleSlotError = (slot: number, page: number, request: number) => {
+    if (
+      slotPagesRef.current[slot] !== page ||
+      slotRequestRefs.current[slot] !== request
+    ) return;
+
+    failedPagesRef.current[slot] = page;
+    if (pendingPageRef.current === page) {
+      setLoadError(true);
+      pendingPageRef.current = null;
+      setPendingPage(null);
+      return;
+    }
+
+    if (slot === activeSlot && page === currentPage) setLoadError(true);
+  };
+
+  const moveToPage = (page: number) => {
+    if (page < 1 || page > TOTAL_PAGES || pendingPageRef.current !== null) return;
+
+    setLoadError(false);
+    const inactiveSlot = 1 - activeSlot;
+    if (
+      slotPagesRef.current[inactiveSlot] === page &&
+      loadedPagesRef.current[inactiveSlot] === page
+    ) {
+      promotePage(inactiveSlot, page);
+      return;
+    }
+
+    pendingPageRef.current = page;
+    setPendingPage(page);
+
+    if (slotPagesRef.current[inactiveSlot] !== page) {
+      setSlotPage(inactiveSlot, page);
+    } else if (failedPagesRef.current[inactiveSlot] === page) {
+      setSlotPage(inactiveSlot, page);
+    }
+  };
 
   const handlePrevPage = () => {
-    setCurrentPage((prev) => Math.max(1, prev - 1));
+    moveToPage(currentPage - 1);
   };
 
   const handleNextPage = () => {
-    setCurrentPage((prev) => Math.min(TOTAL_PAGES, prev + 1));
+    moveToPage(currentPage + 1);
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === "ArrowLeft") {
       e.preventDefault();
+      if (pendingPageRef.current !== null) return;
       handlePrevPage();
     } else if (e.key === "ArrowRight") {
       e.preventDefault();
+      if (pendingPageRef.current !== null) return;
       handleNextPage();
     }
   };
@@ -163,6 +297,7 @@ export function QueComoDetail() {
         </header>
 
         <div
+          ref={viewerRef}
           className={styles.viewerContainer}
           tabIndex={0}
           onKeyDown={handleKeyDown}
@@ -170,17 +305,40 @@ export function QueComoDetail() {
           aria-label="Visor de presentación de Qué Como. Usá las flechas izquierda y derecha para cambiar de página."
         >
           <div className={styles.viewerStage}>
-            <Image
-              key={currentPage}
-              src={`/projects/laboratory/que-como/${currentPage}.png`}
-              alt={`Página ${currentPage} de 39 del documento de diseño de Qué Como`}
-              width={1920}
-              height={1080}
-              sizes="(max-width: 860px) 100vw, 840px"
-              className={styles.viewerImage}
-              priority={currentPage === 1}
-            />
+            {slotPages.map((page, slot) =>
+              page === null ? null : (
+                <Image
+                  key={`${slot}-${slotRequests[slot]}`}
+                  src={`/projects/laboratory/que-como/${page}.png`}
+                  alt={
+                    slot === activeSlot
+                      ? `Página ${page} de 39 del documento de diseño de Qué Como`
+                      : ""
+                  }
+                  width={1920}
+                  height={1080}
+                  sizes="(max-width: 860px) 100vw, 840px"
+                  className={
+                    slot === activeSlot
+                      ? styles.viewerImage
+                      : styles.preparedViewerImage
+                  }
+                  loading={slot === activeSlot && !isViewerNear ? "lazy" : "eager"}
+                  aria-hidden={slot !== activeSlot}
+                  onLoad={() =>
+                    handleSlotLoad(slot, page, slotRequests[slot])
+                  }
+                  onError={() =>
+                    handleSlotError(slot, page, slotRequests[slot])
+                  }
+                />
+              )
+            )}
           </div>
+
+          <span className={styles.visuallyHidden} role="status" aria-live="polite">
+            {loadError ? "No se pudo cargar la página. Volvé a intentar." : ""}
+          </span>
 
           <div
             className={styles.viewerControls}
@@ -190,7 +348,7 @@ export function QueComoDetail() {
               type="button"
               className={styles.navButton}
               onClick={handlePrevPage}
-              disabled={currentPage <= 1}
+              disabled={currentPage <= 1 || pendingPage !== null}
               aria-label="Página anterior"
             >
               <span aria-hidden="true" className={styles.navIcon}>
@@ -206,7 +364,7 @@ export function QueComoDetail() {
               type="button"
               className={styles.navButton}
               onClick={handleNextPage}
-              disabled={currentPage >= TOTAL_PAGES}
+              disabled={currentPage >= TOTAL_PAGES || pendingPage !== null}
               aria-label="Página siguiente"
             >
               <span aria-hidden="true" className={styles.navIcon}>

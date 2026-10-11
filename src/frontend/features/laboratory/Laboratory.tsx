@@ -1,18 +1,59 @@
 "use client";
 
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useState, useRef } from "react";
 import { AmbientLayer } from "@/frontend/components/AmbientLayer";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
 import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
-import { MemoWarsDetail } from "./components/MemoWarsDetail";
-import { MemoPotterDetail } from "./components/MemoPotterDetail";
-import { QueComoDetail } from "./components/QueComoDetail";
-import { SigesUniDetail } from "./components/SigesUniDetail";
-import { SysadUniDetail } from "./components/SysadUniDetail";
-import { NutriVidaDetail } from "./components/NutriVidaDetail";
 import styles from "./Laboratory.module.css";
+
+function DetailLoadingState() {
+  return (
+    <p className={styles.intro} role="status">
+      Cargando detalle…
+    </p>
+  );
+}
+
+const MemoWarsDetail = dynamic(
+  () =>
+    import("./components/MemoWarsDetail").then((module) => module.MemoWarsDetail),
+  { ssr: false, loading: DetailLoadingState }
+);
+
+const MemoPotterDetail = dynamic(
+  () =>
+    import("./components/MemoPotterDetail").then(
+      (module) => module.MemoPotterDetail
+    ),
+  { ssr: false, loading: DetailLoadingState }
+);
+
+const QueComoDetail = dynamic(
+  () =>
+    import("./components/QueComoDetail").then((module) => module.QueComoDetail),
+  { ssr: false, loading: DetailLoadingState }
+);
+
+const SigesUniDetail = dynamic(
+  () =>
+    import("./components/SigesUniDetail").then((module) => module.SigesUniDetail),
+  { ssr: false, loading: DetailLoadingState }
+);
+
+const SysadUniDetail = dynamic(
+  () =>
+    import("./components/SysadUniDetail").then((module) => module.SysadUniDetail),
+  { ssr: false, loading: DetailLoadingState }
+);
+
+const NutriVidaDetail = dynamic(
+  () =>
+    import("./components/NutriVidaDetail").then((module) => module.NutriVidaDetail),
+  { ssr: false, loading: DetailLoadingState }
+);
 
 type LabProjectId =
   | "memo-potter"
@@ -160,6 +201,7 @@ export function Laboratory() {
                     alt=""
                     width={400}
                     height={225}
+                    sizes="(max-width: 599px) 108px, (max-width: 959px) 33vw, 200px"
                     className={styles.cardImage}
                   />
                 </div>
