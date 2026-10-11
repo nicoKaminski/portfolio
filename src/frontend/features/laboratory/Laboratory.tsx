@@ -201,6 +201,7 @@ export function Laboratory() {
                     alt=""
                     width={400}
                     height={225}
+                    sizes="(max-width: 599px) 108px, (max-width: 959px) 33vw, 200px"
                     className={styles.cardImage}
                   />
                 </div>
