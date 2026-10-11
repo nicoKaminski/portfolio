@@ -1,7 +1,22 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import type { ComponentType } from "react";
 import { getProject, projects } from "@/frontend/features/projects/projectCatalog";
+import type { ProjectSlug } from "@/frontend/features/projects/projectCatalog";
+import { BitiCraftDetail } from "@/frontend/features/projects/components/BitiCraftDetail";
+import { GeClauDetail } from "@/frontend/features/projects/components/GeClauDetail";
+import { HorasClarasDetail } from "@/frontend/features/projects/components/HorasClarasDetail";
+import { LeinwandDetail } from "@/frontend/features/projects/components/LeinwandDetail";
+import { TracamDetail } from "@/frontend/features/projects/components/TracamDetail";
 import styles from "./page.module.css";
+
+const PROJECT_DETAILS: Record<ProjectSlug, ComponentType> = {
+  geclau: GeClauDetail,
+  "horas-claras": HorasClarasDetail,
+  biticraft: BitiCraftDetail,
+  tracam: TracamDetail,
+  "leinwand-overland": LeinwandDetail,
+};
 
 interface ProjectPageProps {
   params: Promise<{ slug: string }>;
@@ -56,7 +71,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
     notFound();
   }
 
-  const Detail = project.Detail;
+  const Detail = PROJECT_DETAILS[project.slug];
 
   return (
     <main className={styles.page}>

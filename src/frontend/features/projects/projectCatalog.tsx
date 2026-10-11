@@ -1,10 +1,3 @@
-import type { ComponentType } from "react";
-import { BitiCraftDetail } from "./components/BitiCraftDetail";
-import { GeClauDetail } from "./components/GeClauDetail";
-import { HorasClarasDetail } from "./components/HorasClarasDetail";
-import { LeinwandDetail } from "./components/LeinwandDetail";
-import { TracamDetail } from "./components/TracamDetail";
-
 export type ProjectSlug =
   | "geclau"
   | "horas-claras"
@@ -21,7 +14,6 @@ export interface Project {
   description: string;
   externalCta: string;
   externalHref: string;
-  Detail: ComponentType;
 }
 
 export const projects: readonly Project[] = [
@@ -35,7 +27,6 @@ export const projects: readonly Project[] = [
       "Un sistema de gestión académica para organizar aulas, horarios y clases, reduciendo errores y superposiciones.",
     externalCta: "Ver despliegue",
     externalHref: "https://aulas.mdp.utn.edu.ar/",
-    Detail: GeClauDetail,
   },
   {
     slug: "horas-claras",
@@ -47,7 +38,6 @@ export const projects: readonly Project[] = [
       "Una herramienta para registrar horas de trabajo, controlar pendientes y mantener ordenada la carga en Jira.",
     externalCta: "Abrir app",
     externalHref: "https://horas-claras.vercel.app/",
-    Detail: HorasClarasDetail,
   },
   {
     slug: "biticraft",
@@ -59,7 +49,6 @@ export const projects: readonly Project[] = [
       "Sitio web para un emprendimiento de papelería personalizada, con foco en UX/UI, presentación de productos y contacto.",
     externalCta: "Visitar sitio",
     externalHref: "https://biticraft.vercel.app/",
-    Detail: BitiCraftDetail,
   },
   {
     slug: "tracam",
@@ -71,7 +60,6 @@ export const projects: readonly Project[] = [
       "Un MVP orientado a mejorar la trazabilidad de camiones, la gestión de viajes y la organización de documentación.",
     externalCta: "Abrir app",
     externalHref: "https://tracam.grupo6s.com/login",
-    Detail: TracamDetail,
   },
   {
     slug: "leinwand-overland",
@@ -83,7 +71,6 @@ export const projects: readonly Project[] = [
       "E-commerce desarrollado con WordPress y WooCommerce para una empresa de equipamiento overland.",
     externalCta: "Visitar sitio",
     externalHref: "https://leinwand-overland.com/",
-    Detail: LeinwandDetail,
   },
 ];
 

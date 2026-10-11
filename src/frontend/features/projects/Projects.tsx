@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import dynamic from "next/dynamic";
+import { useRef, useState, type ComponentType } from "react";
 import { ActionLink } from "@/frontend/components/ActionLink";
 import { AmbientLayer } from "@/frontend/components/AmbientLayer";
 import { CardActionLabel } from "@/frontend/components/CardActionLabel";
@@ -9,10 +10,59 @@ import { ProjectDetailDialog } from "@/frontend/components/ProjectDetailDialog";
 import { ScrollReveal } from "@/frontend/components/ScrollReveal";
 import {
   projects,
-  type Project,
   type ProjectSlug,
 } from "./projectCatalog";
+import type { Project } from "./projectCatalog";
+import detailStyles from "./components/ProjectDetailBase.module.css";
 import styles from "./Projects.module.css";
+
+function DetailLoading() {
+  return (
+    <p className={detailStyles.intro} role="status">
+      Cargando detalle…
+    </p>
+  );
+}
+
+const GeClauDetail = dynamic(
+  () =>
+    import("./components/GeClauDetail").then((module) => module.GeClauDetail),
+  { ssr: false, loading: DetailLoading }
+);
+const HorasClarasDetail = dynamic(
+  () =>
+    import("./components/HorasClarasDetail").then(
+      (module) => module.HorasClarasDetail
+    ),
+  { ssr: false, loading: DetailLoading }
+);
+const BitiCraftDetail = dynamic(
+  () =>
+    import("./components/BitiCraftDetail").then(
+      (module) => module.BitiCraftDetail
+    ),
+  { ssr: false, loading: DetailLoading }
+);
+const TracamDetail = dynamic(
+  () =>
+    import("./components/TracamDetail").then((module) => module.TracamDetail),
+  { ssr: false, loading: DetailLoading }
+);
+const LeinwandDetail = dynamic(
+  () =>
+    import("./components/LeinwandDetail").then(
+      (module) => module.LeinwandDetail
+    ),
+  { ssr: false, loading: DetailLoading }
+);
+
+const PROJECT_DETAILS: Record<ProjectSlug, ComponentType> = {
+  geclau: GeClauDetail,
+  "horas-claras": HorasClarasDetail,
+  biticraft: BitiCraftDetail,
+  tracam: TracamDetail,
+  "leinwand-overland": LeinwandDetail,
+};
 
 const PROJECT_DIALOG_CONFIG: Record<
   ProjectSlug,
@@ -146,10 +196,9 @@ export function Projects() {
   const dialogConfig = activeProject
     ? PROJECT_DIALOG_CONFIG[activeProject]
     : null;
-  const activeProjectData = activeProject
-    ? projects.find(({ slug }) => slug === activeProject)
+  const ActiveDetail = activeProject
+    ? PROJECT_DETAILS[activeProject]
     : null;
-  const ActiveDetail = activeProjectData?.Detail;
 
   const openProject = (project: ProjectSlug) => {
     activeTriggerRef.current = triggerRefs.current[project] ?? null;
