@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Onest } from "next/font/google";
 import Script from "next/script";
 import { themeInitScript } from "@/frontend/features/theme";
+import { socialImage } from "./shared-metadata";
 import "./globals.css";
 
 const onest = Onest({
@@ -27,14 +28,14 @@ export const metadata: Metadata = {
     title: "Nico Kaminski | Desarrollador Full Stack con enfoque en Frontend",
     description:
       "Portfolio de Nico Kaminski, desarrollador full stack con enfoque en frontend. Desarrollo productos web con React y TypeScript, cuidando especialmente la experiencia de usuario.",
-    images: "/opengraph-image.png",
+    images: [socialImage],
   },
   twitter: {
     card: "summary_large_image",
     title: "Nico Kaminski | Desarrollador Full Stack con enfoque en Frontend",
     description:
       "Portfolio de Nico Kaminski, desarrollador full stack con enfoque en frontend. Desarrollo productos web con React y TypeScript, cuidando especialmente la experiencia de usuario.",
-    images: "/opengraph-image.png",
+    images: [socialImage],
   },
 };
 
