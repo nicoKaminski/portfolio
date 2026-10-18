@@ -25,16 +25,16 @@ export const metadata: Metadata = {
     url: "https://nicokaminski.com/",
     siteName: "Nico Kaminski",
     locale: "es_AR",
-    title: "Nico Kaminski | Desarrollador Full Stack con enfoque en Frontend",
+    title: "Desarrollador Full Stack con enfoque en Frontend",
     description:
-      "Portfolio de Nico Kaminski, desarrollador full stack con enfoque en frontend. Desarrollo productos web con React y TypeScript, cuidando especialmente la experiencia de usuario.",
+      "Diseño y desarrollo productos web con React y TypeScript, con foco en experiencia de usuario.",
     images: [socialImage],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Nico Kaminski | Desarrollador Full Stack con enfoque en Frontend",
+    title: "Desarrollador Full Stack con enfoque en Frontend",
     description:
-      "Portfolio de Nico Kaminski, desarrollador full stack con enfoque en frontend. Desarrollo productos web con React y TypeScript, cuidando especialmente la experiencia de usuario.",
+      "Diseño y desarrollo productos web con React y TypeScript, con foco en experiencia de usuario.",
     images: [socialImage],
   },
 };
