@@ -8,6 +8,7 @@ import { GeClauDetail } from "@/frontend/features/projects/components/GeClauDeta
 import { HorasClarasDetail } from "@/frontend/features/projects/components/HorasClarasDetail";
 import { LeinwandDetail } from "@/frontend/features/projects/components/LeinwandDetail";
 import { TracamDetail } from "@/frontend/features/projects/components/TracamDetail";
+import { socialImage } from "../../shared-metadata";
 import styles from "./page.module.css";
 
 const PROJECT_DETAILS: Record<ProjectSlug, ComponentType> = {
@@ -53,13 +54,13 @@ export async function generateMetadata({
       locale: "es_AR",
       title,
       description: project.description,
-      images: "/opengraph-image.png",
+      images: [socialImage],
     },
     twitter: {
       card: "summary_large_image",
       title,
       description: project.description,
-      images: "/opengraph-image.png",
+      images: [socialImage],
     },
   };
 }
