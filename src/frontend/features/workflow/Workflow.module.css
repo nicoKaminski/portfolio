@@ -22,22 +22,62 @@
   mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
   background:
     radial-gradient(
-      ellipse 85% 65% at 50% 50%,
-      color-mix(in srgb, var(--color-surface) 32%, transparent) 0%,
-      transparent 80%
+      ellipse 78% 62% at 52% 48%,
+      color-mix(in srgb, var(--color-surface) 27%, transparent) 0%,
+      transparent 82%
     ),
     radial-gradient(
-      ellipse 65% 55% at 15% 35%,
-      color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 0%,
+      ellipse 62% 52% at 16% 30%,
+      color-mix(in srgb, var(--color-accent-secondary) 9%, transparent) 0%,
       transparent 75%
     ),
     radial-gradient(
-      circle 600px at 85% 65%,
-      color-mix(in srgb, var(--brand-bright-mint) 6%, transparent) 0%,
-      transparent 72%
+      ellipse 62% 66% at 84% 70%,
+      color-mix(in srgb, var(--brand-bright-mint) 4.5%, transparent) 0%,
+      transparent 78%
+    ),
+    radial-gradient(
+      ellipse 112% 82% at 50% 46%,
+      transparent 54%,
+      color-mix(in srgb, var(--color-bg) 56%, transparent) 100%
     );
   will-change: transform;
   transform: translateY(var(--ambient-offset, 0px));
+}
+
+.workflowSection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 30%, transparent) 0.9px,
+    transparent 1.1px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 62% 54% at 50% 48%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 24%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 62% 54% at 50% 48%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 24%,
+    transparent 100%
+  );
+}
+
+:global([data-theme="dark"]) .workflowSection::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 35%, transparent) 0.9px,
+    transparent 1.1px
+  );
 }
 
 .container {

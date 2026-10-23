@@ -18,11 +18,46 @@
   -webkit-mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
   mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
   background:
-    radial-gradient(ellipse 85% 65% at 50% 50%, color-mix(in srgb, var(--color-surface) 24%, transparent) 0%, transparent 80%),
-    radial-gradient(ellipse 65% 50% at 88% 25%, color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 0%, transparent 75%),
-    radial-gradient(ellipse 60% 45% at 12% 75%, color-mix(in srgb, var(--brand-bright-mint) 6.5%, transparent) 0%, transparent 72%);
+    radial-gradient(ellipse 74% 54% at 50% 48%, color-mix(in srgb, var(--color-surface) 16%, transparent) 0%, transparent 82%),
+    radial-gradient(ellipse 62% 48% at 88% 22%, color-mix(in srgb, var(--color-accent-secondary) 6%, transparent) 0%, transparent 76%),
+    radial-gradient(ellipse 58% 42% at 12% 78%, color-mix(in srgb, var(--brand-bright-mint) 3.5%, transparent) 0%, transparent 74%);
   will-change: transform;
   transform: translateY(var(--ambient-offset, 0px));
+}
+
+.projectsSection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 24%, transparent) 0.85px,
+    transparent 1.1px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 62% 120px at 82% 100px,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 18%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 62% 120px at 82% 100px,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 18%,
+    transparent 100%
+  );
+}
+
+:global([data-theme="dark"]) .projectsSection::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 28%, transparent) 0.85px,
+    transparent 1.1px
+  );
 }
 
 .container {

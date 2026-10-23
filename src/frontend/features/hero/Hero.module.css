@@ -20,15 +20,67 @@
   mask-image: linear-gradient(to bottom, var(--color-neutral-black) 0%, var(--color-neutral-black) 82%, transparent 100%);
   background:
     radial-gradient(
-      ellipse 65% 50% at 20% 25%,
-      color-mix(in srgb, var(--brand-mid-cyan) 12%, transparent) 0%,
+      ellipse 68% 54% at 22% 26%,
+      color-mix(in srgb, var(--color-accent-secondary) 15%, transparent) 0%,
       transparent 70%
     ),
     radial-gradient(
-      circle 540px at 85% 35%,
-      color-mix(in srgb, var(--brand-bright-mint) 10%, transparent) 0%,
-      transparent 68%
+      circle 500px at 82% 36%,
+      color-mix(in srgb, var(--brand-bright-mint) 7%, transparent) 0%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 82% 84% at 61% 45%,
+      color-mix(in srgb, var(--color-surface) 20%, transparent) 0%,
+      transparent 76%
+    ),
+    radial-gradient(
+      ellipse 118% 102% at 50% 46%,
+      transparent 46%,
+      color-mix(in srgb, var(--color-bg) 68%, transparent) 100%
+    ),
+    linear-gradient(
+      90deg,
+      color-mix(in srgb, var(--color-bg) 56%, transparent) 0%,
+      transparent 25%,
+      transparent 75%,
+      color-mix(in srgb, var(--color-bg) 56%, transparent) 100%
     );
+}
+
+.heroSection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 30%, transparent) 0.9px,
+    transparent 1.1px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 36% 54% at 70% 48%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 20%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 36% 54% at 70% 48%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 20%,
+    transparent 100%
+  );
+}
+
+:global([data-theme="dark"]) .heroSection::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 35%, transparent) 0.9px,
+    transparent 1.1px
+  );
 }
 
 .container {
@@ -129,20 +181,6 @@
 
 .conversationAction:hover .chatIcon {
   transform: scale(1.14);
-}
-
-[data-theme="light"] .heroSection::before {
-  background:
-    radial-gradient(
-      ellipse 65% 50% at 20% 25%,
-      color-mix(in srgb, var(--color-accent-secondary) 14%, transparent) 0%,
-      transparent 70%
-    ),
-    radial-gradient(
-      circle 540px at 85% 35%,
-      color-mix(in srgb, var(--brand-bright-mint) 12%, transparent) 0%,
-      transparent 68%
-    );
 }
 
 .chatIcon {
