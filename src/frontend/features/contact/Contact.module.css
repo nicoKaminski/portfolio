@@ -23,22 +23,57 @@
   mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 95%, transparent);
   background:
     radial-gradient(
-      ellipse 85% 65% at 50% 50%,
-      color-mix(in srgb, var(--color-surface) 26%, transparent) 0%,
-      transparent 80%
+      ellipse 76% 60% at 52% 52%,
+      color-mix(in srgb, var(--color-surface) 18%, transparent) 0%,
+      transparent 82%
     ),
     radial-gradient(
-      ellipse 75% 50% at 50% 90%,
-      color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 0%,
+      ellipse 64% 46% at 48% 92%,
+      color-mix(in srgb, var(--color-accent-secondary) 4.5%, transparent) 0%,
       transparent 75%
     ),
     radial-gradient(
-      circle 520px at 18% 30%,
-      color-mix(in srgb, var(--brand-bright-mint) 6%, transparent) 0%,
-      transparent 72%
+      ellipse 54% 48% at 18% 28%,
+      color-mix(in srgb, var(--brand-bright-mint) 2.5%, transparent) 0%,
+      transparent 74%
     );
   will-change: transform;
   transform: translateY(var(--ambient-offset, 0px));
+}
+
+.contactSection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 30%, transparent) 0.9px,
+    transparent 1.1px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 62% 54% at 50% 48%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 24%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 62% 54% at 50% 48%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 24%,
+    transparent 100%
+  );
+}
+
+:global([data-theme="dark"]) .contactSection::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 35%, transparent) 0.9px,
+    transparent 1.1px
+  );
 }
 
 .container {

@@ -21,15 +21,53 @@
   mask-image: linear-gradient(to bottom, transparent 0%, var(--color-neutral-black) 18%, var(--color-neutral-black) 85%, transparent 100%);
   background:
     radial-gradient(
-      ellipse 70% 60% at 30% 70%,
-      color-mix(in srgb, var(--brand-mid-cyan) 6.5%, transparent) 0%,
-      transparent 72%
+      ellipse 72% 56% at 26% 68%,
+      color-mix(in srgb, var(--color-accent-secondary) 7%, transparent) 0%,
+      transparent 76%
     ),
     radial-gradient(
-      circle 420px at 85% 30%,
-      color-mix(in srgb, var(--color-accent) 5%, transparent) 0%,
-      transparent 65%
+      ellipse 62% 78% at 80% 36%,
+      color-mix(in srgb, var(--color-surface) 13%, transparent) 0%,
+      transparent 78%
     );
+}
+
+.aboutSection::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 24%, transparent) 0.85px,
+    transparent 1.1px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 30% 54% at 90% 50%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 24%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 30% 54% at 90% 50%,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 24%,
+    transparent 100%
+  );
+}
+
+:global([data-theme="dark"]) .aboutSection::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 28%, transparent) 0.85px,
+    transparent 1.1px
+  );
 }
 
 .container {
@@ -262,6 +300,23 @@
     margin-top: 0.55rem;
   }
 
+}
+
+@media (max-width: 959px) {
+  .aboutSection::after {
+    -webkit-mask-image: radial-gradient(
+      ellipse 96% 17% at 50% 85%,
+      var(--color-neutral-black) 0%,
+      var(--color-neutral-black) 24%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      ellipse 96% 17% at 50% 85%,
+      var(--color-neutral-black) 0%,
+      var(--color-neutral-black) 24%,
+      transparent 100%
+    );
+  }
 }
 
 @media (max-width: 360px) {

@@ -22,22 +22,57 @@
   mask-image: linear-gradient(to bottom, transparent, var(--color-neutral-black) 12%, var(--color-neutral-black) 88%, transparent);
   background:
     radial-gradient(
-      ellipse 85% 65% at 50% 50%,
-      color-mix(in srgb, var(--color-surface) 20%, transparent) 0%,
-      transparent 80%
+      ellipse 78% 58% at 52% 44%,
+      color-mix(in srgb, var(--color-surface) 21%, transparent) 0%,
+      transparent 82%
     ),
     radial-gradient(
-      ellipse 65% 50% at 12% 45%,
-      color-mix(in srgb, var(--brand-mid-cyan) 8%, transparent) 0%,
+      ellipse 58% 50% at 84% 28%,
+      color-mix(in srgb, var(--color-accent-secondary) 6.5%, transparent) 0%,
       transparent 75%
     ),
     radial-gradient(
-      circle 540px at 88% 65%,
-      color-mix(in srgb, var(--brand-bright-mint) 6.5%, transparent) 0%,
-      transparent 72%
+      ellipse 60% 60% at 12% 78%,
+      color-mix(in srgb, var(--brand-bright-mint) 3.5%, transparent) 0%,
+      transparent 76%
     );
   will-change: transform;
   transform: translateY(var(--ambient-offset, 0px));
+}
+
+.laboratorySection::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 24%, transparent) 0.85px,
+    transparent 1.1px
+  );
+  background-size: 24px 24px;
+  background-position: 0 0;
+  -webkit-mask-image: radial-gradient(
+    ellipse 65% 120px at 22% 100px,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 18%,
+    transparent 100%
+  );
+  mask-image: radial-gradient(
+    ellipse 65% 120px at 22% 100px,
+    var(--color-neutral-black) 0%,
+    var(--color-neutral-black) 18%,
+    transparent 100%
+  );
+}
+
+:global([data-theme="dark"]) .laboratorySection::after {
+  background-image: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--color-accent-secondary) 28%, transparent) 0.85px,
+    transparent 1.1px
+  );
 }
 
 .container {
