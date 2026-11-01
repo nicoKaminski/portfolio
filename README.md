@@ -1,59 +1,69 @@
 # Portfolio — Nico Kaminski
 
-Portfolio profesional personal de **Nico Kaminski**, desarrollado para presentar proyectos, criterio de producto, trabajo Front-End y una forma de construir software centrada en experiencia de usuario, mantenibilidad y validación.
+**Desarrollador de software full stack con enfoque en frontend.**
 
-**Sitio web:** [nicokaminski.com](https://nicokaminski.com/)
+Este repositorio contiene el código de mi sitio web profesional: [nicokaminski.com](https://nicokaminski.com/).
 
-## Estado
+En el Portfolio presento proyectos, prácticas de laboratorio y mi forma de abordar el desarrollo de software, con especial atención a la experiencia de usuario, las interfaces claras y la integración entre frontend y backend cuando el producto lo necesita.
 
-Portfolio publicado y en evolución.
+## Qué vas a encontrar
 
-El proyecto continúa evolucionando de forma incremental, con especial atención a arquitectura modular, accesibilidad, responsive, performance y seguridad para un repositorio público.
+- **Sobre mí y cómo trabajo:** mi enfoque profesional y los criterios que aplico al desarrollar software.
+- **Proyectos:** aplicaciones y sitios web, con sus descripciones y enlaces públicos cuando corresponde.
+- **Laboratorio:** prácticas y proyectos experimentales.
+- **Contacto:** un formulario para conversar sobre proyectos, ideas o desarrollo de software.
 
-## Stack
+Este repositorio corresponde al sitio Portfolio, no al código fuente de todos los proyectos que se presentan en él.
 
-- Next.js
-- React
-- TypeScript
-- CSS Modules
+## Tecnologías y arquitectura
 
-Las versiones exactas y scripts disponibles se encuentran en `package.json`.
+El sitio está desarrollado con **Next.js (App Router)**, **React**, **TypeScript** y **CSS Modules**.
 
-## Principios técnicos
+El código se organiza principalmente en:
 
-- App Router de Next.js.
-- TypeScript estricto.
-- Separación clara entre composición de aplicación, frontend, lógica server-side y código compartido.
-- Componentes presentacionales simples cuando corresponde.
-- Lógica y estado separados de la UI cuando aportan claridad y mantenibilidad.
-- Server Components por defecto y Client Components solo cuando la interacción lo requiere.
-- CSS Modules y tokens visuales centralizados.
-- Sin Tailwind.
-- Sin dependencias nuevas sin una necesidad real.
+```text
+src/
+├── app/       # Rutas, layouts, metadata y composición
+├── frontend/  # Interfaz, componentes e interacción
+├── backend/   # Lógica exclusiva del servidor
+└── shared/    # Tipos y utilidades compartidos
+```
+
+Las versiones y dependencias vigentes se encuentran en `package.json`.
+
+Las instrucciones operativas para agentes de desarrollo están en [AGENTS.md](AGENTS.md) y `.agent/`.
 
 ## Desarrollo local
 
-Los comandos de esta sección están destinados a personas que trabajan localmente. Los agentes deben respetar las restricciones operativas de `AGENTS.md` y no ejecutar comandos de instalación.
+Para ejecutar el sitio localmente necesitás Node.js y npm. El workflow de integración continua utiliza Node.js 24.
 
-Instalar las dependencias del lockfile:
+Cloná el repositorio e instalá las dependencias:
 
 ```bash
+git clone https://github.com/nicoKaminski/portfolio.git
+cd portfolio
 npm ci
 ```
 
-Levantar el entorno de desarrollo:
+Iniciá el entorno de desarrollo:
 
 ```bash
 npm run dev
 ```
 
-Abrir:
+Abrí [http://localhost:3000](http://localhost:3000) en el navegador.
 
-```text
-http://localhost:3000
-```
+### Formulario de contacto
 
-## Validaciones disponibles
+Para probar el envío de mensajes necesitás configurar localmente las variables indicadas en `.env.example`, utilizando tus propias credenciales y guardando sus valores fuera del repositorio.
+
+Sin esa configuración, el formulario no podrá completar el envío de mensajes.
+
+Nunca publiques credenciales, valores reales de variables privadas ni información personal recibida por el formulario.
+
+## Validaciones
+
+El proyecto dispone de los siguientes comandos:
 
 ```bash
 npm run lint
@@ -61,32 +71,18 @@ npm run typecheck
 npm run build
 ```
 
-`package.json` es la fuente de verdad sobre los scripts disponibles. No se documentan comandos de test mientras no exista un script correspondiente.
+GitHub Actions ejecuta las validaciones automáticas en pushes y Pull Requests dirigidos a `dev` y `main`.
 
-El repositorio también cuenta con validaciones automáticas mediante GitHub Actions, ejecutadas en pushes y pull requests sobre `dev` y `main`.
+## Contribuciones y seguridad
 
-## Seguridad y privacidad
+Se reciben reportes de errores, sugerencias y propuestas de mejora. Antes de contribuir, consultá la [guía de contribución](CONTRIBUTING.md).
 
-Este repositorio es público.
+Para reportar problemas o proponer mejoras, utilizá los [Issues del repositorio](https://github.com/nicoKaminski/portfolio/issues).
 
-No deben versionarse secretos, credenciales, datos privados de clientes o empleadores, información de repositorios privados ni datos reales de aplicaciones privadas.
-
-Las variables de entorno utilizadas por el formulario de contacto se documentan únicamente por nombre y con valores vacíos seguros en `.env.example`. Sus valores reales deben mantenerse fuera del repositorio.
-
-## Documentación para agentes
-
-Las instrucciones de trabajo para agentes locales viven en:
-
-```text
-AGENTS.md
-.agent/
-```
-
-Esa documentación define límites de alcance, arquitectura, seguridad, comandos permitidos y criterios de cierre para intervenciones asistidas por IA.
+Si encontrás una posible vulnerabilidad de seguridad, no publiques sus detalles en un Issue ni en una Pull Request. Seguí las instrucciones de [SECURITY.md](SECURITY.md) para utilizar el canal privado de reporte.
 
 ## Contacto
 
-Si querés conocer el Portfolio o conversar sobre desarrollo de software, podés encontrarme en:
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-w?logo=inspire&logoColor=white&labelColor=007AB5&color=007AB5)](https://www.linkedin.com/in/nicokaminski/) [![Contacto](https://img.shields.io/badge/Contacto-w?logo=gmail&logoColor=white&labelColor=%23EA4335&color=%23EA4335)](https://nicokaminski.com/#contacto) [![Portfolio](https://img.shields.io/badge/Portfolio-134670?logo=ntfy&logoColor=white)](https://nicokaminski.com/)
-
+- [Portfolio](https://nicokaminski.com/)
+- [LinkedIn](https://www.linkedin.com/in/nicokaminski/)
+- [Formulario de contacto](https://nicokaminski.com/#contacto)
