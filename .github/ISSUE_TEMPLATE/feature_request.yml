@@ -1,0 +1,37 @@
+name: "Proponer una mejora"
+description: "Sugerí mejoras de accesibilidad, experiencia de uso, animaciones, rendimiento o textos."
+title: "[Mejora] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Este es un Portfolio profesional personal.
+        Se reciben sugerencias, pero la selección de proyectos, los contenidos profesionales y las decisiones de diseño corresponden exclusivamente al propietario.
+        Para vulnerabilidades de seguridad utilizá el reporte privado indicado en SECURITY.md.
+  - type: input
+    id: ubicacion
+    attributes:
+      label: "Página o sección relacionada"
+      placeholder: "Ej.: inicio, proyectos o navegación"
+    validations:
+      required: false
+  - type: textarea
+    id: propuesta
+    attributes:
+      label: "¿Qué mejora proponés?"
+      description: "Describí la idea de forma concreta."
+    validations:
+      required: true
+  - type: textarea
+    id: beneficio
+    attributes:
+      label: "¿Qué problema resolvería o qué mejoraría?"
+    validations:
+      required: true
+  - type: textarea
+    id: referencias
+    attributes:
+      label: "Referencias o información adicional"
+      description: "Opcionalmente, agregá ejemplos, capturas o enlaces públicos."
+    validations:
+      required: false
