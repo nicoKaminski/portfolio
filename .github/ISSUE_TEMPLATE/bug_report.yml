@@ -1,0 +1,51 @@
+name: "Reportar un error"
+description: "Informá errores de funcionamiento, diseño, accesibilidad o textos del Portfolio."
+title: "[Error] "
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Gracias por ayudar a mejorar el Portfolio.
+        Si encontraste una vulnerabilidad de seguridad, no la publiques acá. Utilizá el reporte privado indicado en SECURITY.md.
+        No incluyas contraseñas, tokens ni datos personales.
+  - type: input
+    id: ubicacion
+    attributes:
+      label: "Página o sección afectada"
+      placeholder: "Ej.: inicio, proyectos o contacto"
+    validations:
+      required: true
+  - type: textarea
+    id: problema
+    attributes:
+      label: "¿Qué ocurre?"
+      description: "Describí el error que encontraste."
+    validations:
+      required: true
+  - type: textarea
+    id: esperado
+    attributes:
+      label: "¿Qué esperabas que ocurriera?"
+    validations:
+      required: true
+  - type: textarea
+    id: pasos
+    attributes:
+      label: "Pasos para reproducirlo"
+      description: "Explicá cómo llegar al problema, si corresponde."
+    validations:
+      required: false
+  - type: input
+    id: entorno
+    attributes:
+      label: "Dispositivo y navegador"
+      placeholder: "Ej.: celular Android, Chrome"
+    validations:
+      required: false
+  - type: textarea
+    id: adicional
+    attributes:
+      label: "Información adicional"
+      description: "Podés agregar capturas o detalles que ayuden a entender el problema, sin información privada."
+    validations:
+      required: false
