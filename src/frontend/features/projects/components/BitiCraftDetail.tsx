@@ -60,7 +60,7 @@ export function BitiCraftDetail() {
         <div className={baseStyles.actionsBlock}>
           <div className={baseStyles.primaryCtas}>
             <ActionLink
-              href="https://biticraft.vercel.app/"
+              href="https://biticraft.com/"
               target="_blank"
               rel="noopener noreferrer"
               variant="primary"
