@@ -1,6 +1,18 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  images: {
+    localPatterns: [
+      {
+        pathname: "/**",
+        search: "",
+      },
+      {
+        pathname: "/projects/biticraft/captura-*.webp",
+        search: "?v=20261106-1418",
+      },
+    ],
+  },
   async headers() {
     return [
       {
