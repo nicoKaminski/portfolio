@@ -6,18 +6,25 @@ import { ActionLink } from "@/frontend/components/ActionLink";
 import baseStyles from "./ProjectDetailBase.module.css";
 import styles from "./BitiCraftDetail.module.css";
 
+// Al reemplazar capturas, actualizar esta versión y la búsqueda permitida en next.config.ts.
+const galleryAssetVersion = "20261106-1418";
+
 const galleryImages = [
   {
-    src: "/projects/biticraft/captura-01.png",
-    alt: "Vista del sitio web de BitiCraft",
+    src: `/projects/biticraft/captura-01.webp?v=${galleryAssetVersion}`,
+    alt: "Página de inicio de BitiCraft",
   },
   {
-    src: "/projects/biticraft/captura-02.png",
-    alt: "Sección de productos y servicios de BitiCraft",
+    src: `/projects/biticraft/captura-02.webp?v=${galleryAssetVersion}`,
+    alt: "Sección de servicios de BitiCraft",
   },
   {
-    src: "/projects/biticraft/captura-03.png",
-    alt: "Vista complementaria del sitio de BitiCraft",
+    src: `/projects/biticraft/captura-03.webp?v=${galleryAssetVersion}`,
+    alt: "Formulario de contacto de BitiCraft",
+  },
+  {
+    src: `/projects/biticraft/captura-04.webp?v=${galleryAssetVersion}`,
+    alt: "Página 404 personalizada de BitiCraft",
   },
 ];
 
@@ -126,8 +133,7 @@ export function BitiCraftDetail() {
                       <Image
                         src={image.src}
                         alt={image.alt}
-                        width={1440}
-                        height={1000}
+                        fill
                         sizes="(max-width: 860px) 100vw, 680px"
                         className={styles.carouselImage}
                         priority={index === 0}
